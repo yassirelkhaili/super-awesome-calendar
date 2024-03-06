@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+    --primary-color: #f8fafc;
+    --seconday_color: #1B1B1D;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  font-weight: 100;
+}
+
+.hidden {
+    display: none;
+}
+
+.calendar {
+    background-color: var(--seconday_color);
+    color: var(--primary-color);
+    height: 18rem;
+    width: 16rem;
+    border-radius: 3%;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 1.6rem 2.0rem 1.6rem 2.0rem;
+}
+
+.calendar__title {
+    margin: 0px;
+}
+
+.calendar__nav__button {
+ background-color: transparent;
+ border: none;
+ color: var(--primary-color)
+}
