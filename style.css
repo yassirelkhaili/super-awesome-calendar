@@ -104,6 +104,14 @@ body {
     font-weight: 400;
 }
 
+.calendar__body__cell--white {
+    color: var(--primary-color);
+}
+
+.calendar__body__cell--grey {
+    color: var(--grey_color);
+}
+
 .calendar--hover:hover {
     background-color: rgb(75 85 99);
     cursor: pointer;
