@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
         const paddedDay = daySelected.toString().padStart(2, '0');
         switch(format) {
             case 'ISO':
-                console.log("accessed")
                 fullDate = `${currentYear}-${month}-${paddedDay}`
             break;
             case 'US':
@@ -54,6 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const cell = document.createElement("span");
         cell.classList.add('calendar__body__cell', 'calendar--hover');
         currentMonth ? cell.classList.add('calendar__body__cell--white') : cell.classList.add('calendar__body__cell--grey');
+        cell.setAttribute("tabindex", '0');
         cell.textContent = content;
         cell.addEventListener("click", () => handleCellClick('ISO', content));
         calendarCellContainer.appendChild(cell);
