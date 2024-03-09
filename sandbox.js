@@ -5,8 +5,8 @@
 
 let currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
 let currentYear = new Date().getFullYear(); //get current year (from date object)
-let currentDay = new Date().getDay();
-let dateFormat = 'ISO'; //supprted dates ISO,US
+let currentDay = new Date().getDate();
+let dateFormat = 'ISO'; //supported dates ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const calenderInputContainer = document.querySelector(".toggle-calendar");
 
     calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
-    calendar && calendar.classList.remove("hidden")
+    calendar && calendar.classList.remove("hidden");
+    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
     });
 
     //close calendar on outsideclick
@@ -44,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 fullDate = `${currentYear}-${month}-${paddedDay}`
             break;
             case 'US':
-                fullDate = `${currentYear}/${month}/${paddedDay}`
+                fullDate = `${month}/${paddedDay}/${currentYear}`
             break;
             default:
             const monthName = new Date(currentYear, currentMonth).toLocaleString('default', { month: 'long' });
@@ -115,7 +116,6 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, 'next');
         handleCellClick(currentDay, true); //highlight current date
     }
-    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
     //add event listeners
     const nextButton = document.getElementById('nextButton');
     const prevButton = document.getElementById('prevButton');
