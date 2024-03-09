@@ -93,7 +93,7 @@ body {
 
 .calendar__body__cells {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(7, 2.3rem);
     grid-template-rows: repeat(6, 2.2rem);
     width: 100%;
     justify-content: center;
@@ -103,6 +103,11 @@ body {
 .calendar__body__cell {
     margin: 0 auto;
     font-weight: 400;
+    min-width: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.6rem;
 }
 
 .calendar__body__cell--white {
@@ -116,6 +121,5 @@ body {
 .calendar--hover:hover {
     background-color: rgb(75 85 99);
     cursor: pointer;
-    padding: 0.6rem;
     border-radius: 0.4rem;
 }
