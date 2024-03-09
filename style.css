@@ -4,6 +4,7 @@
     --primary-color: #f8fafc;
     --seconday_color: #1B1B1D;
     --grey_color: #828283;
+    --background_color: rgb(75 85 99);
 }
 
 body {
@@ -28,6 +29,7 @@ body {
 .calendar__title {
     margin: 0px;
     font-size: 1.2rem;
+    cursor: pointer;
 }
 
 .calendar__nav__button {
@@ -91,8 +93,7 @@ body {
 .calendar__body__cells {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: repeat(6, 2rem);
-    gap: 0.2rem;
+    grid-template-rows: repeat(6, 2.2rem);
     width: 100%;
     justify-content: center;
     align-items: center;
@@ -101,4 +102,11 @@ body {
 .calendar__body__cell {
     margin: 0 auto;
     font-weight: 400;
+}
+
+.calendar--hover:hover {
+    background-color: rgb(75 85 99);
+    cursor: pointer;
+    padding: 0.6rem;
+    border-radius: 0.4rem;
 }
