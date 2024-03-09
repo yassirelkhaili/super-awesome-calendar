@@ -11,14 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById("calendar");
     const toggleButton = document.querySelector(".toggle-calendar");
 
-    const toggleCalendar = () => calendar && calendar.classList.toggle("hidden");
-
-    toggleButton && toggleButton.addEventListener("click", toggleCalendar);
+    toggleButton && toggleButton.addEventListener("click", () => calendar && calendar.classList.remove("hidden"));
 
     //close calendar on outsideclick
     const handleCalendarOutsideClick = (event) => {
         const target = event.target;
-        if (!calendar.contains(target) && !toggleButton.contains(target)) toggleCalendar();
+        if (!calendar.contains(target) && !toggleButton.contains(target)) calendar && calendar.classList.add("hidden");
     }
 
     document.addEventListener("click", handleCalendarOutsideClick);

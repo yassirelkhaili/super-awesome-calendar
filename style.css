@@ -2,7 +2,7 @@
 
 :root {
     --primary-color: #f8fafc;
-    --seconday_color: #1B1B1D;
+    --secondary-color: #1B1B1D;
     --grey_color: #828283;
     --background_color: rgb(75 85 99);
 }
@@ -17,7 +17,7 @@ body {
 }
 
 .calendar {
-    background-color: var(--seconday_color);
+    background-color: var(--secondary-color);
     color: var(--primary-color);
     width: 16rem;
     border-radius: 0.5rem;
@@ -123,3 +123,38 @@ body {
     cursor: pointer;
     border-radius: 0.4rem;
 }
+
+.datepicker-wrapper {
+    position: relative;
+    max-width: 12rem;
+  }
+  
+  .datepicker__icon-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 0.875rem;
+    pointer-events: none;
+  }
+  
+  .datepicker__input {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--grey_color);
+    color: var(--grey_color);
+    border-radius: 0.5rem; 
+    width: 100%;
+    font-size: 14px;
+    padding-left: 2.5rem; 
+    padding-top: 0.8rem; 
+    padding-bottom: 0.8rem; 
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .datepicker__icon {
+    height: 1rem;
+    width: 1rem;
+    fill: var(--grey_color);
+  }
