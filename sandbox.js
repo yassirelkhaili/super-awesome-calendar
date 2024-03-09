@@ -57,7 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
         //focus selected cell
         if (highlight) {
             const cells = document.querySelectorAll('.calendar__body__cell');
-            cells.forEach((randCell) => randCell.textContent === selectedDay && randCell.focus());
+            cells.forEach((randCell) => parseInt(randCell.textContent) === selectedDay && randCell.focus());
         }
     }
 
