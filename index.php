@@ -12,7 +12,8 @@
 
 <body>
     <section class="first-section">
-        <!-- calendar toggle input -->
+        <div class="datepicker-container">
+            <!-- calendar toggle input -->
         <div class="datepicker-wrapper toggle-calendar">
             <div class="datepicker__icon-container">
                 <svg class="datepicker__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -22,7 +23,7 @@
             <input datepicker type="text" class="datepicker__input" placeholder="Select date" id="datepicker__input">
         </div>
         <!-- calendar -->
-        <div id="calendar" class="calendar">
+        <div id="calendar" class="calendar hidden">
             <div class="calendar__nav__container">
                 <div class="calendar__nav">
                     <button type="button" class="calendar__nav__button" id="prevButton" style="padding-right: 0px;">
@@ -44,6 +45,7 @@
                 </div>
                 <div class="calendar__body__cells"></div>
             </div>
+        </div>
         </div>
     </section>
 </body>

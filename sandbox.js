@@ -5,6 +5,7 @@
 
 let currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
 let currentYear = new Date().getFullYear(); //get current year (from date object)
+let currentDay = new Date().getDay();
 let dateFormat = 'ISO'; //supprted dates ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,7 +14,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const calendarInput = document.getElementById("datepicker__input");
     const calenderInputContainer = document.querySelector(".toggle-calendar");
 
-    calenderInputContainer && calenderInputContainer.addEventListener("click", () => calendar && calendar.classList.remove("hidden"));
+    calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
+    calendar && calendar.classList.remove("hidden")
+    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
+    });
 
     //close calendar on outsideclick
     const handleCalendarOutsideClick = (event) => {
@@ -29,11 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const clearCalendarCells = () => {
         while (calendarCellContainer.firstChild) calendarCellContainer.removeChild(calendarCellContainer.firstChild);
-    }
-
-    //focus cell element
-    const handleCellFocus = () => {
-
     }
 
     //handle cell click
@@ -56,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
         calendarInput.value = fullDate;
         //focus selected cell
         if (highlight) {
-            const cells = document.querySelectorAll('.calendar__body__cell');
+            const cells = document.querySelectorAll('.calendar__body__cell--white');
             cells.forEach((randCell) => parseInt(randCell.textContent) === selectedDay && randCell.focus());
         }
     }
@@ -114,9 +113,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let nextMonthDays = 42 - totalDaysShown; //42 being the total cell number in the calendar
         //generate the remaining cells (next month)
         for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, 'next');
+        handleCellClick(currentDay, true);
     }
-
-    renderCalendarCells(currentYear, currentMonth); //render initial calendar values
 
     //add event listeners
     const nextButton = document.getElementById('nextButton');
