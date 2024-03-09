@@ -10,8 +10,18 @@ document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
     const calendar = document.getElementById("calendar");
     const toggleButton = document.querySelector(".toggle-calendar");
-    toggleButton && toggleButton.addEventListener("click", () => calendar && calendar.classList.toggle("hidden"));
 
+    const toggleCalendar = () => calendar && calendar.classList.toggle("hidden");
+
+    toggleButton && toggleButton.addEventListener("click", toggleCalendar);
+
+    //close calendar on outsideclick
+    const handleCalendarOutsideClick = (event) => {
+        const target = event.target;
+        if (!calendar.contains(target) && !toggleButton.contains(target)) toggleCalendar();
+    }
+
+    document.addEventListener("click", handleCalendarOutsideClick);
     //clear calendar cells
     const calendarCellContainer = document.querySelector('.calendar__body__cells');
 
@@ -29,7 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //update date display
-
     const updateDateDisplay = (year, month) => {
         const display = document.getElementById('calendarDisplay');
         const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long' });
