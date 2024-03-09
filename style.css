@@ -3,6 +3,7 @@
 :root {
     --primary-color: #f8fafc;
     --seconday_color: #1B1B1D;
+    --grey_color: #828283;
 }
 
 body {
@@ -17,19 +18,87 @@ body {
 .calendar {
     background-color: var(--seconday_color);
     color: var(--primary-color);
-    height: 18rem;
     width: 16rem;
-    border-radius: 3%;
+    border-radius: 0.5rem;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 1.6rem 2.0rem 1.6rem 2.0rem;
+    padding: 1.6rem 1.2rem 1.6rem 1.2rem;
+    z-index: 50;
 }
 
 .calendar__title {
     margin: 0px;
+    font-size: 1.2rem;
 }
 
 .calendar__nav__button {
  background-color: transparent;
  border: none;
- color: var(--primary-color)
+ cursor: pointer;
+}
+
+.calendar__nav__button > svg {
+    stroke: var(--primary-color);
+}
+
+.calendar__nav__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 0.6rem;
+}
+
+.calendar__nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.first-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+}
+
+.calendar__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calendar__body__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar__body__dayoftheweek {
+    margin: 0 auto;
+    color: var(--grey_color);
+}
+
+.calendar__body__cells {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 2rem);
+    gap: 0.2rem;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar__body__cell {
+    margin: 0 auto;
+    font-weight: 400;
 }
