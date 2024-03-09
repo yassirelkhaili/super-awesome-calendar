@@ -18,7 +18,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //close calendar on outsideclick
     const handleCalendarOutsideClick = (event) => {
         const target = event.target;
-        if (!calendar.contains(target) && !calenderInputContainer.contains(target)) calendar && calendar.classList.add("hidden");
+        if (!calendar.contains(target) && !calenderInputContainer.contains(target) && !target.classList.contains('calendar__body__cell')) {
+            calendar && calendar.classList.add("hidden");
+        }
     }
 
     document.addEventListener("click", handleCalendarOutsideClick);
@@ -35,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //handle cell click
-    const handleCellClick = (selectedDay) => {
+    const handleCellClick = (selectedDay, highlight = false) => {
         let fullDate = '';
         const month = (currentMonth + 1).toString().padStart(2, '0');
         const paddedDay = selectedDay.toString().padStart(2, '0');
@@ -52,6 +54,11 @@ document.addEventListener("DOMContentLoaded", () => {
             break;
         }
         calendarInput.value = fullDate;
+        //focus selected cell
+        if (highlight) {
+            const cells = document.querySelectorAll('.calendar__body__cell');
+            cells.forEach((randCell) => randCell.textContent === selectedDay && randCell.focus());
+        }
     }
 
     //generate calendar cell
@@ -66,10 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 cell.addEventListener("click", () => handleCellClick(selectedDay));
             break;
             case 'prev':
-                cell.addEventListener("click", () => handleCellClick(selectedDay));
+                cell.addEventListener("click", () => {
+                    handlePrevButtonClick();
+                    handleCellClick(selectedDay, true);
+                });
             break;
             case 'next':
-                cell.addEventListener("click", () => handleCellClick(selectedDay));
+                cell.addEventListener("click", () => {
+                    handleNextButtonClick();
+                    handleCellClick(selectedDay, true);
+                });
             break;
             default:
                 cell.addEventListener("click", () => handleCellClick(selectedDay));
@@ -109,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const nextButton = document.getElementById('nextButton');
     const prevButton = document.getElementById('prevButton');
 
-    nextButton && nextButton.addEventListener('click', () => { //handle next button click
+    const handleNextButtonClick = () => {
         //add one month
         if (currentMonth === 11) {
             currentMonth = 0;
@@ -118,9 +131,9 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMonth += 1;
         }
         renderCalendarCells(currentYear, currentMonth);
-    })
+    }
 
-    prevButton && prevButton.addEventListener('click', () => {  //handle prev button click
+    const handlePrevButtonClick = () => {
         //substract one month
         if (currentMonth === 0) {
             currentMonth = 11;
@@ -129,5 +142,8 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
-    })
+    }
+
+    nextButton && nextButton.addEventListener('click', handleNextButtonClick);
+    prevButton && prevButton.addEventListener('click', handlePrevButtonClick);
 })
