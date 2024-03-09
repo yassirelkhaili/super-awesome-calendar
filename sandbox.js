@@ -3,8 +3,8 @@
  * @license MIT
 */
 
-const currentYear = new Date().getMonth(); //get current month (from date object)
-const currentMonth = new Date().getFullYear(); //get current year (from date object)
+const currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
+const currentYear = new Date().getFullYear(); //get current year (from date object)
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
@@ -27,11 +27,23 @@ document.addEventListener("DOMContentLoaded", () => {
         cell.textContent = content;
         return cell;
     }
+
+    //update date display
+
+    const updateDateDisplay = (year, month) => {
+        const display = document.getElementById('calendarDisplay');
+        const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long' });
+        display.textContent = `${displayMonth} ${year}`;
+    }
     
     //render calendar
-    const renderCalendarCells = (currentYear, currentMonth) => {
+    const renderCalendarCells = (selectedYear, selectedMonth) => {
         clearCalendarCells(); //reset calendar content
-        
+        const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1).getDay(); //0 for sunday (╯°□°）╯︵ ┻━┻ 
+        const numOfDaysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
+        const numOfDaysInPrevMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+        // update display
+        updateDateDisplay(selectedYear, selectedMonth);
     }
 
     renderCalendarCells(currentYear, currentMonth); //render initial calendar values
