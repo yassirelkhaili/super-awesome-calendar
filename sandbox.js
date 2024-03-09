@@ -16,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
     calendar && calendar.classList.remove("hidden")
-    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
     });
 
     //close calendar on outsideclick
@@ -58,6 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const cells = document.querySelectorAll('.calendar__body__cell--white');
             cells.forEach((randCell) => parseInt(randCell.textContent) === selectedDay && randCell.focus());
         }
+        currentDay = selectedDay;
     }
 
     //generate calendar cell
@@ -113,9 +113,9 @@ document.addEventListener("DOMContentLoaded", () => {
         let nextMonthDays = 42 - totalDaysShown; //42 being the total cell number in the calendar
         //generate the remaining cells (next month)
         for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, 'next');
-        handleCellClick(currentDay, true);
+        handleCellClick(currentDay, true); //highlight current date
     }
-
+    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
     //add event listeners
     const nextButton = document.getElementById('nextButton');
     const prevButton = document.getElementById('prevButton');

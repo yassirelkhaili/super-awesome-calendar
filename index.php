@@ -23,7 +23,7 @@
             <input datepicker type="text" class="datepicker__input" placeholder="Select date" id="datepicker__input">
         </div>
         <!-- calendar -->
-        <div id="calendar" class="calendar hidden">
+        <div id="calendar" class="calendar">
             <div class="calendar__nav__container">
                 <div class="calendar__nav">
                     <button type="button" class="calendar__nav__button" id="prevButton" style="padding-right: 0px;">
