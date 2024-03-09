@@ -1,0 +1,176 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
+:root {
+    --primary-color: #f8fafc;
+    --secondary-color: #1B1B1D;
+    --grey_color: #828283;
+    --cell_hover_background_color: rgb(75 85 99);
+    --cell_focus_color: black;
+    --cell_focus_background_color: #f8fafc;
+}
+
+body {
+  font-family: "Rubik", sans-serif;
+  font-weight: 100;
+}
+
+.hidden {
+    display: none;
+}
+
+.calendar {
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+    width: 16rem;
+    border-radius: 0.5rem;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    padding: 1.6rem 1.2rem 1.6rem 1.2rem;
+    z-index: 50;
+    position: absolute;
+    top: 3rem;
+}
+
+.calendar__title {
+    margin: 0px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.calendar__nav__button {
+ background-color: transparent;
+ border: none;
+ cursor: pointer;
+}
+
+.calendar__nav__button > svg {
+    stroke: var(--primary-color);
+}
+
+.calendar__nav__container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 0.6rem;
+}
+
+.calendar__nav {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.first-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    justify-content: center;
+    align-items: center;
+    padding-top: 2rem;
+}
+
+.calendar__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.calendar__body__days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0.2rem;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar__body__dayoftheweek {
+    margin: 0 auto;
+    color: var(--grey_color);
+}
+
+.calendar__body__cells {
+    display: grid;
+    grid-template-columns: repeat(7, 2.3rem);
+    grid-template-rows: repeat(6, 2.2rem);
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar__body__cell {
+    margin: 0 auto;
+    font-weight: 400;
+    min-width: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.calendar__body__cell:focus, .calendar__body__cell:focus:hover {
+    background-color: var(--cell_focus_background_color);
+    border-radius: 5px;
+    color: var(--cell_focus_color);
+    outline: none;
+}
+
+.calendar--hover:hover {
+    background-color: rgb(75 85 99);
+}
+
+.calendar__body__cell--white {
+    color: var(--primary-color);
+}
+
+.calendar__body__cell--grey {
+    color: var(--grey_color);
+}
+
+.datepicker-wrapper {
+    position: relative;
+    max-width: 12rem;
+  }
+  
+  .datepicker__icon-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    padding-left: 0.875rem;
+    pointer-events: none;
+  }
+  
+  .datepicker__input {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--grey_color);
+    color: var(--grey_color);
+    border-radius: 0.5rem; 
+    width: 100%;
+    font-size: 14px;
+    padding-left: 2.5rem; 
+    padding-top: 0.8rem; 
+    padding-bottom: 0.8rem; 
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .datepicker__icon {
+    height: 1rem;
+    width: 1rem;
+    fill: var(--grey_color);
+  }
+
+  .datepicker-container {
+    position: relative;
+  }
