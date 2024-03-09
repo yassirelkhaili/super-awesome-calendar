@@ -5,7 +5,8 @@
     --secondary-color: #1B1B1D;
     --grey_color: #828283;
     --cell_hover_background_color: rgb(75 85 99);
-    --cell_focus_color: #1C64F2;
+    --cell_focus_color: black;
+    --cell_focus_background_color: #f8fafc;
 }
 
 body {
@@ -115,9 +116,9 @@ body {
 }
 
 .calendar__body__cell:focus, .calendar__body__cell:focus:hover {
-    background-color: var(--primary-color);
+    background-color: var(--cell_focus_background_color);
     border-radius: 5px;
-    color: black;
+    color: var(--cell_focus_color);
 }
 
 .calendar--hover:hover {

@@ -5,6 +5,7 @@
 
 let currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
 let currentYear = new Date().getFullYear(); //get current year (from date object)
+let dateFormat = 'ISO'; //supprted dates ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
@@ -28,12 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
         while (calendarCellContainer.firstChild) calendarCellContainer.removeChild(calendarCellContainer.firstChild);
     }
 
+    //focus cell element
+    const handleCellFocus = () => {
+
+    }
+
     //handle cell click
-    const handleCellClick = (format, daySelected) => {
+    const handleCellClick = (selectedDay) => {
         let fullDate = '';
         const month = (currentMonth + 1).toString().padStart(2, '0');
-        const paddedDay = daySelected.toString().padStart(2, '0');
-        switch(format) {
+        const paddedDay = selectedDay.toString().padStart(2, '0');
+        switch(dateFormat) {
             case 'ISO':
                 fullDate = `${currentYear}-${month}-${paddedDay}`
             break;
@@ -49,13 +55,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //generate calendar cell
-    const generateCalendarCell = (content, currentMonth = true) => {
+    const generateCalendarCell = (selectedDay, month = "current") => {
         const cell = document.createElement("span");
         cell.classList.add('calendar__body__cell', 'calendar--hover');
-        currentMonth ? cell.classList.add('calendar__body__cell--white') : cell.classList.add('calendar__body__cell--grey');
+        month === 'current' ? cell.classList.add('calendar__body__cell--white') : cell.classList.add('calendar__body__cell--grey');
         cell.setAttribute("tabindex", '0');
-        cell.textContent = content;
-        cell.addEventListener("click", () => handleCellClick('ISO', content));
+        cell.textContent = selectedDay;
+        switch (month) {
+            case 'current':
+                cell.addEventListener("click", () => handleCellClick(selectedDay));
+            break;
+            case 'prev':
+                cell.addEventListener("click", () => handleCellClick(selectedDay));
+            break;
+            case 'next':
+                cell.addEventListener("click", () => handleCellClick(selectedDay));
+            break;
+            default:
+                cell.addEventListener("click", () => handleCellClick(selectedDay));
+            break;
+        }
         calendarCellContainer.appendChild(cell);
     }
 
@@ -75,13 +94,13 @@ document.addEventListener("DOMContentLoaded", () => {
         //update display
         updateDateDisplay(selectedYear, selectedMonth);
         //generate cells of previous month days
-        for (let i = firstDayOfMonth - 1; i >= 0; i--) generateCalendarCell(numOfDaysInPrevMonth - i, false);
+        for (let i = firstDayOfMonth - 1; i >= 0; i--) generateCalendarCell(numOfDaysInPrevMonth - i, 'prev');
         //generate cells of current month days
         for (let i = 1; i <= numOfDaysInMonth; i++) generateCalendarCell(i);
         const totalDaysShown = firstDayOfMonth + numOfDaysInMonth;
         let nextMonthDays = 42 - totalDaysShown; //42 being the total cell number in the calendar
         //generate the remaining cells (next month)
-        for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, false);
+        for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, 'next');
     }
 
     renderCalendarCells(currentYear, currentMonth); //render initial calendar values
