@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("click", handleCalendarOutsideClick);
+
     //clear calendar cells
     const calendarCellContainer = document.querySelector('.calendar__body__cells');
 
@@ -116,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, 'next');
         handleCellClick(currentDay, true); //highlight current date
     }
+
     //add event listeners
     const nextButton = document.getElementById('nextButton');
     const prevButton = document.getElementById('prevButton');
@@ -144,4 +146,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nextButton && nextButton.addEventListener('click', handleNextButtonClick);
     prevButton && prevButton.addEventListener('click', handlePrevButtonClick);
+
+    //toggle add event modal
+    const addEventModal = document.querySelector('.first-section');
+    const closeEventModalButton = document.querySelector('.first-section__close__btn');
+    const addEventButton = document.getElementById('formToggleButton');
+
+    const toggleAddEventButton = () => {
+        addEventModal.classList.toggle('hidden');
+        addEventModal.classList.toggle('fadeIn');
+        addEventModal.classList.toggle('flex');
+    }
+
+    addEventButton && addEventButton.addEventListener('click', toggleAddEventButton);
+    closeEventModalButton && closeEventModalButton.addEventListener('click', toggleAddEventButton);
 })

@@ -11,8 +11,26 @@
 </head>
 
 <body>
-    <section class="first-section">
-        <div class="datepicker-container">
+    <section class="calendar__nav__container">
+        <button id="formToggleButton" class="calendar__nav__container__addButton">Add Event</button>
+    </section>
+    <!-- Modal start -->
+    <div class="first-section hidden">
+        <div class="first-section__nav">
+            <h3>
+            Create Event
+            </h3>
+            <svg class="first-section__close__btn" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
+                    </svg>
+        </div>
+      <div class="first-section__body">
+        <div class="first-section__body__input__group">
+        <label for="name" class="first-section__body__label">Name</label>
+        <input type="text" class="datepicker__text__input" placeholder="Enter event name" name="name">
+        </div>
+      <div class="first-section__body__input__group">
+      <div class="datepicker-container">
             <!-- calendar toggle input -->
         <div class="datepicker-wrapper toggle-calendar">
             <div class="datepicker__icon-container">
@@ -20,7 +38,7 @@
                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                 </svg>
             </div>
-            <input datepicker type="text" class="datepicker__input" placeholder="Select date" id="datepicker__input">
+            <input type="text" class="datepicker__input" placeholder="Select date" id="datepicker__input">
         </div>
         <!-- calendar -->
         <div id="calendar" class="calendar hidden">
@@ -47,7 +65,10 @@
             </div>
         </div>
         </div>
-    </section>
+      </div>
+      </div>
+</div>
+<!-- Modal start -->
 </body>
 
 </html>
