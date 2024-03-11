@@ -1,4 +1,4 @@
-export default function datepicker (datepicker, datepickerInput, datepickerContainer) {
+export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay) {
 /**
  * @author Yassir Elkhaili
  * @license MIT
@@ -14,6 +14,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const calendar = document.getElementById(`${datepicker}`);
     const calendarInput = document.getElementById(datepickerInput);
     const calenderInputContainer = document.querySelector(`.${datepickerContainer}`);
+    const calendarCellContainer = document.getElementById(calendarBody);
+    const display = document.getElementById(calendarDisplay);
 
     calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
     calendar && calendar.classList.remove("hidden");
@@ -31,8 +33,6 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("click", handleCalendarOutsideClick);
 
     //clear calendar cells
-    const calendarCellContainer = document.querySelector('.calendar__body__cells');
-
     const clearCalendarCells = () => {
         while (calendarCellContainer.firstChild) calendarCellContainer.removeChild(calendarCellContainer.firstChild);
     }
@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //update date display
     const updateDateDisplay = (year, month) => {
-        const display = document.getElementById('calendarDisplay');
         const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long' });
         display.textContent = `${displayMonth} ${year}`;
     }

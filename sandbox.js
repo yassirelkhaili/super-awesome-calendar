@@ -5,8 +5,10 @@
 
 import datepicker from "./datepicker.js";
 
-datepicker('datepicker', 'datepicker__input', 'toggle-calendar');
-datepicker('datepickerto', 'datepickerto__input', 'toggle-calendarto');
+//too many required params. ideally this should only require the inputId.
+//note: best solution is to dynamically generate/remove datePicker when input is clicked/unclicked, this will take some time but would make for an awesome datepicker open source calendar npm package, maybe I'll do that some other time.
+datepicker('datepicker', 'datepicker__input', 'toggle-calendar', 'calendar__body__cells', 'calendarDisplay');
+datepicker('datepickerto', 'datepickerto__input', 'toggle-calendarto', 'calendar__body__cellsto', 'calendarDisplayto');
 
 //toggle add event modal
 const addEventModal = document.querySelector('.first-section');
