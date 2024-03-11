@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./style.css">
     <link rel="stylesheet" href="./normalize.css">
-    <script src="./sandbox.js"></script>
+    <script type="module" src="./sandbox.js"></script>
     <title>Super awesome calendar</title>
 </head>
 
@@ -33,9 +33,9 @@
       <div class="first-section__body__input__group">
       <label for="date" class="first-section__body__label">Date</label>
       <div class="date__picker__container">
-      <?php $placeholder = 'Select start date'; include "./components/datepicker.php" ?> <!-- look at what I need to do to mimick a fraction of React/Laravel components power -->
+      <?php $placeholder = 'Select start date'; $datepicker = 'datepicker'; $datepickerInput = 'datepickerInput'; $datepickerContainer = 'toggle-calendar'; include "./components/datepicker.php" ?> <!-- look at what I need to do to mimick a fraction of React/Laravel components power -->
       <span class="seperator">to</span>
-      <?php $placeholder = 'Select end date'; include "./components/datepicker.php" ?>
+      <?php $placeholder = 'Select end date'; $datepicker = 'datepickerto'; $datepickerInput = 'datepickerto__input'; $datepickerContainer = 'toggle-calendarto'; include "./components/datepicker.php" ?> <!-- look at what I need to do to mimick a fraction of React/Laravel components power -->
       </div>
       </div>
       </div>

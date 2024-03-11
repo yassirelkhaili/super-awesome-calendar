@@ -1,15 +1,15 @@
 <div class="datepicker-container">
             <!-- calendar toggle input -->
-        <div class="datepicker-wrapper toggle-calendar">
+        <div class="datepicker-wrapper <?= $datepickerContainer ?>">
             <div class="datepicker__icon-container">
                 <svg class="datepicker__icon" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
                 </svg>
             </div>
-            <input type="text" class="datepicker__input" placeholder="<?= $placeholder ?>" id="datepicker__input" name="date">
+            <input type="text" class="<?= $datepickerInput ?> datepicker__input" placeholder="<?= $placeholder ?>" id="datepicker__input" name="date">
         </div>
         <!-- calendar -->
-        <div id="calendar" class="calendar hidden">
+        <div id="<?= $datepicker ?>" class="calendar hidden">
             <div class="calendar__nav__container">
                 <div class="calendar__nav">
                     <button type="button" class="calendar__nav__button" id="prevButton" style="padding-right: 0px;">
