@@ -23,3 +23,17 @@ const toggleAddEventButton = () => {
 
 addEventButton && addEventButton.addEventListener('click', toggleAddEventButton);
 closeEventModalButton && closeEventModalButton.addEventListener('click', toggleAddEventButton);
+
+//toggle add category modal
+const addCategoryModal = document.querySelector('.first-section');
+const closeCategoryModalButton = document.querySelector('.first-section__close__btn');
+const addCategoryButton = document.getElementById('formToggleButton');
+
+const toggleAddCategoryButton = () => {
+    addCategoryModal.classList.toggle('hidden');
+    addCategoryModal.classList.toggle('fadeIn');
+    addCategoryModal.classList.toggle('flex');
+}
+
+addCategoryButton && addCategoryButton.addEventListener('click', toggleAddCategoryButton);
+closeCategoryModalButton && closeCategoryModalButton.addEventListener('click', toggleAddCategoryButton);
