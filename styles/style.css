@@ -81,7 +81,7 @@ body {
 .first-section {
     position: fixed;
     transform: translate(-50%, -50%);
-    top: 50%;
+    top: 40%;
     left: 50%;
     flex-direction: column;
     min-width: 25rem;
