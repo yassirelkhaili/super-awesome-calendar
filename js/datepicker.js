@@ -1,4 +1,4 @@
-export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay) {
+export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay, nextButton, prevButton) {
 /**
  * @author Yassir Elkhaili
  * @license MIT
@@ -120,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //add event listeners
-    const nextButton = document.getElementById('nextButton');
-    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById(nextButton);
+    const prevButton = document.getElementById(prevButton);
 
     const handleNextButtonClick = () => {
         //add one month
