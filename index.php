@@ -51,9 +51,9 @@
       <div class="first-section__body__input__group">
       <label for="date" class="first-section__body__label">Date</label>
       <div class="date__picker__container">
-      <?php $placeholder = 'Select start date'; $datepicker = 'datepicker'; $datepickerInput = 'datepicker__input'; $datepickerContainer = 'toggle-calendar'; $calendarBody = 'calendar__body__cells'; $calendarDisplay = 'calendarDisplay'; include "./components/datepicker.php" ?> <!-- look at what I need to do to mimick a fraction of React/Laravel components power -->
+      <?php $placeholder = 'Select start date'; $datepicker = 'datepicker'; $datepickerInput = 'datepicker__input'; $datepickerContainer = 'toggle-calendar'; $calendarBody = 'calendar__body__cells'; $calendarDisplay = 'calendarDisplay'; $nextButton = 'nextButtonFrom'; $prevButton = 'prevButtonFrom'; include "./components/datepicker.php" ?> <!-- look at what I need to do to mimick a fraction of React/Laravel components power -->
       <span class="seperator">to</span>
-      <?php $placeholder = 'Select end date'; $datepicker = 'datepickerto'; $datepickerInput = 'datepickerto__input'; $datepickerContainer = 'toggle-calendarto'; $calendarBody = 'calendar__body__cellsto'; $calendarDisplay = 'calendarDisplayto'; include "./components/datepicker.php" ?>
+      <?php $placeholder = 'Select end date'; $datepicker = 'datepickerto'; $datepickerInput = 'datepickerto__input'; $datepickerContainer = 'toggle-calendarto'; $calendarBody = 'calendar__body__cellsto'; $calendarDisplay = 'calendarDisplayto'; $nextButton = 'nextButtonTo'; $prevButton = 'prevButtonTo'; include "./components/datepicker.php" ?>
       </div>
       </div>
       </div>
