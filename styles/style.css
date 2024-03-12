@@ -37,7 +37,7 @@ body {
     width: 16rem;
     border-radius: 0.5rem;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    padding: 1.6rem 1.2rem 1.6rem 1.2rem;
+    padding: 0.8rem 0rem;
     z-index: 50;
     position: absolute;
     top: 3rem;
@@ -81,7 +81,7 @@ body {
 .first-section {
     position: fixed;
     transform: translate(-50%, -50%);
-    top: 40%;
+    top: 50%;
     left: 50%;
     flex-direction: column;
     min-width: 25rem;
@@ -138,7 +138,6 @@ body {
     display: grid;
     grid-template-columns: repeat(7, 2.3rem);
     grid-template-rows: repeat(6, 2.2rem);
-    width: 100%;
     justify-content: center;
     align-items: center;
 }
@@ -146,7 +145,7 @@ body {
 .calendar__body__cell {
     margin: 0 auto;
     font-weight: 400;
-    min-width: 1.2rem;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -296,3 +295,21 @@ body {
 .seperator {
     color: var(--header_grey_color);
 }
+
+.first-section__body__select {
+    background-color: var(--cell_focus_color);
+    border: 1px solid var(--grey_color);
+    color: var(--grey_color);
+    border-radius: 0.5rem; 
+    width: 100%;
+    font-size: 14px;
+    padding-left: 0.8rem;
+    padding-top: 0.8rem; 
+    padding-bottom: 0.8rem; 
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  
+  .first-section__body__select:focus {
+    border-color: var(--primary-color);
+    outline: 2px solid var(--primary-color);
+  }

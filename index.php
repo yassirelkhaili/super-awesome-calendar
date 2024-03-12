@@ -30,6 +30,24 @@
         <label for="name" class="first-section__body__label">Name</label>
         <input type="text" class="datepicker__text__input" placeholder="Enter event name" name="name">
         </div>
+        <div class="first-section__body__input__group">
+        <label for="event-types" class="first-section__body__label">Type</label>
+    <select id="event-types" class="first-section__body__select">
+    <option selected disabled>Select type</option>
+    <option value="whole">Whole day</option>
+    <option value="specific">Specific time</option>
+    <option value="multiple">Multiple days</option>
+  </select>
+        </div>
+        <div class="first-section__body__input__group">
+        <label for="event-types" class="first-section__body__label">Category</label>
+    <select id="event-types" class="first-section__body__select">
+    <option selected disabled>Select category</option>
+    <option value="whole">Whole day</option>
+    <option value="specific">Specific time</option>
+    <option value="multiple">Multiple days</option>
+  </select>
+        </div>
       <div class="first-section__body__input__group">
       <label for="date" class="first-section__body__label">Date</label>
       <div class="date__picker__container">
