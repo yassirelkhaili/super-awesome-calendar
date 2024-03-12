@@ -1,3 +1,4 @@
+export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay) {
 /**
  * @author Yassir Elkhaili
  * @license MIT
@@ -10,9 +11,11 @@ let dateFormat = 'ISO'; //supported dates ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
-    const calendar = document.getElementById("calendar");
-    const calendarInput = document.getElementById("datepicker__input");
-    const calenderInputContainer = document.querySelector(".toggle-calendar");
+    const calendar = document.getElementById(`${datepicker}`);
+    const calendarInput = document.getElementById(datepickerInput);
+    const calenderInputContainer = document.querySelector(`.${datepickerContainer}`);
+    const calendarCellContainer = document.getElementById(calendarBody);
+    const display = document.getElementById(calendarDisplay);
 
     calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
     calendar && calendar.classList.remove("hidden");
@@ -28,9 +31,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("click", handleCalendarOutsideClick);
-    //clear calendar cells
-    const calendarCellContainer = document.querySelector('.calendar__body__cells');
 
+    //clear calendar cells
     const clearCalendarCells = () => {
         while (calendarCellContainer.firstChild) calendarCellContainer.removeChild(calendarCellContainer.firstChild);
     }
@@ -93,7 +95,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //update date display
     const updateDateDisplay = (year, month) => {
-        const display = document.getElementById('calendarDisplay');
         const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long' });
         display.textContent = `${displayMonth} ${year}`;
     }
@@ -116,6 +117,7 @@ document.addEventListener("DOMContentLoaded", () => {
         for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, 'next');
         handleCellClick(currentDay, true); //highlight current date
     }
+
     //add event listeners
     const nextButton = document.getElementById('nextButton');
     const prevButton = document.getElementById('prevButton');
@@ -145,3 +147,4 @@ document.addEventListener("DOMContentLoaded", () => {
     nextButton && nextButton.addEventListener('click', handleNextButtonClick);
     prevButton && prevButton.addEventListener('click', handlePrevButtonClick);
 })
+}

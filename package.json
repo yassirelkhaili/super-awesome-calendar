@@ -1,6 +1,7 @@
 {
   "name": "super-awesome-calendar",
   "version": "1.0.0",
+  "type": "module",
   "description": "This is a simple awesome calendar",
   "main": "sandbox.js",
   "scripts": {
