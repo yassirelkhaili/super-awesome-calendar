@@ -9,7 +9,7 @@
         <input type="text" class="datepicker__input" placeholder="<?= $placeholder ?>" id="<?= $datepickerInput ?>" name="date">
     </div>
     <!-- calendar -->
-    <div id="<?= $datepicker ?>" class="calendar hidden">
+    <div id="<?= $datepicker ?>" class="calendar hidden calendar--top">
         <div class="calendar__nav__container">
             <div class="calendar__nav">
                 <button type="button" class="calendar__nav__button" id="prevButton" style="padding-right: 0px;">

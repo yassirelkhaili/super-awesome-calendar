@@ -28,7 +28,7 @@
       <div class="first-section__body">
         <div class="first-section__body__input__group">
         <label for="name" class="first-section__body__label">Name</label>
-        <input type="text" class="datepicker__text__input" placeholder="Enter event name" name="name">
+        <input type="text" class="datepicker__text__input" placeholder="Enter name" name="name">
         </div>
         <div class="first-section__body__input__group">
         <label for="event-types" class="first-section__body__label">Type</label>

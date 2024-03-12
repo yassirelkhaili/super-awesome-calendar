@@ -40,8 +40,15 @@ body {
     padding: 0.8rem 0rem;
     z-index: 50;
     position: absolute;
-    top: 3rem;
     animation: fadeIn .2s ease-in-out;
+}
+
+.calendar--bottom {
+    bottom: 3rem;
+}
+
+.calendar--top {
+    top: 3rem;
 }
 
 .calendar__title {
