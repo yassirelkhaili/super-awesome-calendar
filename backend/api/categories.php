@@ -18,9 +18,18 @@ switch ($method) {
         break;
     case "POST":
         $data = json_decode($data_json);
-        $sql = "INSERT INTO awesomecalendar.categories(nom,prenom,email,role) VALUES(:nom,:prenom,:email,:role)"; 
-        $stmt = $conn->prepare($sql);
-        $stmt->execute([":nom"=>$data->nom, ":prenom"=>$data->prenom, ":email"=>"Pas encore soumis", ":role"=>$data->role]);
+        try {
+            $sql = "INSERT INTO awesomecalendar.categories(name, color) VALUES(:name, :color)"; 
+            $stmt = $conn->prepare($sql);
+            if($stmt->execute([":name" => $data->name, ":color" => $data->color])) {
+                echo json_encode(["success" => true, "message" => "The category was successfully added."]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Failed to add the category."]);
+            }
+        } catch (PDOException $e) {
+            echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
+        }
+        
     break; 
     case "DELETE": 
         $id = explode("/", $_SERVER["REQUEST_URI"])[4];

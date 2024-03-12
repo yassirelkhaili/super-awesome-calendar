@@ -25,9 +25,9 @@ addEventButton && addEventButton.addEventListener('click', toggleAddEventButton)
 closeEventModalButton && closeEventModalButton.addEventListener('click', toggleAddEventButton);
 
 //toggle add category modal
-const addCategoryModal = document.querySelector('.first-section');
-const closeCategoryModalButton = document.querySelector('.first-section__close__btn');
-const addCategoryButton = document.getElementById('formToggleButton');
+const addCategoryModal = document.getElementById('first-section-category');
+const closeCategoryModalButton = document.getElementById('first-section__close__btn__category');
+const addCategoryButton = document.getElementById('formToggleButton-category');
 
 const toggleAddCategoryButton = () => {
     addCategoryModal.classList.toggle('hidden');
@@ -37,3 +37,39 @@ const toggleAddCategoryButton = () => {
 
 addCategoryButton && addCategoryButton.addEventListener('click', toggleAddCategoryButton);
 closeCategoryModalButton && closeCategoryModalButton.addEventListener('click', toggleAddCategoryButton);
+
+ //handle category addition
+ const categoryForm = document.getElementById('AddCategoryModal');
+ categoryForm && categoryForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const formDataObj = {};
+    for (const [key, value] of formData.entries()) {
+        formDataObj[key] = value;
+      }
+      isLoading();
+    //endpoint should be stored in .env
+    fetch('http://localhost/backend/api/categories.php', {
+        method: 'POST',
+        body: JSON.stringify(formDataObj),
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        alert(data.message)
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+        alert(data.message)
+      }).finally(() => {
+        isLoading();
+      });
+ })
+
+ //toggle spinner
+const isLoading = () => {
+    const loader = document.querySelector('.loader');
+    const submitButton = loader.closest('button');
+    loader.classList.toggle('hidden');
+    submitButton.disabled = true;
+}

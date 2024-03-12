@@ -235,6 +235,9 @@ body {
   }
 
   .calendar__nav__container__addButton {
+    display: flex;
+    place-items: center;
+    gap: 0.4rem;
     background-color: var(--cell_focus_background_color);
     color: var(--cell_focus_color);
     border-radius: 0.4rem;
@@ -242,6 +245,10 @@ body {
     border: none;
     padding: 0.7rem 1rem 0.7rem 1rem;
     cursor: pointer;
+  }
+
+  .calendar__nav__container__addButton:disabled {
+    background-color: var(--grey_color);
   }
 
   .calendar__nav__container {
@@ -320,3 +327,22 @@ body {
     border-color: var(--primary-color);
     outline: 2px solid var(--primary-color);
   }
+
+  .loader {
+    width: 1.4rem;
+    aspect-ratio: 1;
+    border: 5px solid var(--cell_focus_color);
+    border-bottom-color: transparent;
+    border-radius: 50%;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    }
+
+    @keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+    } 
