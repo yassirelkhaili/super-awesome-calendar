@@ -6,22 +6,8 @@ let dateFormat = 'ISO'; //supported date formats ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
-    const calendar = document.getElementById("calendar");
-    const calenderInputContainer = document.querySelector(`.${datepickerContainer}`);
-    const calendarCellContainer = document.getElementById(calendarBody);
-    const display = document.getElementById(calendarDisplay);
-
-    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
-
-    //close calendar on outsideclick
-    const handleCalendarOutsideClick = (event) => {
-        const target = event.target;
-        if (!calendar.contains(target) && !calenderInputContainer.contains(target) && !target.classList.contains('calendar__body__cell')) {
-            calendar && calendar.classList.add("hidden");
-        }
-    }
-
-    document.addEventListener("click", handleCalendarOutsideClick);
+    const calendarCellContainer = document.getElementById("calendar");
+    const display = document.getElementById("monthDisplay");
 
     //clear calendar cells
     const clearCalendarCells = () => {
@@ -45,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
             fullDate = `${paddedDay}-${monthName}-${currentYear}`;
             break;
         }
-        calendarInput.value = fullDate;
         //focus selected cell
         if (highlight) {
             const cells = document.querySelectorAll('.calendar__body__cell--white');
@@ -57,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //generate calendar cell
     const generateCalendarCell = (selectedDay, month = "current") => {
         const cell = document.createElement("span");
-        cell.classList.add('calendar__body__cell', 'calendar--hover');
+        cell.classList.add('calendar__body__cell--calendar', 'calendar--hover');
         month === 'current' ? cell.classList.add('calendar__body__cell--white') : cell.classList.add('calendar__body__cell--grey');
         cell.setAttribute("tabindex", '0');
         cell.textContent = selectedDay;
@@ -110,8 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //add event listeners
-    const nextButton = document.getElementById(nextButtonId);
-    const prevButton = document.getElementById(prevButtonId);
+    const nextButton = document.getElementById("nextButton");
+    const prevButton = document.getElementById("backButton");
 
     const handleNextButtonClick = () => {
         //add one month
@@ -138,13 +123,5 @@ document.addEventListener("DOMContentLoaded", () => {
     nextButton && nextButton.addEventListener('click', handleNextButtonClick);
     prevButton && prevButton.addEventListener('click', handlePrevButtonClick);
 
-    //responsive datepicker
-    const handleResponsiveBehaviour = () => {
-        const calendarBottomCoordenates = calendar && calendar.getBoundingClientRect().bottom;
-        const viewportHeight = window.innerHeight;
-        if (calendarBottomCoordenates > viewportHeight) {
-            !calendar.classList.contains('calendar--bottom') && calendar.classList.add('calendar--bottom');
-            calendar.classList.contains('calendar--top') && calendar.classList.remove('calendar--top');
-          }
-    }
+    renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
 })

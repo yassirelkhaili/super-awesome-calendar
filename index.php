@@ -11,20 +11,19 @@
 </head>
 
 <body>
-    <section class="calendar__nav__container">
-        <button id="formToggleButton" class="calendar__nav__container__addButton">Add Event</button>
-        <button id="formToggleButton-category" class="calendar__nav__container__addButton">Add Category</button>
-    </section>
-    <div id="container" class="datepicker-container">
-      <div id="header">
+    <div id="container" class="calendar__container">
+      <div id="header" class="calendar__display">
+      <div class="header__buttons__container">
+      <button id="formToggleButton" class="calendar__nav__container__Button">Event</button>
+      <button id="formToggleButton-category" class="calendar__nav__container__Button">Category</button>
+      </div>
         <div id="monthDisplay"></div>
-        <div>
-          <button id="backButton">Back</button>
-          <button id="nextButton">Next</button>
+        <div class="header__buttons__container">
+          <button id="backButton" class="calendar__nav__container__Button">Back</button>
+          <button id="nextButton" class="calendar__nav__container__Button">Next</button>
         </div>
       </div>
-
-      <div id="weekdays">
+      <div class="header__weekdays">
         <div>Sunday</div>
         <div>Monday</div>
         <div>Tuesday</div>
@@ -33,8 +32,7 @@
         <div>Friday</div>
         <div>Saturday</div>
       </div>
-
-      <div id="calendar"></div>
+      <div id="calendar" class="calendar__cell__container"></div>
     </div>
     <div id="modalBackDrop"></div>
     <?php include "./partials/eventmodal.php" ?>

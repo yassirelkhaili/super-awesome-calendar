@@ -236,17 +236,19 @@ body {
     width: 100%;
   }
 
-  .calendar__nav__container__addButton {
+  .calendar__nav__container__Button {
     display: flex;
-    place-items: center;
-    gap: 0.4rem;
+    justify-content: center;
+    align-items: center;
     background-color: var(--cell_focus_background_color);
     color: var(--cell_focus_color);
-    border-radius: 0.4rem;
-    outline: none;
-    border: none;
-    padding: 0.7rem 1rem 0.7rem 1rem;
+    width: 70px;
     cursor: pointer;
+    box-shadow: 0px 0px 2px gray;
+    border: none;
+    outline: none;
+    padding: 5px;
+    border-radius: 5px;
   }
 
   .calendar__nav__container__addButton:disabled {
@@ -350,3 +352,92 @@ body {
     }
 
     /* calendnar styles*/
+      
+      .calendar__display {
+        padding: 10px;
+        color: var(--primary-color);
+        font-size: 26px;
+        font-family: sans-serif;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .calendar__container {
+        width: 770px;
+        background-color: white;
+        border-top: 3px solid var(--cell_focus_background_color);
+        margin-top: 0.5rem;
+        margin-left: 0.5rem;
+      }
+
+      .header__weekdays {
+        width: 100%;
+        display: flex;
+        color: var(--header_grey_color);
+        justify-content: space-between;
+      }
+
+      .header__weekdays div {
+        width: 100px;
+        padding: 10px;
+      }
+
+      .calendar__cell__container {
+        width: 100%;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .calendar__body__cell--calendar {
+        width: 100px;
+        padding: 10px;
+        height: 100px;
+        cursor: pointer;
+        box-sizing: border-box;
+        background-color: white;
+        margin: 5px;
+        box-shadow: 0px 0px 3px #CBD4C2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .day:hover {
+        background-color: #e8faed;
+      }
+      
+      .day + #currentDay {
+        background-color:#e8f4fa;
+      }
+      .event {
+        font-size: 10px;
+        padding: 3px;
+        background-color: #58bae4;
+        color: white;
+        border-radius: 5px;
+        max-height: 55px;
+        overflow: hidden;
+      }
+      .padding {
+        cursor: default !important;
+        background-color: #FFFCFF !important;
+        box-shadow: none !important;
+      }
+
+      #modalBackDrop {
+        display: none;
+        top: 0px;
+        left: 0px;
+        z-index: 10;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        background-color: rgba(0,0,0,0.8);
+      }
+
+      .header__buttons__container {
+        display: flex;
+        place-items: center;
+        flex-direction: row;
+        gap: 0.6rem;
+      }
