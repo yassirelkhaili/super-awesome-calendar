@@ -3,7 +3,7 @@ require "../config/pdo.php";
 header("Access-Control-Allow-Origin: http://localhost:3000");
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *"); 
-header("Content-Type: application/json"); 
+header("Content-Type: application/json");
 $data_json = file_get_contents("php://input"); 
 $method = $_SERVER["REQUEST_METHOD"]; 
 switch ($method) {

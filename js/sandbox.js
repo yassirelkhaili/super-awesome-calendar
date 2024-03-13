@@ -15,28 +15,28 @@ const addEventModal = document.querySelector('.first-section');
 const closeEventModalButton = document.querySelector('.first-section__close__btn');
 const addEventButton = document.getElementById('formToggleButton');
 
-const toggleAddEventButton = () => {
+const toggleAddEventModal = () => {
     addEventModal.classList.toggle('hidden');
     addEventModal.classList.toggle('fadeIn');
     addEventModal.classList.toggle('flex');
 }
 
-addEventButton && addEventButton.addEventListener('click', toggleAddEventButton);
-closeEventModalButton && closeEventModalButton.addEventListener('click', toggleAddEventButton);
+addEventButton && addEventButton.addEventListener('click', toggleAddEventModal);
+closeEventModalButton && closeEventModalButton.addEventListener('click', toggleAddEventModal);
 
 //toggle add category modal
 const addCategoryModal = document.getElementById('first-section-category');
 const closeCategoryModalButton = document.getElementById('first-section__close__btn__category');
 const addCategoryButton = document.getElementById('formToggleButton-category');
 
-const toggleAddCategoryButton = () => {
+const toggleAddCategoryModal = () => {
     addCategoryModal.classList.toggle('hidden');
     addCategoryModal.classList.toggle('fadeIn');
     addCategoryModal.classList.toggle('flex');
 }
 
-addCategoryButton && addCategoryButton.addEventListener('click', toggleAddCategoryButton);
-closeCategoryModalButton && closeCategoryModalButton.addEventListener('click', toggleAddCategoryButton);
+addCategoryButton && addCategoryButton.addEventListener('click', toggleAddCategoryModal);
+closeCategoryModalButton && closeCategoryModalButton.addEventListener('click', toggleAddCategoryModal);
 
  //handle category addition
  const categoryForm = document.getElementById('AddCategoryModal');
@@ -56,10 +56,12 @@ closeCategoryModalButton && closeCategoryModalButton.addEventListener('click', t
       .then(response => response.json())
       .then(data => {
         console.log('Success:', data);
+        toggleAddCategoryModal()
         alert(data.message)
       })
       .catch((error) => {
         console.error('Error:', error);
+        toggleAddCategoryModal()
         alert(data.message)
       }).finally(() => {
         isLoading();
@@ -73,3 +75,49 @@ const isLoading = () => {
     loader.classList.toggle('hidden');
     submitButton.disabled = true;
 }
+
+const populateCategoryDropdown = () => {
+    const generateCategoryOption = (category) => {
+        const formSelect = document.getElementById('categories');
+        const option = document.createElement('option');
+        option.value = category.id;
+        option.textContent = category.name;
+        formSelect.appendChild(option);
+    }
+    fetch('http://localhost/backend/api/categories.php')
+      .then(response => response.json())
+      .then(data => data.forEach(category => generateCategoryOption(category)))
+      .catch((error) => console.error('Error:', error));
+}
+
+populateCategoryDropdown();
+
+//handle event addition
+const eventForm = document.getElementById('AddEventModalForm');
+eventForm && eventForm.addEventListener('submit', (event) => {
+   event.preventDefault();
+   const formData = new FormData(event.target);
+   const formDataObj = {};
+   for (const [key, value] of formData.entries()) {
+       formDataObj[key] = value;
+     }
+     isLoading();
+   //endpoint should be stored in .env
+   fetch('http://localhost/backend/api/events.php', {
+       method: 'POST',
+       body: JSON.stringify(formDataObj),
+     })
+     .then(response => response.json())
+     .then(data => {
+       console.log('Success:', data);
+       toggleAddEventModal()
+       alert(data.message)
+     })
+     .catch((error) => {
+       console.error('Error:', error);
+       toggleAddEventModal()
+       alert(data.message)
+     }).finally(() => {
+       isLoading();
+     });
+})
