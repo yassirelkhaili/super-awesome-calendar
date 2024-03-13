@@ -1,4 +1,4 @@
-export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay) {
+export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay, nextButtonId, prevButtonId) {
 /**
  * @author Yassir Elkhaili
  * @license MIT
@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
     calendar && calendar.classList.remove("hidden");
+    handleResponsiveBehaviour();
     renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
     });
 
@@ -119,8 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //add event listeners
-    const nextButton = document.getElementById('nextButton');
-    const prevButton = document.getElementById('prevButton');
+    const nextButton = document.getElementById(nextButtonId);
+    const prevButton = document.getElementById(prevButtonId);
 
     const handleNextButtonClick = () => {
         //add one month
@@ -146,5 +147,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nextButton && nextButton.addEventListener('click', handleNextButtonClick);
     prevButton && prevButton.addEventListener('click', handlePrevButtonClick);
+
+    //responsive datepicker
+    const handleResponsiveBehaviour = () => {
+        const calendarBottomCoordenates = calendar && calendar.getBoundingClientRect().bottom;
+        const viewportHeight = window.innerHeight;
+        if (calendarBottomCoordenates > viewportHeight) {
+            !calendar.classList.contains('calendar--bottom') && calendar.classList.add('calendar--bottom');
+            calendar.classList.contains('calendar--top') && calendar.classList.remove('calendar--top');
+          }
+    }
 })
 }
