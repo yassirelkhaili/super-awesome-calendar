@@ -17,6 +17,8 @@ const closeEventModalButton = document.querySelector('.first-section__close__btn
 const addEventButton = document.getElementById('formToggleButton');
 
 const toggleAddEventModal = () => {
+    toggleScrollbar();
+    toggleBackdrop();
     addEventModal.classList.toggle('hidden');
     addEventModal.classList.toggle('fadeIn');
     addEventModal.classList.toggle('flex');
@@ -30,7 +32,19 @@ const addCategoryModal = document.getElementById('first-section-category');
 const closeCategoryModalButton = document.getElementById('first-section__close__btn__category');
 const addCategoryButton = document.getElementById('formToggleButton-category');
 
+const toggleBackdrop = () => {
+    const backdrop = document.getElementById('modalBackDrop');
+    backdrop.classList.toggle('hidden');
+    backdrop.classList.toggle('flex');
+}
+
+const toggleScrollbar = () => {
+    document.body.style.overflow = document.body.style.overflow === "hidden" ? "visible" : "hidden";
+}
+
 const toggleAddCategoryModal = () => {
+    toggleScrollbar();
+    toggleBackdrop();
     addCategoryModal.classList.toggle('hidden');
     addCategoryModal.classList.toggle('fadeIn');
     addCategoryModal.classList.toggle('flex');
@@ -92,6 +106,25 @@ const populateCategoryDropdown = () => {
 }
 
 populateCategoryDropdown();
+
+//close modals on outside click
+    const backdrop = document.getElementById('modalBackDrop');
+
+    const closeModals = () => {
+        const modals = [addEventModal, addCategoryModal];
+        for (let index = 0; index < modals.length; index++) {
+            if (modals[index].classList.contains('flex')) {
+                toggleScrollbar();
+                toggleBackdrop();
+                modals[index].classList.toggle('hidden');
+                modals[index].classList.toggle('fadeIn');
+                modals[index].classList.toggle('flex');
+                break;
+            }
+        }
+    }
+
+    backdrop.addEventListener('click', closeModals);
 
 //handle event addition
 const eventForm = document.getElementById('AddEventModalForm');

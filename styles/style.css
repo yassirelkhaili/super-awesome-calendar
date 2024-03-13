@@ -20,8 +20,6 @@
 body {
   font-family: "Rubik", sans-serif;
   font-weight: 100;
-  min-height: 100vh;
-  position: relative;
   background-color: var(--body_color);
 }
 
@@ -251,6 +249,10 @@ body {
     border-radius: 5px;
   }
 
+  .calendar__nav__container__Button--wide {
+    width: 110px;
+  }
+
   .calendar__nav__container__addButton:disabled {
     background-color: var(--grey_color);
   }
@@ -368,6 +370,9 @@ body {
         border-top: 3px solid var(--cell_focus_background_color);
         margin-top: 0.5rem;
         margin-left: 0.5rem;
+        padding-top: 0.3rem;
+        padding-bottom: 0.6rem;
+        position: relative;
       }
 
       .header__weekdays {
@@ -383,10 +388,15 @@ body {
       }
 
       .calendar__cell__container {
-        width: 100%;
+        width: 100% ;
         margin: auto;
         display: flex;
         flex-wrap: wrap;
+      }
+
+      .calendar__body__cell--calendar:focus {
+        border: 2px solid var(--header_grey_color);
+        transition: 0.1s border ease-in-out;
       }
 
       .calendar__body__cell--calendar {
@@ -424,8 +434,7 @@ body {
         box-shadow: none !important;
       }
 
-      #modalBackDrop {
-        display: none;
+      .modalBackDrop {
         top: 0px;
         left: 0px;
         z-index: 10;
@@ -433,6 +442,7 @@ body {
         height: 100vh;
         position: absolute;
         background-color: rgba(0,0,0,0.8);
+        transition: 0.3s ease-in-out;
       }
 
       .header__buttons__container {
@@ -440,4 +450,11 @@ body {
         place-items: center;
         flex-direction: row;
         gap: 0.6rem;
+      }
+
+      .header__buttons__container--smaller {
+        display: flex;
+        place-items: center;
+        flex-direction: row;
+        gap: 0.1rem;
       }

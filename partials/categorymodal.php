@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="first-section__footer">
-      <button type="submit" id="formSubmitButton" class="calendar__nav__container__addButton"><span class="loader hidden"></span>Submit Category</button>
+      <button type="submit" id="formSubmitButton" class="calendar__nav__container__Button--wide calendar__nav__container__Button"><span class="loader hidden"></span>Submit Category</button>
       </div>
       </form>
 </div>
