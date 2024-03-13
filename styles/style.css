@@ -10,6 +10,7 @@
     --cell_focus_background_color: #1C64F2;
     --modal_border_color: #f3f4f6;
     --modal_sections_border_color: #747c8a;
+    --body_color: #F5F6F8;
 }
 
 * {
@@ -21,6 +22,7 @@ body {
   font-weight: 100;
   min-height: 100vh;
   position: relative;
+  background-color: var(--body_color);
 }
 
 .hidden {
@@ -345,4 +347,6 @@ body {
     100% {
         transform: rotate(360deg);
     }
-    } 
+    }
+
+    /* calendnar styles*/

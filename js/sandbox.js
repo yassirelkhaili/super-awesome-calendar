@@ -4,6 +4,7 @@
 */
 
 import datepicker from "./datepicker.js";
+import "./calendar.js";
 
 //too many required params. ideally this should only require the inputId.
 //note: best solution is to dynamically generate/remove datePicker when input is clicked/unclicked, this will take some time but would make for an awesome datepicker open source calendar npm package, maybe I'll do that some other time.

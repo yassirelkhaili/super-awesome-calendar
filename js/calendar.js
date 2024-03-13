@@ -1,9 +1,4 @@
-export default function datepicker (datepicker, datepickerInput, datepickerContainer, calendarBody, calendarDisplay, nextButtonId, prevButtonId) {
-/**
- * @author Yassir Elkhaili
- * @license MIT
-*/
-
+// calendar code 
 let currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
 let currentYear = new Date().getFullYear(); //get current year (from date object)
 let currentDay = new Date().getDate();
@@ -11,17 +6,12 @@ let dateFormat = 'ISO'; //supported date formats ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
-    const calendar = document.getElementById(`${datepicker}`);
-    const calendarInput = document.getElementById(datepickerInput);
+    const calendar = document.getElementById("calendar");
     const calenderInputContainer = document.querySelector(`.${datepickerContainer}`);
     const calendarCellContainer = document.getElementById(calendarBody);
     const display = document.getElementById(calendarDisplay);
 
-    calenderInputContainer && calenderInputContainer.addEventListener("click", () => {
-    calendar && calendar.classList.remove("hidden");
-    handleResponsiveBehaviour();
     renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
-    });
 
     //close calendar on outsideclick
     const handleCalendarOutsideClick = (event) => {
@@ -158,4 +148,3 @@ document.addEventListener("DOMContentLoaded", () => {
           }
     }
 })
-}
