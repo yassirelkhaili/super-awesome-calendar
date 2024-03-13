@@ -16,9 +16,16 @@
       <div class="header__buttons__container">
       <button id="formToggleButton" class="calendar__nav__container__Button">Event</button>
       <button id="formToggleButton-category" class="calendar__nav__container__Button">Category</button>
+      <button id="formToggleButton-today" class="calendar__nav__container__Button">Today</button>
       </div>
         <div id="monthDisplay"></div>
         <div class="header__buttons__container--smaller header__buttons__container">
+        <div class="header__button__group">
+      <button id="formToggleButton">Month</button>
+      <button id="formToggleButton-category">Week</button>
+      <button id="formToggleButton">Day</button>
+      <button id="formToggleButton-category">List</button>
+      </div>
         <button type="button" class="calendar__nav__button" id="nextButton">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="m15 18-6-6 6-6"></path>
