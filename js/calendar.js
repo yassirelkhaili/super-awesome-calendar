@@ -41,6 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
         currentDay = selectedDay;
     }
 
+    const todayButton = document.getElementById('formToggleButton-today'); 
+
+    const returnToToday = () => {
+        const date = new Date();
+        renderCalendarCells(date.getMonth(), date.getFullYear(), date.getDate());
+    }
+
+    todayButton.addEventListener('click', returnToToday);
+
     //generate calendar cell
     const generateCalendarCell = (selectedDay, month = "current") => {
         const cell = document.createElement("span");
@@ -97,9 +106,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const generateCurrentDay = () => {
-            const date = new Date(currentYear, currentMonth - 1, currentDay);
-            console.log(daysOfWeek[date.getDay()]);
-          
+            const date = new Date(currentYear, currentMonth, currentDay);
+            const dayName = daysOfWeek[date.getDay()];
+            const container = document.createElement('div');
+            container.textContent = dayName;
+            calenderHeader.appendChild(container);
     }
 
     //generate header container content
