@@ -3,6 +3,8 @@ let currentMonth = new Date().getMonth(); //get current month (from date object)
 let currentYear = new Date().getFullYear(); //get current year (from date object)
 let currentDay = new Date().getDate();
 let dateFormat = 'ISO'; //supported date formats ISO,US
+let currentView = 'month';
+const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
@@ -74,7 +76,61 @@ document.addEventListener("DOMContentLoaded", () => {
         const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long' });
         display.textContent = `${displayMonth} ${year}`;
     }
+
+    //handle view switch
+    const calenderHeader = document.getElementById('header_container');
+    const clearHeader = () => {
+        while (calenderHeader.firstChild) calenderHeader.removeChild(calenderHeader.firstChild);
+    }
+
+    const generateDaysOfMonth = () => {
+        daysOfWeek.forEach(day => {
+            const dayContainer = document.createElement('div');
+            dayContainer.textContent = day;
+            calenderHeader.appendChild(dayContainer);
+        });
+    };
     
+
+    const generateCurrentWeekDays = () => {
+        
+    }
+
+    const generateCurrentDay = () => {
+            const date = new Date(currentYear, currentMonth - 1, currentDay);
+            console.log(daysOfWeek[date.getDay()]);
+          
+    }
+
+    //generate header container content
+    const switchView = (event) => {
+        const targetView = event.target.textContent.toLowerCase();
+         currentView = targetView;
+             clearHeader();
+            //generate header content
+            switch(currentView) {
+                case "month":
+                generateDaysOfMonth();
+                renderCalendarCells(currentYear, currentMonth);
+                break;
+                case "week":
+                
+                break;
+                case "day":
+                generateCurrentDay();
+                break;
+                default:
+                generateDaysOfMonth();
+                renderCalendarCells(currentYear, currentMonth);
+                break;
+            }
+        }
+
+    // Add event listeners to switch view buttons
+    const viewButtons = document.querySelectorAll('.viewButton');
+    viewButtons.forEach(viewButton => {
+        viewButton.addEventListener('click', switchView);
+    });
     //render calendar
     const renderCalendarCells = (selectedYear, selectedMonth) => {
         clearCalendarCells(); //reset calendar content
