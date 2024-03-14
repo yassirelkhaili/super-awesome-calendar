@@ -485,7 +485,7 @@ body {
       
       /* General focus style using box-shadow instead of outline */
       .calendar__nav__container__interfaceButton:focus {
-        box-shadow: 0 0 0 3px var(--buttons_ring_color);
+        box-shadow: 0 0 0 2px var(--buttons_ring_color);
         border-radius: 0px;
         z-index: 1;
       }
@@ -502,14 +502,14 @@ body {
       
       /* Focus style for the left button */
       .calendar__nav__container__interfaceButton--left:focus {
-        box-shadow: 0 0 0 3px var(--buttons_ring_color);
+        box-shadow: 0 0 0 2px var(--buttons_ring_color);
         border-radius: 3px 0px 0px 3px;
         z-index: 1;
       }
       
       /* Focus style for the right button */
       .calendar__nav__container__interfaceButton--right:focus {
-        box-shadow: 0 0 0 3px var(--buttons_ring_color);
+        box-shadow: 0 0 0 2px var(--buttons_ring_color);
         border-radius: 0px 3px 3px 0px;
         z-index: 1;
       }
