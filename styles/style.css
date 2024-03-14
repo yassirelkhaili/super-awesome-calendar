@@ -11,6 +11,7 @@
     --modal_border_color: #f3f4f6;
     --modal_sections_border_color: #747c8a;
     --body_color: #F5F6F8;
+    --buttons_ring_color: #93c5fd;
 }
 
 * {
@@ -464,21 +465,56 @@ body {
         display: flex;
         place-items: center;
         gap: 0px;
-        padding: 5px;
         border-radius: 3px;
       }
 
-      .header__button__group > button {
+      .calendar__nav__container__interfaceButton {
+        padding: 5px;
         height: 100%;
-        width: 100%;
-        background-color: transparent;
-        border: none;
-        outline: none;
-        display: flex;
-        justify-content: center; 
-        align-items: center;
         background-color: var(--cell_focus_background_color);
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         color: var(--cell_focus_color);
         width: 50px;
         cursor: pointer;
+        transition: .1s ease-in-out;
+        position: relative;
+      }
+      
+      /* General focus style using box-shadow instead of outline */
+      .calendar__nav__container__interfaceButton:focus {
+        box-shadow: 0 0 0 3px var(--buttons_ring_color);
+        border-radius: 0px;
+        z-index: 1;
+      }
+
+      .calendar__nav__container__interfaceButton--left {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+
+      .calendar__nav__container__interfaceButton--right {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+      
+      /* Focus style for the left button */
+      .calendar__nav__container__interfaceButton--left:focus {
+        box-shadow: 0 0 0 3px var(--buttons_ring_color);
+        border-radius: 3px 0px 0px 3px;
+        z-index: 1;
+      }
+      
+      /* Focus style for the right button */
+      .calendar__nav__container__interfaceButton--right:focus {
+        box-shadow: 0 0 0 3px var(--buttons_ring_color);
+        border-radius: 0px 3px 3px 0px;
+        z-index: 1;
+      }
+      
+
+      .calendar__nav__container__interfaceButton:hover {
+        background-color: #1b5bda;
       }

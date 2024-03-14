@@ -21,10 +21,10 @@
         <div id="monthDisplay"></div>
         <div class="header__buttons__container--smaller header__buttons__container">
         <div class="header__button__group">
-      <button id="formToggleButton">Month</button>
-      <button id="formToggleButton-category">Week</button>
-      <button id="formToggleButton">Day</button>
-      <button id="formToggleButton-category">List</button>
+      <button id="formToggleButton" class="calendar__nav__container__interfaceButton--left calendar__nav__container__interfaceButton">Month</button>
+      <button id="formToggleButton-category" class="calendar__nav__container__interfaceButton">Week</button>
+      <button id="formToggleButton" class="calendar__nav__container__interfaceButton">Day</button>
+      <button id="formToggleButton-category" class="calendar__nav__container__interfaceButton--right calendar__nav__container__interfaceButton">List</button>
       </div>
         <button type="button" class="calendar__nav__button" id="nextButton">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
