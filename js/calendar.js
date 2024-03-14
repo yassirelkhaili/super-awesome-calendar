@@ -45,7 +45,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const returnToToday = () => {
         const date = new Date();
-        renderCalendarCells(date.getMonth(), date.getFullYear(), date.getDate());
+        //switch to current view
+        switchView("month");
+        //reset date values
+        currentDay = date.getDate();
+        currentYear = date.getFullYear();
+        currentMonth = date.getMonth();
+        //render new cells using current date info from date object
+        renderCalendarCells(currentYear, currentMonth);
     }
 
     todayButton.addEventListener('click', returnToToday);
@@ -111,12 +118,32 @@ document.addEventListener("DOMContentLoaded", () => {
             const container = document.createElement('div');
             container.textContent = dayName;
             calenderHeader.appendChild(container);
+            calenderHeader.style.justifyContent = 'center';
+    }
+
+    const generateDaysViewCalendarCells = () => {
+        clearCalendarCells(); //clear calendar cells
+        //generate day time periods 30 min intervals
+        for (let i = 0; i < 48; i++) {
+            const hour = Math.floor(i / 2);
+            const minute = i % 2 === 0 ? '00' : '30';
+            const timeSlotDiv = document.createElement('div');
+            timeSlotDiv.classList.add('time-slot');
+            timeSlotDiv.textContent = `${hour.toString().padStart(2, '0')}:${minute}`;
+            calenderHeader.appendChild(timeSlotDiv);
+        }
     }
 
     //generate header container content
-    const switchView = (event) => {
-        const targetView = event.target.textContent.toLowerCase();
-         currentView = targetView;
+    const switchView = (event, view = null) => {
+        if (view === null && event !== null && event.target) {
+            const targetView = event.target.textContent.toLowerCase();
+            currentView = targetView;
+        } else if (view !== null) {
+            currentView = view;
+        } else {
+            currentView = "month";
+        }
              clearHeader();
             //generate header content
             switch(currentView) {
@@ -129,6 +156,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
                 case "day":
                 generateCurrentDay();
+                generateDaysViewCalendarCells();
                 break;
                 default:
                 generateDaysOfMonth();
@@ -145,6 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     //render calendar
     const renderCalendarCells = (selectedYear, selectedMonth) => {
         clearCalendarCells(); //reset calendar content
+        calenderHeader.style.justifyContent = 'space-between';
         const firstDayOfMonth = new Date(selectedYear, selectedMonth, 1).getDay(); //0 for sunday (╯°□°）╯︵ ┻━┻ 
         const numOfDaysInMonth = new Date(selectedYear, selectedMonth + 1, 0).getDate();
         const numOfDaysInPrevMonth = new Date(selectedYear, selectedMonth, 0).getDate();
@@ -166,7 +195,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const prevButton = document.getElementById("backButton");
 
     const handleNextButtonClick = () => {
-        //add one month
+      switch (currentView) {
+        case "month":
+              //add one month
         if (currentMonth === 11) {
             currentMonth = 0;
             currentYear += 1;
@@ -174,10 +205,23 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMonth += 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+            break;
+        default:
+        if (currentMonth === 11) {
+            currentMonth = 0;
+            currentYear += 1;
+        } else {
+            currentMonth += 1;
+        }
+        renderCalendarCells(currentYear, currentMonth);
+            break;
+      }
     }
 
     const handlePrevButtonClick = () => {
-        //substract one month
+        switch (currentView) {
+            case "month":
+                //substract one month
         if (currentMonth === 0) {
             currentMonth = 11;
             currentYear -= 1;
@@ -185,6 +229,18 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+                break;
+            default:
+                //substract one month
+        if (currentMonth === 0) {
+            currentMonth = 11;
+            currentYear -= 1;
+        } else {
+            currentMonth -= 1;
+        }
+        renderCalendarCells(currentYear, currentMonth);
+                break;
+        }
     }
 
     nextButton && nextButton.addEventListener('click', handleNextButtonClick);
