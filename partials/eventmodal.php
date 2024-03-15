@@ -39,7 +39,7 @@
       </div>
       </div>
       <div class="first-section__footer">
-      <button id="formSubmitButton" class="calendar__nav__container__addButton">Submit Event</button>
+      <button id="formSubmitButton" class="calendar__nav__container__Button--wide calendar__nav__container__Button">Submit Event</button>
       </div>
       </form>
 </div>

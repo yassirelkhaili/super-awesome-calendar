@@ -7,7 +7,7 @@ export default function datepicker (datepicker, datepickerInput, datepickerConta
 let currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
 let currentYear = new Date().getFullYear(); //get current year (from date object)
 let currentDay = new Date().getDate();
-let dateFormat = 'ISO'; //supported dates ISO,US
+let dateFormat = 'ISO'; //supported date formats ISO,US
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick

@@ -1,6 +1,6 @@
 <?php 
 require "../config/pdo.php"; 
-header("Access-Control-Allow-Origin: http://localhost:3000");
+header("Access-Control-Allow-Origin: http://localhost:3000"); //change to your local enviroments origin
 header("Access-Control-Allow-Headers: *");
 header("Access-Control-Allow-Methods: *"); 
 header("Content-Type: application/json");

@@ -10,6 +10,8 @@
     --cell_focus_background_color: #1C64F2;
     --modal_border_color: #f3f4f6;
     --modal_sections_border_color: #747c8a;
+    --body_color: #F5F6F8;
+    --buttons_ring_color: #93c5fd;
 }
 
 * {
@@ -19,8 +21,7 @@
 body {
   font-family: "Rubik", sans-serif;
   font-weight: 100;
-  min-height: 100vh;
-  position: relative;
+  background-color: var(--body_color);
 }
 
 .hidden {
@@ -234,17 +235,23 @@ body {
     width: 100%;
   }
 
-  .calendar__nav__container__addButton {
+  .calendar__nav__container__Button {
     display: flex;
-    place-items: center;
-    gap: 0.4rem;
+    justify-content: center; 
+    align-items: center;
     background-color: var(--cell_focus_background_color);
     color: var(--cell_focus_color);
-    border-radius: 0.4rem;
-    outline: none;
-    border: none;
-    padding: 0.7rem 1rem 0.7rem 1rem;
+    width: 64px;
     cursor: pointer;
+    box-shadow: 0px 0px 2px gray;
+    border: none;
+    outline: none;
+    padding: 5px;
+    border-radius: 3px;
+  }
+
+  .calendar__nav__container__Button--wide {
+    width: 110px;
   }
 
   .calendar__nav__container__addButton:disabled {
@@ -345,4 +352,190 @@ body {
     100% {
         transform: rotate(360deg);
     }
-    } 
+    }
+
+    /* calendnar styles*/
+      
+      .calendar__display {
+        padding: 10px;
+        color: var(--primary-color);
+        font-size: 26px;
+        font-family: sans-serif;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .calendar__container {
+        width: 770px;
+        background-color: white;
+        border-top: 4px solid var(--cell_focus_background_color);
+        margin-top: 0.5rem;
+        margin-left: 0.5rem;
+        padding-top: 0.3rem;
+        padding-bottom: 0.6rem;
+        position: relative;
+      }
+
+      .header__weekdays {
+        width: 100%;
+        display: flex;
+        color: var(--header_grey_color);
+        justify-content: space-between;
+      }
+
+      .header__weekdays div {
+        width: 100px;
+        padding: 10px;
+      }
+
+      .calendar__cell__container {
+        width: 100% ;
+        margin: auto;
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .calendar__cell__container--day {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+        box-sizing: border-box;
+        justify-content: center;
+        position: relative;
+        padding: 0rem 0.3rem;
+      }
+
+      .calendar__body__cell--calendar:focus {
+        border: 2px solid var(--header_grey_color);
+        transition: 0.1s border ease-in-out;
+      }
+
+      .calendar__body__cell--calendar {
+        width: 100px;
+        padding: 10px;
+        height: 100px;
+        cursor: pointer;
+        box-sizing: border-box;
+        background-color: white;
+        margin: 5px;
+        box-shadow: 0px 0px 3px #CBD4C2;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .calendar__body__cell--calendar--day {
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+        background-color: white;
+        box-shadow: 0px 0px 3px #CBD4C2;
+      }
+
+      .day:hover {
+        background-color: #e8faed;
+      }
+      
+      .day + #currentDay {
+        background-color:#e8f4fa;
+      }
+      .event {
+        font-size: 10px;
+        padding: 3px;
+        background-color: #58bae4;
+        color: white;
+        border-radius: 5px;
+        max-height: 55px;
+        overflow: hidden;
+      }
+      .padding {
+        cursor: default !important;
+        background-color: #FFFCFF !important;
+        box-shadow: none !important;
+      }
+
+      .modalBackDrop {
+        top: 0px;
+        left: 0px;
+        z-index: 10;
+        width: 100vw;
+        height: 100vh;
+        position: absolute;
+        background-color: rgba(0,0,0,0.8);
+        transition: 0.3s ease-in-out;
+      }
+
+      .header__buttons__container {
+        display: flex;
+        place-items: center;
+        flex-direction: row;
+        gap: 0.2rem;
+      }
+
+      .header__buttons__container--smaller {
+        display: flex;
+        place-items: center;
+        flex-direction: row;
+        gap: 0px;
+      }
+
+      .header__button__group {
+        background-color: var(--cell_focus_background_color);
+        display: flex;
+        place-items: center;
+        gap: 0px;
+        border-radius: 3px;
+      }
+
+      .calendar__nav__container__interfaceButton {
+        padding: 5px;
+        height: 100%;
+        background-color: var(--cell_focus_background_color);
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: var(--cell_focus_color);
+        width: 50px;
+        cursor: pointer;
+        transition: .1s ease-in-out;
+        position: relative;
+      }
+      
+      /* General focus style using box-shadow instead of outline */
+      .calendar__nav__container__interfaceButton:focus {
+        box-shadow: 0 0 0 2px var(--buttons_ring_color);
+        border-radius: 0px;
+        z-index: 1;
+      }
+
+      .calendar__nav__container__interfaceButton--left {
+        border-top-left-radius: 3px;
+        border-bottom-left-radius: 3px;
+      }
+
+      .calendar__nav__container__interfaceButton--right {
+        border-top-right-radius: 3px;
+        border-bottom-right-radius: 3px;
+      }
+      
+      /* Focus style for the left button */
+      .calendar__nav__container__interfaceButton--left:focus {
+        box-shadow: 0 0 0 2px var(--buttons_ring_color);
+        border-radius: 3px 0px 0px 3px;
+        z-index: 1;
+      }
+      
+      /* Focus style for the right button */
+      .calendar__nav__container__interfaceButton--right:focus {
+        box-shadow: 0 0 0 2px var(--buttons_ring_color);
+        border-radius: 0px 3px 3px 0px;
+        z-index: 1;
+      }
+      
+
+      .calendar__nav__container__interfaceButton:hover {
+        background-color: #1b5bda;
+      }
