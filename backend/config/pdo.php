@@ -1,4 +1,4 @@
-<?php 
+<?php
 //database connection
 $dsn = 'mysql:host=localhost;port=3306;dbname=awesomecalendar';
 $username = 'root';
