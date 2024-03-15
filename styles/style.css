@@ -368,7 +368,7 @@ body {
       .calendar__container {
         width: 770px;
         background-color: white;
-        border-top: 3px solid var(--cell_focus_background_color);
+        border-top: 4px solid var(--cell_focus_background_color);
         margin-top: 0.5rem;
         margin-left: 0.5rem;
         padding-top: 0.3rem;
@@ -395,6 +395,18 @@ body {
         flex-wrap: wrap;
       }
 
+      .calendar__cell__container--day {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+        box-sizing: border-box;
+        justify-content: center;
+        position: relative;
+        padding: 0rem 0.3rem;
+      }
+
       .calendar__body__cell--calendar:focus {
         border: 2px solid var(--header_grey_color);
         transition: 0.1s border ease-in-out;
@@ -413,6 +425,15 @@ body {
         flex-direction: column;
         justify-content: space-between;
       }
+
+      .calendar__body__cell--calendar--day {
+        width: 100%;
+        padding: 10px;
+        cursor: pointer;
+        background-color: white;
+        box-shadow: 0px 0px 3px #CBD4C2;
+      }
+
       .day:hover {
         background-color: #e8faed;
       }

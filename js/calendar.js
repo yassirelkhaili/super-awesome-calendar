@@ -8,12 +8,16 @@ const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Fri
 
 document.addEventListener("DOMContentLoaded", () => {
     // toggle calendar onclick
-    const calendarCellContainer = document.getElementById("calendar");
+    const calendarCellContainer = document.getElementById("month");
+    const calendarDaysCellContainer = document.getElementById('day');
+    const calendarWeeksCellContainer = document.getElementById('week');
     const display = document.getElementById("monthDisplay");
 
     //clear calendar cells
     const clearCalendarCells = () => {
         while (calendarCellContainer.firstChild) calendarCellContainer.removeChild(calendarCellContainer.firstChild);
+        while (calendarDaysCellContainer.firstChild) calendarDaysCellContainer.removeChild(calendarDaysCellContainer.firstChild);
+        while (calendarWeeksCellContainer.firstChild) calendarWeeksCellContainer.removeChild(calendarWeeksCellContainer.firstChild);
     }
 
     //handle cell click
@@ -106,11 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
             calenderHeader.appendChild(dayContainer);
         });
     };
-    
-
-    const generateCurrentWeekDays = () => {
-        
-    }
 
     const generateCurrentDay = () => {
             const date = new Date(currentYear, currentMonth, currentDay);
@@ -128,11 +127,56 @@ document.addEventListener("DOMContentLoaded", () => {
             const hour = Math.floor(i / 2);
             const minute = i % 2 === 0 ? '00' : '30';
             const timeSlotDiv = document.createElement('div');
-            timeSlotDiv.classList.add('time-slot');
+            timeSlotDiv.classList.add('calendar__body__cell--calendar--day', 'calendar--hover');
             timeSlotDiv.textContent = `${hour.toString().padStart(2, '0')}:${minute}`;
-            calenderHeader.appendChild(timeSlotDiv);
+            calendarDaysCellContainer.appendChild(timeSlotDiv);
         }
     }
+
+    const generateWeekDays = () => {
+        const date = new Date(currentYear, currentMonth, currentDay);
+        const dayOfWeek = date.getDay();
+        const startDate = new Date(date);
+        startDate.setDate(date.getDate() - dayOfWeek); 
+        const endDate = new Date(startDate);
+        endDate.setDate(startDate.getDate() + 6);
+        const startDay = startDate.getDate();
+        const endDay = endDate.getDate();
+        const month = startDate.getMonth() + 1;
+        const endMonth = endDate.getMonth() + 1;
+        let rangeText;
+        if (month === endMonth) {
+            rangeText = `${startDay} – ${endDay}`;
+        } else {
+            rangeText = `${month}/${startDay} – ${endMonth}/${endDay}`;
+        }
+        const container = document.createElement('div');
+        container.textContent = rangeText;
+        calenderHeader.appendChild(container);
+        calenderHeader.style.justifyContent = 'center';
+    };
+    
+    
+    const generateWeeksViewCalendarCells = () => {
+        clearCalendarCells();
+        const date = new Date(currentYear, currentMonth, currentDay);
+        const dayOfWeek = date.getDay();
+        const startDate = new Date(date);
+        startDate.setDate(date.getDate() - dayOfWeek);
+        for (let i = 0; i < 7; i++) {
+            const weekDayDate = new Date(startDate);
+            weekDayDate.setDate(startDate.getDate() + i);
+    
+            const container = document.createElement('div');
+            const dayName = daysOfWeek[weekDayDate.getDay()].slice(0, 3);
+            const month = weekDayDate.getMonth() + 1;
+            const day = weekDayDate.getDate();
+            container.classList.add('calendar__body__cell--calendar--day', 'calendar--hover');
+            container.textContent = `${dayName} ${month}/${day}`;
+            calendarWeeksCellContainer.appendChild(container);
+        }
+        calendarWeeksCellContainer.style.justifyContent = 'center';
+    };    
 
     //generate header container content
     const switchView = (event, view = null) => {
@@ -152,7 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderCalendarCells(currentYear, currentMonth);
                 break;
                 case "week":
-                
+                generateWeekDays();
+                generateWeeksViewCalendarCells();
                 break;
                 case "day":
                 generateCurrentDay();
