@@ -284,6 +284,15 @@ body {
   width: 100%;
 }
 
+.first-section__body__input__group--row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 0.3rem;
+  width: 100%;
+}
+
 .first-section__body {
   display: flex;
   place-items: center;
