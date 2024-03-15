@@ -1,3 +1,8 @@
+/**
+ * @author Yassir Elkhaili
+ * @license MIT
+ */
+
 // calendar code 
 let currentMonth = new Date().getMonth(); //get current month (from date object) (indexed from 0)
 let currentYear = new Date().getFullYear(); //get current year (from date object)

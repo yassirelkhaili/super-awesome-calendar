@@ -185,3 +185,50 @@ eventForm &&
         isLoading();
       });
   });
+
+//fetch events from db
+fetch("http://localhost/backend/api/events.php")
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Success:", data);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+
+//generate day times 30 min intervals
+
+document.addEventListener("DOMContentLoaded", function () {
+  var select = document.getElementById("time-select");
+
+  for (var hour = 0; hour < 24; hour++) {
+    for (var minute = 0; minute < 60; minute += 30) {
+      var hourFormatted = hour.toString().padStart(2, "0");
+      var minuteFormatted = minute.toString().padStart(2, "0");
+      var timeValue = hourFormatted + ":" + minuteFormatted;
+      var option = new Option(timeValue, timeValue);
+      select.appendChild(option);
+    }
+  }
+});
+
+//handle date input show/hide depending on event type
+const selectdropdown = document.getElementById('event-types');
+const dateInputs = document.querySelectorAll('.date-input');
+
+// hide date inputs initialy
+dateInputs.forEach((input) => input.style.display = "none");
+
+const handleSelectChange = (event) => {
+  //get date input groups
+ const selectedValue = event.target.value;
+ dateInputs.forEach((dateInput) => {
+    if (dateInput.id === selectedValue) 
+      dateInput.style.display = "flex";
+     else
+      dateInput.style.display = "none";
+ })
+}
+
+selectdropdown.addEventListener('change', handleSelectChange);
+
