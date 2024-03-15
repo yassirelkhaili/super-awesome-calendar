@@ -92,9 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     //update date display
-    const updateDateDisplay = (year, month) => {
+    const updateDateDisplay = (year, month, day = null) => {
         const displayMonth = new Date(year, month).toLocaleString('default', { month: 'long' });
-        display.textContent = `${displayMonth} ${year}`;
+        display.textContent = day === null ? `${displayMonth} ${year}` : `${displayMonth} ${day}, ${year}`;
     }
 
     //handle view switch
@@ -122,6 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const generateDaysViewCalendarCells = () => {
         clearCalendarCells(); //clear calendar cells
+        generateCurrentDay();
+        updateDateDisplay(currentYear, currentMonth, currentDay);
         //generate day time periods 30 min intervals
         for (let i = 0; i < 48; i++) {
             const hour = Math.floor(i / 2);
@@ -159,6 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const generateWeeksViewCalendarCells = () => {
         clearCalendarCells();
+        generateWeekDays();
+        updateDateDisplay(currentYear, currentMonth);
         const date = new Date(currentYear, currentMonth, currentDay);
         const dayOfWeek = date.getDay();
         const startDate = new Date(date);
@@ -196,11 +200,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 renderCalendarCells(currentYear, currentMonth);
                 break;
                 case "week":
-                generateWeekDays();
                 generateWeeksViewCalendarCells();
                 break;
                 case "day":
-                generateCurrentDay();
                 generateDaysViewCalendarCells();
                 break;
                 default:
@@ -251,6 +253,24 @@ document.addEventListener("DOMContentLoaded", () => {
         }
         renderCalendarCells(currentYear, currentMonth);
             break;
+            case "week":
+                clearHeader();
+                //add one week
+            const nextWeek = new Date(currentYear, currentMonth, currentDay + 7);
+            currentYear = nextWeek.getFullYear();
+            currentMonth = nextWeek.getMonth();
+            currentDay = nextWeek.getDate();
+            generateWeeksViewCalendarCells();
+                break;
+            case "day":
+                clearHeader();
+                 //add one day
+            const nextDay = new Date(currentYear, currentMonth, currentDay + 1);
+            currentYear = nextDay.getFullYear();
+            currentMonth = nextDay.getMonth();
+            currentDay = nextDay.getDate();
+            generateDaysViewCalendarCells();
+                break;
         default:
         if (currentMonth === 11) {
             currentMonth = 0;
@@ -274,6 +294,24 @@ document.addEventListener("DOMContentLoaded", () => {
             currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+                break;
+            case "week":
+                //remove one week
+                clearHeader();
+            const nextWeek = new Date(currentYear, currentMonth, currentDay - 7);
+            currentYear = nextWeek.getFullYear();
+            currentMonth = nextWeek.getMonth();
+            currentDay = nextWeek.getDate();
+            generateWeeksViewCalendarCells();
+                break;
+            case "day":
+                clearHeader();
+                //remove one day
+            const nextDay = new Date(currentYear, currentMonth, currentDay - 1);
+            currentYear = nextDay.getFullYear();
+            currentMonth = nextDay.getMonth();
+            currentDay = nextDay.getDate();
+            generateDaysViewCalendarCells();
                 break;
             default:
                 //substract one month
