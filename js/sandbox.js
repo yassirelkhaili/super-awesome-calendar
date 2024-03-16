@@ -7,7 +7,7 @@ import datepicker from "./datepicker.js";
 import "./calendar.js";
 
 //too many required params. ideally this should only require the inputId.
-//note: best solution is to dynamically generate/remove datePicker when input is clicked/unclicked, this will take some time but would make for an awesome datepicker open source calendar npm package, maybe I'll do that some other time.
+//note: best solution is to dynamically generate/remove datePicker when input is clicked/unclicked, this will take some time but would make for an awesome datepicker open source npm package, maybe I'll do that some other time.
 datepicker(
   "datepicker",
   "datepicker__input",
@@ -26,6 +26,25 @@ datepicker(
   "nextButtonTo",
   "prevButtonTo"
 );
+datepicker(
+  "datepickerwhole",
+  "datepicker__inputwhole",
+  "toggle-calendarwhole",
+  "calendar__body__cellswhole",
+  "calendarDisplaywhole",
+  "nextButtonFromwhole",
+  "prevButtonFromwhole"
+);
+datepicker(
+  "datepickerspecific",
+  "datepicker__inputspecific",
+  "toggle-calendarspecific",
+  "calendar__body__cellsspecific",
+  "calendarDisplayspecific",
+  "nextButtonFromspecific",
+  "prevButtonFromspecific"
+);
+
 
 //toggle add event modal
 const addEventModal = document.querySelector(".first-section");
@@ -186,16 +205,6 @@ eventForm &&
       });
   });
 
-//fetch events from db
-fetch("http://localhost/backend/api/events.php")
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Success:", data);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
-
 //generate day times 30 min intervals
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -216,19 +225,32 @@ document.addEventListener("DOMContentLoaded", function () {
 const selectdropdown = document.getElementById('event-types');
 const dateInputs = document.querySelectorAll('.date-input');
 
-// hide date inputs initialy
-dateInputs.forEach((input) => input.style.display = "none");
+//helper function to disable or enable all input-like elements inside an input group
+const changeInputStatus = (inputGroup, disabled) => {
+  for (const child of inputGroup.children) {
+    if (child.tagName === 'INPUT' || child.tagName === 'SELECT') {
+      child.disabled = disabled;
+    }
+  }
+};
+
+//initially hide and disable date inputs
+dateInputs.forEach((input) => {
+  input.style.display = "none";
+  changeInputStatus(input, true); //initially disable inputs
+});
 
 const handleSelectChange = (event) => {
-  //get date input groups
- const selectedValue = event.target.value;
- dateInputs.forEach((dateInput) => {
-    if (dateInput.id === selectedValue) 
+  const selectedValue = event.target.value;
+  dateInputs.forEach((dateInput) => {
+    if (dateInput.id === selectedValue) {
       dateInput.style.display = "flex";
-     else
+      changeInputStatus(dateInput, false); //enable inputs for the selected group
+    } else {
       dateInput.style.display = "none";
- })
-}
+      changeInputStatus(dateInput, true); //disable inputs for non-selected groups
+    }
+  });
+};
 
 selectdropdown.addEventListener('change', handleSelectChange);
-
