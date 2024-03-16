@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     //generate calendar cell
     const generateCalendarCell = (selectedDay, month = "current") => {
-        const cell = document.createElement("span");
+        const cell = document.createElement("div");
         cell.classList.add('calendar__body__cell--calendar', 'calendar--hover');
         month === 'current' ? cell.classList.add('calendar__body__cell--white') : cell.classList.add('calendar__body__cell--grey');
         cell.setAttribute("tabindex", '0');
@@ -335,4 +335,41 @@ document.addEventListener("DOMContentLoaded", () => {
     prevButton && prevButton.addEventListener('click', handlePrevButtonClick);
 
     renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
+
+    //create event div
+    const handleEventClick = () => {
+
+    }
+
+    const createEventDiv = (event) => {
+        const eventDiv = document.createElement('div');
+        eventDiv.classList.setAttribute("class", "event");
+        eventDiv.textContent = event.name;
+        eventDiv.addEventListener("click", handleEventClick);
+        return eventDiv;
+    }
+
+    const placeEventsInsideCalendar = (events) => {
+        const eventContainers = document.querySelectorAll(".calendar__body__cell--calendar");
+        events.forEach((event) => {
+            
+        })
+    }
+
+    //handle event placement inside the calendar
+    const fetchEvents = () => {
+        fetch("http://localhost/backend/api/events.php")
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.json();
+        })
+        .then(data => {
+            placeEventsInsideCalendar(data);
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    };
+    
+    fetchEvents();    
 })

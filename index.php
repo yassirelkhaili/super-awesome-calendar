@@ -37,18 +37,11 @@
                 </button>
             </div>
         </div>
-        <div class="header__weekdays" id="header_container">
-            <div>Sunday</div>
-            <div>Monday</div>
-            <div>Tuesday</div>
-            <div>Wednesday</div>
-            <div>Thursday</div>
-            <div>Friday</div>
-            <div>Saturday</div>
-        </div>
+        <div class="header__weekdays" id="header_container"></div>
         <div id="month" class="calendar__cell__container view"></div>
         <div id="week" class="calendar__cell__container--day view"></div>
         <div id="day" class="calendar__cell__container--day view"></div>
+        </div>
     </div>
     <div id="modalBackDrop" class="modalBackDrop hidden"></div>
     <?php include "./partials/eventmodal.php" ?>

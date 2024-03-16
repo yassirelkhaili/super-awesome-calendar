@@ -205,16 +205,6 @@ eventForm &&
       });
   });
 
-//fetch events from db
-fetch("http://localhost/backend/api/events.php")
-  .then((response) => response.json())
-  .then((data) => {
-    console.log("Success:", data);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
-
 //generate day times 30 min intervals
 
 document.addEventListener("DOMContentLoaded", function () {
