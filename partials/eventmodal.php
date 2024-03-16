@@ -66,7 +66,7 @@
                         $calendarDisplay = 'calendarDisplaywhole';
                         $nextButton = 'nextButtonFromwhole';
                         $prevButton = 'prevButtonFromwhole';
-                        $inputName = "date_fromwhole";
+                        $inputName = "date_from";
                         include "./components/datepicker.php" ?>
                  </div>
              </div>
@@ -82,14 +82,14 @@
                         $calendarDisplay = 'calendarDisplayspecific';
                         $nextButton = 'nextButtonFromspecific';
                         $prevButton = 'prevButtonFromspecific';
-                        $inputName = "date_fromspecific";
+                        $inputName = "date_from";
                         include "./components/datepicker.php" ?>
                  </div>
                  </div>
                  <span class="seperator" style="margin-top: 20px;">to</span>
                  <div>
-                 <label for="event-types" class="first-section__body__label">Time</label>
-                 <select id="time-select" class="first-section__body__select" name="time">
+                 <label for="time-select" class="first-section__body__label">Time</label>
+                 <select id="time-select" class="first-section__body__select" name="time_from">
                  <option selected disabled>Select time</option>
                  </select>
                  </div>

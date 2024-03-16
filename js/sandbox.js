@@ -235,18 +235,32 @@ document.addEventListener("DOMContentLoaded", function () {
 const selectdropdown = document.getElementById('event-types');
 const dateInputs = document.querySelectorAll('.date-input');
 
-// hide date inputs initialy
-dateInputs.forEach((input) => input.style.display = "none");
+//helper function to disable or enable all input-like elements inside an input group
+const changeInputStatus = (inputGroup, disabled) => {
+  for (const child of inputGroup.children) {
+    if (child.tagName === 'INPUT' || child.tagName === 'SELECT') {
+      child.disabled = disabled;
+    }
+  }
+};
+
+//initially hide and disable date inputs
+dateInputs.forEach((input) => {
+  input.style.display = "none";
+  changeInputStatus(input, true); //initially disable inputs
+});
 
 const handleSelectChange = (event) => {
-  //get date input groups
- const selectedValue = event.target.value;
- dateInputs.forEach((dateInput) => {
-    if (dateInput.id === selectedValue) 
+  const selectedValue = event.target.value;
+  dateInputs.forEach((dateInput) => {
+    if (dateInput.id === selectedValue) {
       dateInput.style.display = "flex";
-     else
+      changeInputStatus(dateInput, false); //enable inputs for the selected group
+    } else {
       dateInput.style.display = "none";
- })
-}
+      changeInputStatus(dateInput, true); //disable inputs for non-selected groups
+    }
+  });
+};
 
 selectdropdown.addEventListener('change', handleSelectChange);
