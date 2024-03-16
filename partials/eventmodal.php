@@ -59,14 +59,14 @@
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
                      <?php $placeholder = 'Select start date';
-                        $datepicker = 'datepicker';
-                        $datepickerInput = 'datepicker__input';
-                        $datepickerContainer = 'toggle-calendar';
-                        $calendarBody = 'calendar__body__cells';
-                        $calendarDisplay = 'calendarDisplay';
-                        $nextButton = 'nextButtonFrom';
-                        $prevButton = 'prevButtonFrom';
-                        $inputName = "date_from";
+                        $datepicker = 'datepickerwhole';
+                        $datepickerInput = 'datepicker__inputwhole';
+                        $datepickerContainer = 'toggle-calendarwhole';
+                        $calendarBody = 'calendar__body__cellswhole';
+                        $calendarDisplay = 'calendarDisplaywhole';
+                        $nextButton = 'nextButtonFromwhole';
+                        $prevButton = 'prevButtonFromwhole';
+                        $inputName = "date_fromwhole";
                         include "./components/datepicker.php" ?>
                  </div>
              </div>
@@ -75,14 +75,14 @@
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
                      <?php $placeholder = 'Select start date';
-                        $datepicker = 'datepicker';
-                        $datepickerInput = 'datepicker__input';
-                        $datepickerContainer = 'toggle-calendar';
-                        $calendarBody = 'calendar__body__cells';
-                        $calendarDisplay = 'calendarDisplay';
-                        $nextButton = 'nextButtonFrom';
-                        $prevButton = 'prevButtonFrom';
-                        $inputName = "date_from";
+                        $datepicker = 'datepickerspecific';
+                        $datepickerInput = 'datepicker__inputspecific';
+                        $datepickerContainer = 'toggle-calendarspecific';
+                        $calendarBody = 'calendar__body__cellsspecific';
+                        $calendarDisplay = 'calendarDisplayspecific';
+                        $nextButton = 'nextButtonFromspecific';
+                        $prevButton = 'prevButtonFromspecific';
+                        $inputName = "date_fromspecific";
                         include "./components/datepicker.php" ?>
                  </div>
                  </div>

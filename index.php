@@ -54,5 +54,4 @@
     <?php include "./partials/eventmodal.php" ?>
     <?php include "./partials/categorymodal.php" ?>
 </body>
-
 </html>
