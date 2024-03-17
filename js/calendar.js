@@ -308,37 +308,44 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const placeEventsInsideCalendar = (view = "month") => {
     const events = JSON.parse(localStorage.getItem("events") || "[]");
-    const isDateTimeInRange = (
-      containerDateTime,
-      startDateTime,
-      endDateTime
-    ) => {
-      const dateTime = new Date(containerDateTime);
-      const start = new Date(startDateTime);
-      const end = new Date(endDateTime || startDateTime);
-      return dateTime >= start && dateTime <= end;
+    const isDateTimeInRange = (containerDateTime, startDateTime, endDateTime, eventType) => {
+        const dateTime = new Date(containerDateTime);
+        const start = new Date(startDateTime);
+        let end = new Date(endDateTime || startDateTime);
+        if (endDateTime && end.toDateString() !== start.toDateString()) {
+            end.setHours(23, 59, 0, 0);
+        }
+        if (eventType === "whole" && view === "day" && !endDateTime) {
+            end = new Date(startDateTime);
+            end.setHours(23, 59, 0, 0);
+        }
+        return dateTime >= start && dateTime <= end;
     };
     events.forEach((event) => {
-      const containerClass =
-        view === "month"
-          ? ".calendar__body__cell--calendar"
-          : view === "week"
-          ? ".calendar__body__cell--calendar--day"
-          : ".calendar__body__cell--calendar--day";
-      const eventContainers = document.querySelectorAll(containerClass);
-      eventContainers.forEach((container) => {
-        const containerDateTime = container.getAttribute("data-date");
-        const eventStartDateTime = event.date_from;
-        const eventEndDateTime = event.date_to || event.date_from;
-        const shouldPlaceEvent = isDateTimeInRange(
-          containerDateTime,
-          eventStartDateTime,
-          eventEndDateTime
-        );
-        shouldPlaceEvent && container.appendChild(createEventDiv(event));
-      });
+        const containerClass = view === "month" ? ".calendar__body__cell--calendar" :
+                               (view === "week" || view === "day") ? ".calendar__body__cell--calendar--day" :
+                               ".calendar__body__cell--calendar--day";
+        const eventContainers = document.querySelectorAll(containerClass);
+        eventContainers.forEach((container) => {
+            const containerDateTime = container.getAttribute("data-date");
+            const eventStartDateTime = event.date_from;
+            const eventEndDateTime = event.date_to || event.date_from;
+            if (event.event_type === "whole" && view === "day") {
+                const containerDate = containerDateTime.split(' ')[0];
+                const eventDate = eventStartDateTime.split(' ')[0];
+                if (containerDate === eventDate) {
+                    container.appendChild(createEventDiv(event));
+                }
+            } else {
+                const shouldPlaceEvent = isDateTimeInRange(containerDateTime, eventStartDateTime, eventEndDateTime, event.event_type);
+                if (shouldPlaceEvent || (event.event_type === "specific" && (view === "week" || view === "month") && containerDateTime.startsWith(eventStartDateTime.split(' ')[0]))) {
+                    container.appendChild(createEventDiv(event));
+                }
+            }
+        });
     });
-  };
+};
+
 
   //handle event placement inside the calendar
   const fetchEvents = () => {
