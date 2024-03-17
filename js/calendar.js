@@ -169,22 +169,28 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const generateDaysViewCalendarCells = () => {
-    clearCalendarCells(); //clear calendar cells
+    clearCalendarCells();
     generateCurrentDay();
-    updateDateDisplay(currentYear, currentMonth, currentDay);
-    //generate day time periods 30 min intervals
+    updateDateDisplay(currentYear, currentMonth, currentDay); 
     for (let i = 0; i < 48; i++) {
-      const hour = Math.floor(i / 2);
-      const minute = i % 2 === 0 ? "00" : "30";
-      const timeSlotDiv = document.createElement("div");
-      timeSlotDiv.classList.add(
-        "calendar__body__cell--calendar--day",
-        "calendar--hover"
-      );
-      timeSlotDiv.textContent = `${hour.toString().padStart(2, "0")}:${minute}`;
-      calendarDaysCellContainer.appendChild(timeSlotDiv);
+        const hour = Math.floor(i / 2);
+        const minute = i % 2 === 0 ? "00" : "30";
+        const timeSlotDiv = document.createElement("div");
+        timeSlotDiv.classList.add("calendar__body__cell--calendar--day", "calendar--hover");
+        timeSlotDiv.textContent = `${hour.toString().padStart(2, "0")}:${minute}`;
+        const dateTime = formatDayDate(currentYear, currentMonth + 1, currentDay, hour, minute);
+        timeSlotDiv.setAttribute("data-date", dateTime);
+        calendarDaysCellContainer.appendChild(timeSlotDiv);
     }
-  };
+};
+
+  function formatDayDate(year, month, day, hour = "00", minute = "00") {
+    const formattedMonth = month.toString().padStart(2, '0');
+    const formattedDay = day.toString().padStart(2, '0');
+    const formattedHour = hour.toString().padStart(2, '0');
+    const formattedMinute = minute.toString().padStart(2, '0');
+    return `${year}-${formattedMonth}-${formattedDay} ${formattedHour}:${formattedMinute}:00`;
+}
 
   const generateWeekDays = () => {
     const date = new Date(currentYear, currentMonth, currentDay);
@@ -258,6 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "day":
         generateDaysViewCalendarCells();
+        placeEventsInsideCalendar("day");
         break;
       default:
         generateDaysOfMonth();
@@ -286,12 +293,28 @@ document.addEventListener("DOMContentLoaded", () => {
   const placeEventsInsideCalendar = (view = "month") => {
     const events = JSON.parse(localStorage.getItem("events") || '[]');
     events.forEach((event) => {
-        const eventDateFrom = event.date_from.split(' ')[0];
+        const [eventDate, eventTime] = event.date_from.split(' ');
         const containerClass = view === "month" ? ".calendar__body__cell--calendar" : ".calendar__body__cell--calendar--day";
         const eventContainers = document.querySelectorAll(containerClass);
         eventContainers.forEach((container) => {
-            if (container.getAttribute('data-date') === eventDateFrom) {
-                container.appendChild(createEventDiv(event));
+            if (event.event_type === "whole") {
+                if (view === "day" && container.getAttribute('data-date').startsWith(eventDate)) {
+                    container.appendChild(createEventDiv(event));
+                } else {
+                    if (container.getAttribute('data-date') === eventDate) {
+                        container.appendChild(createEventDiv(event));
+                    }
+                }
+            } else {
+                if (view === "day") {
+                    if (container.getAttribute('data-date') === event.date_from) {
+                        container.appendChild(createEventDiv(event));
+                    }
+                } else {
+                    if (container.getAttribute('data-date') === eventDate) {
+                        container.appendChild(createEventDiv(event));
+                    }
+                }
             }
         });
     });
@@ -379,6 +402,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextDay.getMonth();
         currentDay = nextDay.getDate();
         generateDaysViewCalendarCells();
+        placeEventsInsideCalendar("day");
         break;
       default:
         if (currentMonth === 11) {
@@ -424,6 +448,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextDay.getMonth();
         currentDay = nextDay.getDate();
         generateDaysViewCalendarCells();
+        placeEventsInsideCalendar("day");
         break;
       default:
         //substract one month
