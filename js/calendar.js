@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     currentMonth = date.getMonth();
     //render new cells using current date info from date object
     renderCalendarCells(currentYear, currentMonth);
+    placeEventsInsideCalendar();
   };
 
   todayButton.addEventListener("click", returnToToday);
@@ -214,25 +215,24 @@ document.addEventListener("DOMContentLoaded", () => {
     updateDateDisplay(currentYear, currentMonth);
     const date = new Date(currentYear, currentMonth, currentDay);
     const dayOfWeek = date.getDay();
-    const startDate = new Date(date);
+    const startDate = new Date(date); 
     startDate.setDate(date.getDate() - dayOfWeek);
     for (let i = 0; i < 7; i++) {
-      const weekDayDate = new Date(startDate);
-      weekDayDate.setDate(startDate.getDate() + i);
+        const weekDayDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i);
+        
+        const container = document.createElement("div");
+        const dayName = daysOfWeek[weekDayDate.getDay()].slice(0, 3);
+        const month = weekDayDate.getMonth() + 1;
+        const day = weekDayDate.getDate();
+        const year = weekDayDate.getFullYear();
+        container.classList.add("calendar__body__cell--calendar--day", "calendar--hover");
+        container.textContent = `${dayName} ${month}/${day}`;
+        container.setAttribute("data-date", formatDate(year, month, day));
 
-      const container = document.createElement("div");
-      const dayName = daysOfWeek[weekDayDate.getDay()].slice(0, 3);
-      const month = weekDayDate.getMonth() + 1;
-      const day = weekDayDate.getDate();
-      container.classList.add(
-        "calendar__body__cell--calendar--day",
-        "calendar--hover"
-      );
-      container.textContent = `${dayName} ${month}/${day}`;
-      calendarWeeksCellContainer.appendChild(container);
+        calendarWeeksCellContainer.appendChild(container);
     }
     calendarWeeksCellContainer.style.justifyContent = "center";
-  };
+};
 
   //generate header container content
   const switchView = (event, view = null) => {
@@ -254,6 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
         break;
       case "week":
         generateWeeksViewCalendarCells();
+        placeEventsInsideCalendar("week");
         break;
       case "day":
         generateDaysViewCalendarCells();
@@ -282,22 +283,19 @@ document.addEventListener("DOMContentLoaded", () => {
     return eventDiv;
   };
 
-  const placeEventsInsideCalendar = () => {
-    const events = JSON.parse(localStorage.getItem("events") || '[]'); // Ensure default is a string that represents an empty array
+  const placeEventsInsideCalendar = (view = "month") => {
+    const events = JSON.parse(localStorage.getItem("events") || '[]');
     events.forEach((event) => {
-        // Extract just the date part in YYYY-MM-DD format
-        const eventDateFrom = event.date_from.split(' ')[0]; // Assumes date_from is in 'YYYY-MM-DD HH:MM:SS' format
-
-        const eventContainers = document.querySelectorAll(".calendar__body__cell--calendar");
+        const eventDateFrom = event.date_from.split(' ')[0];
+        const containerClass = view === "month" ? ".calendar__body__cell--calendar" : ".calendar__body__cell--calendar--day";
+        const eventContainers = document.querySelectorAll(containerClass);
         eventContainers.forEach((container) => {
-            // Use the data-date attribute to compare dates directly
             if (container.getAttribute('data-date') === eventDateFrom) {
                 container.appendChild(createEventDiv(event));
             }
         });
     });
 };
-
 
   //handle event placement inside the calendar
   const fetchEvents = () => {
@@ -371,6 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextWeek.getMonth();
         currentDay = nextWeek.getDate();
         generateWeeksViewCalendarCells();
+        placeEventsInsideCalendar("week");
         break;
       case "day":
         clearHeader();
@@ -415,6 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextWeek.getMonth();
         currentDay = nextWeek.getDate();
         generateWeeksViewCalendarCells();
+        placeEventsInsideCalendar("week");
         break;
       case "day":
         clearHeader();
