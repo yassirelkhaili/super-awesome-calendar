@@ -178,6 +178,7 @@ const eventForm = document.getElementById("AddEventModalForm");
 eventForm &&
   eventForm.addEventListener("submit", (event) => {
     event.preventDefault();
+    console.log(document.querySelector('input[name="date_from"]').value);
     const formData = new FormData(event.target);
     const formDataObj = {};
     for (const [key, value] of formData.entries()) {
@@ -188,12 +189,16 @@ eventForm &&
     fetch("http://localhost/backend/api/events.php", {
       method: "POST",
       body: JSON.stringify(formDataObj),
+      headers: {
+        'Content-Type': 'application/json',
+      }
     })
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
         toggleAddEventModal();
         alert(data.message);
+        if (data.success) window.location.reload(); //too lazy to do live calendar updates
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -206,7 +211,6 @@ eventForm &&
   });
 
 //generate day times 30 min intervals
-
 document.addEventListener("DOMContentLoaded", function () {
   var select = document.getElementById("time-select");
 
@@ -227,11 +231,8 @@ const dateInputs = document.querySelectorAll('.date-input');
 
 //helper function to disable or enable all input-like elements inside an input group
 const changeInputStatus = (inputGroup, disabled) => {
-  for (const child of inputGroup.children) {
-    if (child.tagName === 'INPUT' || child.tagName === 'SELECT') {
-      child.disabled = disabled;
-    }
-  }
+  const inputElements = inputGroup.querySelectorAll('input, select');
+  inputElements.forEach(inputElement => inputElement.disabled = disabled);
 };
 
 //initially hide and disable date inputs
@@ -248,6 +249,7 @@ const handleSelectChange = (event) => {
       changeInputStatus(dateInput, false); //enable inputs for the selected group
     } else {
       dateInput.style.display = "none";
+      console.log("accessed3")
       changeInputStatus(dateInput, true); //disable inputs for non-selected groups
     }
   });

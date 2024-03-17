@@ -282,27 +282,21 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const placeEventsInsideCalendar = () => {
-    const events = JSON.parse(localStorage.getItem("events") || []);
+    const events = JSON.parse(localStorage.getItem("events") || '[]'); // Ensure default is a string that represents an empty array
     events.forEach((event) => {
-      const eventDate = new Date(event.date_from);
-      const eventYear = eventDate.getFullYear();
-      const eventMonth = eventDate.getMonth();
-      const eventDay = eventDate.getDate().toString();
-      if (eventYear === currentYear && eventMonth === currentMonth) {
-        const eventContainers = document.querySelectorAll(
-          ".calendar__body__cell--calendar"
-        );
+        // Extract just the date part in YYYY-MM-DD format
+        const eventDateFrom = event.date_from.split(' ')[0]; // Assumes date_from is in 'YYYY-MM-DD HH:MM:SS' format
+
+        const eventContainers = document.querySelectorAll(".calendar__body__cell--calendar");
         eventContainers.forEach((container) => {
-          if (
-            container.textContent.trim() === eventDay &&
-            container.classList.contains("calendar__body__cell--white")
-          ) {
-            container.appendChild(createEventDiv(event));
-          }
+            // Use the data-date attribute to compare dates directly
+            if (container.getAttribute('data-date') === eventDateFrom) {
+                container.appendChild(createEventDiv(event));
+            }
         });
-      }
     });
-  };
+};
+
 
   //handle event placement inside the calendar
   const fetchEvents = () => {
@@ -444,5 +438,5 @@ document.addEventListener("DOMContentLoaded", () => {
   nextButton && nextButton.addEventListener("click", handleNextButtonClick);
   prevButton && prevButton.addEventListener("click", handlePrevButtonClick);
 
-  renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
+  renderCalendarCells(currentYear, currentMonth); //render initial calendar values
 });
