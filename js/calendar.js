@@ -83,6 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     currentMonth = date.getMonth();
     //render new cells using current date info from date object
     renderCalendarCells(currentYear, currentMonth);
+    placeEventsInsideCalendar();
   };
 
   todayButton.addEventListener("click", returnToToday);
@@ -168,10 +169,9 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const generateDaysViewCalendarCells = () => {
-    clearCalendarCells(); //clear calendar cells
+    clearCalendarCells();
     generateCurrentDay();
     updateDateDisplay(currentYear, currentMonth, currentDay);
-    //generate day time periods 30 min intervals
     for (let i = 0; i < 48; i++) {
       const hour = Math.floor(i / 2);
       const minute = i % 2 === 0 ? "00" : "30";
@@ -181,9 +181,25 @@ document.addEventListener("DOMContentLoaded", () => {
         "calendar--hover"
       );
       timeSlotDiv.textContent = `${hour.toString().padStart(2, "0")}:${minute}`;
+      const dateTime = formatDayDate(
+        currentYear,
+        currentMonth + 1,
+        currentDay,
+        hour,
+        minute
+      );
+      timeSlotDiv.setAttribute("data-date", dateTime);
       calendarDaysCellContainer.appendChild(timeSlotDiv);
     }
   };
+
+  function formatDayDate(year, month, day, hour = "00", minute = "00") {
+    const formattedMonth = month.toString().padStart(2, "0");
+    const formattedDay = day.toString().padStart(2, "0");
+    const formattedHour = hour.toString().padStart(2, "0");
+    const formattedMinute = minute.toString().padStart(2, "0");
+    return `${year}-${formattedMonth}-${formattedDay} ${formattedHour}:${formattedMinute}:00`;
+  }
 
   const generateWeekDays = () => {
     const date = new Date(currentYear, currentMonth, currentDay);
@@ -217,18 +233,24 @@ document.addEventListener("DOMContentLoaded", () => {
     const startDate = new Date(date);
     startDate.setDate(date.getDate() - dayOfWeek);
     for (let i = 0; i < 7; i++) {
-      const weekDayDate = new Date(startDate);
-      weekDayDate.setDate(startDate.getDate() + i);
+      const weekDayDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + i
+      );
 
       const container = document.createElement("div");
       const dayName = daysOfWeek[weekDayDate.getDay()].slice(0, 3);
       const month = weekDayDate.getMonth() + 1;
       const day = weekDayDate.getDate();
+      const year = weekDayDate.getFullYear();
       container.classList.add(
         "calendar__body__cell--calendar--day",
         "calendar--hover"
       );
       container.textContent = `${dayName} ${month}/${day}`;
+      container.setAttribute("data-date", formatDate(year, month, day));
+
       calendarWeeksCellContainer.appendChild(container);
     }
     calendarWeeksCellContainer.style.justifyContent = "center";
@@ -250,12 +272,15 @@ document.addEventListener("DOMContentLoaded", () => {
       case "month":
         generateDaysOfMonth();
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
       case "week":
         generateWeeksViewCalendarCells();
+        placeEventsInsideCalendar("week");
         break;
       case "day":
         generateDaysViewCalendarCells();
+        placeEventsInsideCalendar("day");
         break;
       default:
         generateDaysOfMonth();
@@ -271,7 +296,10 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   //create event div
-  const handleEventClick = () => {};
+  const handleEventClick = (event) => {
+    const target = event.target;
+    console.log(target);
+  };
 
   const createEventDiv = (event) => {
     const eventDiv = document.createElement("div");
@@ -281,26 +309,61 @@ document.addEventListener("DOMContentLoaded", () => {
     return eventDiv;
   };
 
-  const placeEventsInsideCalendar = () => {
-    const events = JSON.parse(localStorage.getItem("events") || []);
+  const placeEventsInsideCalendar = (view = "month") => {
+    const events = JSON.parse(localStorage.getItem("events") || "[]");
+    const isDateTimeInRange = (
+      containerDateTime,
+      startDateTime,
+      endDateTime,
+      eventType
+    ) => {
+      const dateTime = new Date(containerDateTime);
+      const start = new Date(startDateTime);
+      let end = new Date(endDateTime || startDateTime);
+      if (endDateTime && end.toDateString() !== start.toDateString()) {
+        end.setHours(23, 59, 0, 0);
+      }
+      if (eventType === "whole" && view === "day" && !endDateTime) {
+        end = new Date(startDateTime);
+        end.setHours(23, 59, 0, 0);
+      }
+      return dateTime >= start && dateTime <= end;
+    };
     events.forEach((event) => {
-      const eventDate = new Date(event.date_from);
-      const eventYear = eventDate.getFullYear();
-      const eventMonth = eventDate.getMonth();
-      const eventDay = eventDate.getDate().toString();
-      if (eventYear === currentYear && eventMonth === currentMonth) {
-        const eventContainers = document.querySelectorAll(
-          ".calendar__body__cell--calendar"
-        );
-        eventContainers.forEach((container) => {
+      const containerClass =
+        view === "month"
+          ? ".calendar__body__cell--calendar"
+          : view === "week" || view === "day"
+          ? ".calendar__body__cell--calendar--day"
+          : ".calendar__body__cell--calendar--day";
+      const eventContainers = document.querySelectorAll(containerClass);
+      eventContainers.forEach((container) => {
+        const containerDateTime = container.getAttribute("data-date");
+        const eventStartDateTime = event.date_from;
+        const eventEndDateTime = event.date_to || event.date_from;
+        if (event.event_type === "whole" && view === "day") {
+          const containerDate = containerDateTime.split(" ")[0];
+          const eventDate = eventStartDateTime.split(" ")[0];
+          if (containerDate === eventDate) {
+            container.appendChild(createEventDiv(event));
+          }
+        } else {
+          const shouldPlaceEvent = isDateTimeInRange(
+            containerDateTime,
+            eventStartDateTime,
+            eventEndDateTime,
+            event.event_type
+          );
           if (
-            container.textContent.trim() === eventDay &&
-            container.classList.contains("calendar__body__cell--white")
+            shouldPlaceEvent ||
+            (event.event_type === "specific" &&
+              (view === "week" || view === "month") &&
+              containerDateTime.startsWith(eventStartDateTime.split(" ")[0]))
           ) {
             container.appendChild(createEventDiv(event));
           }
-        });
-      }
+        }
+      });
     });
   };
 
@@ -349,7 +412,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //generate the remaining cells (next month)
     for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, "next");
     handleCellClick(currentDay, true); //highlight current date
-    placeEventsInsideCalendar();
   };
 
   //add event listeners
@@ -367,6 +429,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth += 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
       case "week":
         clearHeader();
@@ -376,6 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextWeek.getMonth();
         currentDay = nextWeek.getDate();
         generateWeeksViewCalendarCells();
+        placeEventsInsideCalendar("week");
         break;
       case "day":
         clearHeader();
@@ -385,6 +449,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextDay.getMonth();
         currentDay = nextDay.getDate();
         generateDaysViewCalendarCells();
+        placeEventsInsideCalendar("day");
         break;
       default:
         if (currentMonth === 11) {
@@ -394,6 +459,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth += 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
     }
   };
@@ -409,6 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
       case "week":
         //remove one week
@@ -418,6 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextWeek.getMonth();
         currentDay = nextWeek.getDate();
         generateWeeksViewCalendarCells();
+        placeEventsInsideCalendar("week");
         break;
       case "day":
         clearHeader();
@@ -427,6 +495,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentMonth = nextDay.getMonth();
         currentDay = nextDay.getDate();
         generateDaysViewCalendarCells();
+        placeEventsInsideCalendar("day");
         break;
       default:
         //substract one month
@@ -437,6 +506,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
     }
   };
@@ -444,5 +514,5 @@ document.addEventListener("DOMContentLoaded", () => {
   nextButton && nextButton.addEventListener("click", handleNextButtonClick);
   prevButton && prevButton.addEventListener("click", handlePrevButtonClick);
 
-  renderCalendarCells(currentYear, currentMonth); //render initial calendar values);
+  renderCalendarCells(currentYear, currentMonth); //render initial calendar values
 });

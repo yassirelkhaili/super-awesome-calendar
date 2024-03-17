@@ -19,19 +19,16 @@ switch ($method) {
         try {
             switch ($data->event_type) {
                 case 'multiple':
-                    echo "multiple";
                     $sql = "INSERT INTO awesomecalendar.events(name, date_from, date_to, event_type) VALUES(:name, :date_from, :date_to, :event_type)";
                     $stmt = $conn->prepare($sql);
                     $mainStmt = $stmt->execute([":name" => $data->name, ":date_from" => $data->date_from, ":date_to" => $data->date_to, ":event_type" => $data->event_type]);
                     break;
                 case 'whole':
-                    echo "whole";
                     $sql = "INSERT INTO awesomecalendar.events(name, date_from, event_type) VALUES(:name, :date_from, :event_type)";
                     $stmt = $conn->prepare($sql);
                     $mainStmt = $stmt->execute([":name" => $data->name, ":date_from" => $data->date_from, ":event_type" => $data->event_type]);
                     break;
                 case 'specific':
-                    //create datetime string
                     $sql = "INSERT INTO awesomecalendar.events(name, date_from, event_type) VALUES(:name, :date_from, :event_type)";
                     $stmt = $conn->prepare($sql);
                     $mainStmt = $stmt->execute([":name" => $data->name, ":date_from" => $data->date_from . ' ' . $data->time_from, ":event_type" => $data->event_type]);
