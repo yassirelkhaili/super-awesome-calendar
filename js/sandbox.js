@@ -249,7 +249,6 @@ const handleSelectChange = (event) => {
       changeInputStatus(dateInput, false); //enable inputs for the selected group
     } else {
       dateInput.style.display = "none";
-      console.log("accessed3")
       changeInputStatus(dateInput, true); //disable inputs for non-selected groups
     }
   });

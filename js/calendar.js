@@ -171,26 +171,35 @@ document.addEventListener("DOMContentLoaded", () => {
   const generateDaysViewCalendarCells = () => {
     clearCalendarCells();
     generateCurrentDay();
-    updateDateDisplay(currentYear, currentMonth, currentDay); 
+    updateDateDisplay(currentYear, currentMonth, currentDay);
     for (let i = 0; i < 48; i++) {
-        const hour = Math.floor(i / 2);
-        const minute = i % 2 === 0 ? "00" : "30";
-        const timeSlotDiv = document.createElement("div");
-        timeSlotDiv.classList.add("calendar__body__cell--calendar--day", "calendar--hover");
-        timeSlotDiv.textContent = `${hour.toString().padStart(2, "0")}:${minute}`;
-        const dateTime = formatDayDate(currentYear, currentMonth + 1, currentDay, hour, minute);
-        timeSlotDiv.setAttribute("data-date", dateTime);
-        calendarDaysCellContainer.appendChild(timeSlotDiv);
+      const hour = Math.floor(i / 2);
+      const minute = i % 2 === 0 ? "00" : "30";
+      const timeSlotDiv = document.createElement("div");
+      timeSlotDiv.classList.add(
+        "calendar__body__cell--calendar--day",
+        "calendar--hover"
+      );
+      timeSlotDiv.textContent = `${hour.toString().padStart(2, "0")}:${minute}`;
+      const dateTime = formatDayDate(
+        currentYear,
+        currentMonth + 1,
+        currentDay,
+        hour,
+        minute
+      );
+      timeSlotDiv.setAttribute("data-date", dateTime);
+      calendarDaysCellContainer.appendChild(timeSlotDiv);
     }
-};
+  };
 
   function formatDayDate(year, month, day, hour = "00", minute = "00") {
-    const formattedMonth = month.toString().padStart(2, '0');
-    const formattedDay = day.toString().padStart(2, '0');
-    const formattedHour = hour.toString().padStart(2, '0');
-    const formattedMinute = minute.toString().padStart(2, '0');
+    const formattedMonth = month.toString().padStart(2, "0");
+    const formattedDay = day.toString().padStart(2, "0");
+    const formattedHour = hour.toString().padStart(2, "0");
+    const formattedMinute = minute.toString().padStart(2, "0");
     return `${year}-${formattedMonth}-${formattedDay} ${formattedHour}:${formattedMinute}:00`;
-}
+  }
 
   const generateWeekDays = () => {
     const date = new Date(currentYear, currentMonth, currentDay);
@@ -221,24 +230,31 @@ document.addEventListener("DOMContentLoaded", () => {
     updateDateDisplay(currentYear, currentMonth);
     const date = new Date(currentYear, currentMonth, currentDay);
     const dayOfWeek = date.getDay();
-    const startDate = new Date(date); 
+    const startDate = new Date(date);
     startDate.setDate(date.getDate() - dayOfWeek);
     for (let i = 0; i < 7; i++) {
-        const weekDayDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + i);
-        
-        const container = document.createElement("div");
-        const dayName = daysOfWeek[weekDayDate.getDay()].slice(0, 3);
-        const month = weekDayDate.getMonth() + 1;
-        const day = weekDayDate.getDate();
-        const year = weekDayDate.getFullYear();
-        container.classList.add("calendar__body__cell--calendar--day", "calendar--hover");
-        container.textContent = `${dayName} ${month}/${day}`;
-        container.setAttribute("data-date", formatDate(year, month, day));
+      const weekDayDate = new Date(
+        startDate.getFullYear(),
+        startDate.getMonth(),
+        startDate.getDate() + i
+      );
 
-        calendarWeeksCellContainer.appendChild(container);
+      const container = document.createElement("div");
+      const dayName = daysOfWeek[weekDayDate.getDay()].slice(0, 3);
+      const month = weekDayDate.getMonth() + 1;
+      const day = weekDayDate.getDate();
+      const year = weekDayDate.getFullYear();
+      container.classList.add(
+        "calendar__body__cell--calendar--day",
+        "calendar--hover"
+      );
+      container.textContent = `${dayName} ${month}/${day}`;
+      container.setAttribute("data-date", formatDate(year, month, day));
+
+      calendarWeeksCellContainer.appendChild(container);
     }
     calendarWeeksCellContainer.style.justifyContent = "center";
-};
+  };
 
   //generate header container content
   const switchView = (event, view = null) => {
@@ -291,34 +307,38 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   const placeEventsInsideCalendar = (view = "month") => {
-    const events = JSON.parse(localStorage.getItem("events") || '[]');
+    const events = JSON.parse(localStorage.getItem("events") || "[]");
+    const isDateTimeInRange = (
+      containerDateTime,
+      startDateTime,
+      endDateTime
+    ) => {
+      const dateTime = new Date(containerDateTime);
+      const start = new Date(startDateTime);
+      const end = new Date(endDateTime || startDateTime);
+      return dateTime >= start && dateTime <= end;
+    };
     events.forEach((event) => {
-        const [eventDate, eventTime] = event.date_from.split(' ');
-        const containerClass = view === "month" ? ".calendar__body__cell--calendar" : ".calendar__body__cell--calendar--day";
-        const eventContainers = document.querySelectorAll(containerClass);
-        eventContainers.forEach((container) => {
-            if (event.event_type === "whole") {
-                if (view === "day" && container.getAttribute('data-date').startsWith(eventDate)) {
-                    container.appendChild(createEventDiv(event));
-                } else {
-                    if (container.getAttribute('data-date') === eventDate) {
-                        container.appendChild(createEventDiv(event));
-                    }
-                }
-            } else {
-                if (view === "day") {
-                    if (container.getAttribute('data-date') === event.date_from) {
-                        container.appendChild(createEventDiv(event));
-                    }
-                } else {
-                    if (container.getAttribute('data-date') === eventDate) {
-                        container.appendChild(createEventDiv(event));
-                    }
-                }
-            }
-        });
+      const containerClass =
+        view === "month"
+          ? ".calendar__body__cell--calendar"
+          : view === "week"
+          ? ".calendar__body__cell--calendar--day"
+          : ".calendar__body__cell--calendar--day";
+      const eventContainers = document.querySelectorAll(containerClass);
+      eventContainers.forEach((container) => {
+        const containerDateTime = container.getAttribute("data-date");
+        const eventStartDateTime = event.date_from;
+        const eventEndDateTime = event.date_to || event.date_from;
+        const shouldPlaceEvent = isDateTimeInRange(
+          containerDateTime,
+          eventStartDateTime,
+          eventEndDateTime
+        );
+        shouldPlaceEvent && container.appendChild(createEventDiv(event));
+      });
     });
-};
+  };
 
   //handle event placement inside the calendar
   const fetchEvents = () => {
