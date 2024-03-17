@@ -32,6 +32,16 @@ CREATE TABLE `categories` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `categories`
+--
+
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` VALUES (1,'category1','#ff0000'),(4,'category2','#000000');
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `event_category`
 --
 
@@ -49,6 +59,16 @@ CREATE TABLE `event_category` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `event_category`
+--
+
+LOCK TABLES `event_category` WRITE;
+/*!40000 ALTER TABLE `event_category` DISABLE KEYS */;
+INSERT INTO `event_category` VALUES (31,1),(32,4),(33,4);
+/*!40000 ALTER TABLE `event_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `events`
 --
 
@@ -62,8 +82,18 @@ CREATE TABLE `events` (
   `date_to` datetime DEFAULT NULL,
   `event_type` enum('whole','specific','multiple') NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `events`
+--
+
+LOCK TABLES `events` WRITE;
+/*!40000 ALTER TABLE `events` DISABLE KEYS */;
+INSERT INTO `events` VALUES (31,'specific time','2024-03-20 04:30:00',NULL,'specific'),(32,'whole day','2024-03-30 00:00:00',NULL,'whole'),(33,'multiple day','2024-03-04 00:00:00','2024-03-09 00:00:00','multiple');
+/*!40000 ALTER TABLE `events` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -74,4 +104,4 @@ CREATE TABLE `events` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-17 11:48:50
+-- Dump completed on 2024-03-17 18:32:42

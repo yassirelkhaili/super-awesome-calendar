@@ -58,7 +58,7 @@
              <div class="first-section__body__input__group date-input" id="whole">
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
-                     <?php $placeholder = 'Select start date';
+                     <?php $placeholder = 'Select date';
                         $datepicker = 'datepickerwhole';
                         $datepickerInput = 'datepicker__inputwhole';
                         $datepickerContainer = 'toggle-calendarwhole';
@@ -74,7 +74,7 @@
                  <div>
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
-                     <?php $placeholder = 'Select start date';
+                     <?php $placeholder = 'Select date';
                         $datepicker = 'datepickerspecific';
                         $datepickerInput = 'datepicker__inputspecific';
                         $datepickerContainer = 'toggle-calendarspecific';

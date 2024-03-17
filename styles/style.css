@@ -21,6 +21,8 @@
 body {
   font-family: "Rubik", sans-serif;
   font-weight: 100;
+  display: flex;
+  justify-content: center;
   background-color: var(--body_color);
 }
 
