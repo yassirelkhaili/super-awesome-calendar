@@ -250,6 +250,7 @@ document.addEventListener("DOMContentLoaded", () => {
       case "month":
         generateDaysOfMonth();
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
       case "week":
         generateWeeksViewCalendarCells();
@@ -343,7 +344,6 @@ document.addEventListener("DOMContentLoaded", () => {
     //generate the remaining cells (next month)
     for (let i = 1; i <= nextMonthDays; i++) generateCalendarCell(i, "next");
     handleCellClick(currentDay, true); //highlight current date
-    placeEventsInsideCalendar();
   };
 
   //add event listeners
@@ -361,6 +361,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth += 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
       case "week":
         clearHeader();
@@ -388,6 +389,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth += 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
     }
   };
@@ -403,6 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
       case "week":
         //remove one week
@@ -431,6 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
           currentMonth -= 1;
         }
         renderCalendarCells(currentYear, currentMonth);
+        placeEventsInsideCalendar();
         break;
     }
   };
