@@ -295,16 +295,69 @@ document.addEventListener("DOMContentLoaded", () => {
     viewButton.addEventListener("click", switchView);
   });
 
+  //toggle Manage Event Modal
+const manageEventModal = document.getElementById("first-section-choice");
+const closeEventModal = document.getElementById(
+  "first-section__close__btn__choice"
+);
+const deleteEventButton = document.getElementById("deleteEventButton");
+
+const toggleBackdrop = () => {
+  const backdrop = document.getElementById("modalBackDrop");
+  backdrop.classList.toggle("hidden");
+  backdrop.classList.toggle("flex");
+};
+
+const toggleScrollbar = () => {
+  document.body.style.overflow =
+    document.body.style.overflow === "hidden" ? "visible" : "hidden";
+};
+
+const toggleManageEventModal = () => {
+  toggleScrollbar();
+  toggleBackdrop();
+  manageEventModal.classList.toggle("hidden");
+  manageEventModal.classList.toggle("fadeIn");
+  manageEventModal.classList.toggle("flex");
+};
+
+closeEventModal.addEventListener('click', () => {
+    toggleManageEventModal();
+});
+
+const handleEventDelete = (eventId) => {
+    fetch(`http://localhost/backend/api/events.php?id=${eventId}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+    })
+    .then(data => {
+        console.log("Delete successful:", data);
+        fetchEvents();
+    })
+    .catch(error => {
+        console.error("Error deleting event:", error);
+    });
+};
+
+
   //create event div
   const handleEventClick = (event) => {
     const target = event.target;
-    console.log(target);
+    const eventId = target.getAttribute("data-id");
+    deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
+    const currentDeleteEventHandler = () => handleEventDelete(eventId);
+    deleteEventButton.addEventListener("click", currentDeleteEventHandler);
+    toggleManageEventModal();
   };
 
   const createEventDiv = (event) => {
     const eventDiv = document.createElement("div");
     eventDiv.classList.add("event");
     eventDiv.textContent = event.name;
+    eventDiv.setAttribute("data-id", event.id);
     eventDiv.addEventListener("click", handleEventClick);
     return eventDiv;
   };

@@ -12,6 +12,8 @@
   --modal_sections_border_color: #747c8a;
   --body_color: #f5f6f8;
   --buttons_ring_color: #93c5fd;
+  --delete_button_color: #E02424;
+  --edit_button_color: #E3A008;
 }
 
 * {
@@ -243,6 +245,36 @@ body {
   justify-content: center;
   align-items: center;
   background-color: var(--cell_focus_background_color);
+  color: var(--cell_focus_color);
+  width: 64px;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px gray;
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.calendar__nav__container__Button--delete {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--delete_button_color);
+  color: var(--cell_focus_color);
+  width: 64px;
+  cursor: pointer;
+  box-shadow: 0px 0px 2px gray;
+  border: none;
+  outline: none;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.calendar__nav__container__Button--edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--edit_button_color);
   color: var(--cell_focus_color);
   width: 64px;
   cursor: pointer;
@@ -556,3 +588,14 @@ body {
 .calendar__nav__container__interfaceButton:hover {
   background-color: #1b5bda;
 }
+
+.manage-event-modal_buttons {
+  display: flex;
+  width: 100%;
+  padding: 0rem 1rem;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+

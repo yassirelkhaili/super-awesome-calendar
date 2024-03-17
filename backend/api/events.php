@@ -54,11 +54,26 @@ switch ($method) {
 
         break;
     case "DELETE":
-        $id = explode("/", $_SERVER["REQUEST_URI"])[4];
-        if (isset($id) && is_numeric($id)) {
-            $sql = "DELETE from awesomecalendar.events WHERE id=:id";
-            $stmt = $conn->prepare($sql);
-            $stmt->execute([":id" => $id]);
+        if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+            if (isset($_GET['id'])) {
+                $eventId = $_GET['id'];
+                $conn->beginTransaction();
+                try {
+                    $sqlEventCategory = "DELETE FROM awesomecalendar.event_category WHERE event_id = :eventId";
+                    $stmtEventCategory = $conn->prepare($sqlEventCategory);
+                    $stmtEventCategory->execute([":eventId" => $eventId]);
+                    $sqlEvent = "DELETE FROM awesomecalendar.events WHERE id = :eventId";
+                    $stmtEvent = $conn->prepare($sqlEvent);
+                    $stmtEvent->execute([":eventId" => $eventId]);
+                    $conn->commit();
+                    echo json_encode(["success" => true, "message" => "Event deleted successfully"]);
+                } catch (Exception $e) {
+                    $conn->rollBack();
+                    echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
+                }
+            } else {
+                echo json_encode(["success" => false, "message" => "Error: No eventId provided"]);
+            }
         }
         break;
 }
