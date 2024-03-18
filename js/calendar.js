@@ -408,20 +408,21 @@ const populateCategoryDropdown = () => {
 
   populateCategoryDropdown();
 
-  //generate day times 30 min intervals
-document.addEventListener("DOMContentLoaded", function () {
-    var select = document.getElementById("time-select-edit");
-    for (var hour = 0; hour < 24; hour++) {
-      for (var minute = 0; minute < 60; minute += 30) {
-        var hourFormatted = hour.toString().padStart(2, "0");
-        var minuteFormatted = minute.toString().padStart(2, "0");
-        var timeValue = hourFormatted + ":" + minuteFormatted;
-        var option = new Option(timeValue, timeValue);
-        select.appendChild(option);
-      }
-    }
-  });
 
+  // Function to generate time options
+const generateTimeOptions = () => {
+    const select = document.getElementById("time-select-edit");
+    select.innerHTML = ''; // Clear existing options
+    for (let hour = 0; hour < 24; hour++) {
+        for (let minute = 0; minute < 60; minute += 30) {
+            const hourFormatted = hour.toString().padStart(2, "0");
+            const minuteFormatted = minute.toString().padStart(2, "0");
+            const timeValue = `${hourFormatted}:${minuteFormatted}`;
+            const option = new Option(timeValue, timeValue);
+            select.appendChild(option);
+        }
+    }
+};
 selectdropdown.addEventListener('change', handleSelectChange);
 const populateEditEventModal = (event) => {
     document.querySelector('#EditEventModalForm input[name="name"]').value = event.name;
@@ -438,6 +439,8 @@ const populateEditEventModal = (event) => {
         selectedDateInput.style.display = "flex";
         changeInputStatus(selectedDateInput, false);
     if (event.event_type === "specific") {
+          //generate day times 30 min intervals
+          generateTimeOptions();
         const [date, time] = event.date_from.split(' ');
         document.getElementById('datepicker__inputspecificedit').value = date;
         document.querySelector('#time-select-edit').value = time.substring(0, 5);
