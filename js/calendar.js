@@ -296,101 +296,103 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   //toggle Manage Event Modal
-const manageEventModal = document.getElementById("first-section-choice");
-const closeEventModal = document.getElementById(
-  "first-section__close__btn__choice"
-);
-const deleteEventButton = document.getElementById("deleteEventButton");
-const editForm = document.querySelector(".first-section-edit");
-const editFormCloseButton = document.getElementById("first-section__close__btn__edit");
+  const manageEventModal = document.getElementById("first-section-choice");
+  const closeEventModal = document.getElementById(
+    "first-section__close__btn__choice"
+  );
+  const deleteEventButton = document.getElementById("deleteEventButton");
+  const editForm = document.querySelector(".first-section-edit");
+  const editFormCloseButton = document.getElementById(
+    "first-section__close__btn__edit"
+  );
 
-const toggleBackdrop = () => {
-  const backdrop = document.getElementById("modalBackDrop");
-  backdrop.classList.toggle("hidden");
-  backdrop.classList.toggle("flex");
-};
+  const toggleBackdrop = () => {
+    const backdrop = document.getElementById("modalBackDrop");
+    backdrop.classList.toggle("hidden");
+    backdrop.classList.toggle("flex");
+  };
 
-const toggleScrollbar = () => {
-  document.body.style.overflow =
-    document.body.style.overflow === "hidden" ? "visible" : "hidden";
-};
+  const toggleScrollbar = () => {
+    document.body.style.overflow =
+      document.body.style.overflow === "hidden" ? "visible" : "hidden";
+  };
 
-const toggleManageEventModal = () => {
-  toggleScrollbar();
-  toggleBackdrop();
-  manageEventModal.classList.toggle("hidden");
-  manageEventModal.classList.toggle("fadeIn");
-  manageEventModal.classList.toggle("flex");
-};
+  const toggleManageEventModal = () => {
+    toggleScrollbar();
+    toggleBackdrop();
+    manageEventModal.classList.toggle("hidden");
+    manageEventModal.classList.toggle("fadeIn");
+    manageEventModal.classList.toggle("flex");
+  };
 
-closeEventModal.addEventListener('click', () => {
+  closeEventModal.addEventListener("click", () => {
     toggleManageEventModal();
-});
+  });
 
-//close modals on outside click
-const backdrop = document.getElementById("modalBackDrop");
+  //close modals on outside click
+  const backdrop = document.getElementById("modalBackDrop");
 
-backdrop.addEventListener("click", () => {
+  backdrop.addEventListener("click", () => {
     !manageEventModal.classList.contains("hidden") && toggleManageEventModal();
     !editForm.classList.contains("hidden") && toggleEditForm();
-});
+  });
 
-const handleEventDelete = (eventId) => {
+  const handleEventDelete = (eventId) => {
     fetch(`http://localhost/backend/api/events.php?id=${eventId}`, {
-        method: 'DELETE',
+      method: "DELETE",
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Network response was not ok');
+      .then((response) => {
+        if (!response.ok) throw new Error("Network response was not ok");
         return response.json();
-    })
-    .then(data => {
+      })
+      .then((data) => {
         console.log("Delete successful:", data);
         if (data.success) window.location.reload(); //again too lazy for live calendar update feature
-    })
-    .catch(error => {
+      })
+      .catch((error) => {
         console.error("Error deleting event:", error);
-    });
-};
+      });
+  };
 
-const toggleEditForm = () => {
+  const toggleEditForm = () => {
     toggleScrollbar();
     toggleBackdrop();
     editForm.classList.toggle("hidden");
     editForm.classList.toggle("fadeIn");
     editForm.classList.toggle("flex");
-}
+  };
 
-editFormCloseButton.addEventListener("click", toggleEditForm);
-//handle date input show/hide depending on event type
-const selectdropdown = document.getElementById('event-types-edit');
-const dateInputs = document.querySelectorAll('.date-input-edit');
+  editFormCloseButton.addEventListener("click", toggleEditForm);
+  //handle date input show/hide depending on event type
+  const selectdropdown = document.getElementById("event-types-edit");
+  const dateInputs = document.querySelectorAll(".date-input-edit");
 
-//helper function to disable or enable all input-like elements inside an input group
-const changeInputStatus = (inputGroup, disabled) => {
-  const inputElements = inputGroup.querySelectorAll('input, select');
-  inputElements.forEach(inputElement => inputElement.disabled = disabled);
-};
+  //helper function to disable or enable all input-like elements inside an input group
+  const changeInputStatus = (inputGroup, disabled) => {
+    const inputElements = inputGroup.querySelectorAll("input, select");
+    inputElements.forEach((inputElement) => (inputElement.disabled = disabled));
+  };
 
-//initially hide and disable date inputs
-dateInputs.forEach((input) => {
-  input.style.display = "none";
-  changeInputStatus(input, true); //initially disable inputs
-});
-
-const handleSelectChange = (event) => {
-  const selectedValue = event.target.value;
-  dateInputs.forEach((dateInput) => {
-    if (dateInput.id === selectedValue) {
-      dateInput.style.display = "flex";
-      changeInputStatus(dateInput, false); //enable inputs for the selected group
-    } else {
-      dateInput.style.display = "none";
-      changeInputStatus(dateInput, true); //disable inputs for non-selected groups
-    }
+  //initially hide and disable date inputs
+  dateInputs.forEach((input) => {
+    input.style.display = "none";
+    changeInputStatus(input, true); //initially disable inputs
   });
-};
 
-const populateCategoryDropdown = () => {
+  const handleSelectChange = (event) => {
+    const selectedValue = event.target.value;
+    dateInputs.forEach((dateInput) => {
+      if (dateInput.id === selectedValue) {
+        dateInput.style.display = "flex";
+        changeInputStatus(dateInput, false); //enable inputs for the selected group
+      } else {
+        dateInput.style.display = "none";
+        changeInputStatus(dateInput, true); //disable inputs for non-selected groups
+      }
+    });
+  };
+
+  const populateCategoryDropdown = () => {
     const generateCategoryOption = (category) => {
       const formSelect = document.getElementById("categories-edit");
       const option = document.createElement("option");
@@ -408,82 +410,138 @@ const populateCategoryDropdown = () => {
 
   populateCategoryDropdown();
 
-
   // Function to generate time options
-const generateTimeOptions = () => {
+  const generateTimeOptions = () => {
     const select = document.getElementById("time-select-edit");
-    select.innerHTML = ''; // Clear existing options
+    select.innerHTML = ""; // Clear existing options
     for (let hour = 0; hour < 24; hour++) {
-        for (let minute = 0; minute < 60; minute += 30) {
-            const hourFormatted = hour.toString().padStart(2, "0");
-            const minuteFormatted = minute.toString().padStart(2, "0");
-            const timeValue = `${hourFormatted}:${minuteFormatted}`;
-            const option = new Option(timeValue, timeValue);
-            select.appendChild(option);
-        }
+      for (let minute = 0; minute < 60; minute += 30) {
+        const hourFormatted = hour.toString().padStart(2, "0");
+        const minuteFormatted = minute.toString().padStart(2, "0");
+        const timeValue = `${hourFormatted}:${minuteFormatted}`;
+        const option = new Option(timeValue, timeValue);
+        select.appendChild(option);
+      }
     }
-};
-selectdropdown.addEventListener('change', handleSelectChange);
-const populateEditEventModal = (event) => {
-    document.querySelector('#EditEventModalForm input[name="name"]').value = event.name;
-    const eventTypeSelect = document.querySelector('#event-types-edit');
+  };
+  selectdropdown.addEventListener("change", handleSelectChange);
+  const populateEditEventModal = (event) => {
+    document.querySelector('#EditEventModalForm input[name="name"]').value =
+      event.name;
+    const eventTypeSelect = document.querySelector("#event-types-edit");
     eventTypeSelect.value = event.event_type;
-    document.querySelector('#categories-edit').value = event.category_id || '';
-    const dateInputs = document.querySelectorAll('.date-input-edit');
+    document.querySelector("#categories-edit").value = event.category_id || "";
+    const dateInputs = document.querySelectorAll(".date-input-edit");
     dateInputs.forEach((input) => {
-        input.style.display = "none";
-        changeInputStatus(input, true);
+      input.style.display = "none";
+      changeInputStatus(input, true);
     });
-    const selectedDateInput = document.querySelector(`.date-input-edit#${event.event_type}`);
+    const selectedDateInput = document.querySelector(
+      `.date-input-edit#${event.event_type}`
+    );
     if (selectedDateInput) {
-        selectedDateInput.style.display = "flex";
-        changeInputStatus(selectedDateInput, false);
-    if (event.event_type === "specific") {
-          //generate day times 30 min intervals
-          generateTimeOptions();
-        const [date, time] = event.date_from.split(' ');
-        document.getElementById('datepicker__inputspecificedit').value = date;
-        document.querySelector('#time-select-edit').value = time.substring(0, 5);
-    } else if (event.event_type === "whole") {
-        document.getElementById('datepicker__inputwholeedit').value = event.date_from.split(' ')[0];
-    } else if (event.event_type === "multiple") {
-        document.getElementById('datepicker__inputedit').value = event.date_from.split(' ')[0];
+      selectedDateInput.style.display = "flex";
+      changeInputStatus(selectedDateInput, false);
+      if (event.event_type === "specific") {
+        //generate day times 30 min intervals
+        generateTimeOptions();
+        const [date, time] = event.date_from.split(" ");
+        document.getElementById("datepicker__inputspecificedit").value = date;
+        document.querySelector("#time-select-edit").value = time.substring(
+          0,
+          5
+        );
+      } else if (event.event_type === "whole") {
+        document.getElementById("datepicker__inputwholeedit").value =
+          event.date_from.split(" ")[0];
+      } else if (event.event_type === "multiple") {
+        document.getElementById("datepicker__inputedit").value =
+          event.date_from.split(" ")[0];
         if (event.date_to) {
-            document.getElementById('datepickerto__inputedit').value = event.date_to.split(' ')[0];
+          document.getElementById("datepickerto__inputedit").value =
+            event.date_to.split(" ")[0];
         }
+      }
     }
-}};
+  };
 
-const handleEventEdit = (eventId) => {
+  //toggle spinner
+  const isLoading = () => {
+    const loader = document.querySelector(".loader");
+    const submitButton = loader.closest("button");
+    loader.classList.toggle("hidden");
+    submitButton.disabled = true;
+  };
+
+  const editEventForm = document.getElementById("EditEventModalForm");
+
+  const handleEditEvent = (eventId) => {
+    editEventForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      const formDataObj = { id: eventId };
+      for (const [key, value] of formData.entries()) {
+        formDataObj[key] = value;
+      }
+      // isLoading();
+      fetch(`http://localhost/backend/api/events.php?id=${eventId}`, {
+        method: "PUT",
+        body: JSON.stringify(formDataObj),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+        })
+        .then((data) => {
+          console.log("Success:", data);
+          toggleEditForm();
+          alert(data.message);
+          if(data.success) window.location.reload();
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          toggleEditForm();
+          alert("An error occurred, please try again later.");
+        })
+        .finally(() => {
+          isLoading();
+        });
+    });
+  };
+
+  const handleEventEdit = (eventId) => {
     toggleManageEventModal();
     toggleEditForm();
     const events = JSON.parse(localStorage.getItem("events") || "[]");
-    const event = events.find(event => event.id == eventId);
-    if (event) {
-        populateEditEventModal(event);
+    const foundEvent = events.find((event) => event.id == eventId);
+    if (foundEvent) {
+      populateEditEventModal(foundEvent);
     } else {
-        console.error("Event not found");
+      console.error("Event not found");
     }
-};
-let currentDeleteEventHandler = null;
-let currentEditEventHandler = null;
+    handleEditEvent(eventId);
+  };
+  let currentDeleteEventHandler = null;
+  let currentEditEventHandler = null;
   //create event div
   const handleEventClick = (event) => {
     const target = event.target;
     const eventId = target.getAttribute("data-id");
     if (currentDeleteEventHandler) {
-        deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
+      deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
     }
     if (currentEditEventHandler) {
-        editEventButton.removeEventListener("click", currentEditEventHandler);
+      editEventButton.removeEventListener("click", currentEditEventHandler);
     }
     currentDeleteEventHandler = () => handleEventDelete(eventId);
     deleteEventButton.addEventListener("click", currentDeleteEventHandler);
     currentEditEventHandler = () => handleEventEdit(eventId);
     editEventButton.addEventListener("click", currentEditEventHandler);
     toggleManageEventModal();
-};
-
+  };
 
   const createEventDiv = (event) => {
     const eventDiv = document.createElement("div");

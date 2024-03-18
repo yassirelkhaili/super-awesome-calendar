@@ -72,31 +72,31 @@
              </div>
              <div class="first-section__body__input__group--row date-input-edit" id="specific">
                  <div>
-                 <label for="date" class="first-section__body__label">Date</label>
-                 <div class="date__picker__container">
-                     <?php $placeholder = 'Select date';
-                        $datepicker = 'datepickerspecificedit';
-                        $datepickerInput = 'datepicker__inputspecificedit';
-                        $datepickerContainer = 'toggle-calendarspecificedit';
-                        $calendarBody = 'calendar__body__cellsspecificedit';
-                        $calendarDisplay = 'calendarDisplayspecificedit';
-                        $nextButton = 'nextButtonFromspecificedit';
-                        $prevButton = 'prevButtonFromspecificedit';
-                        $inputName = "date_from";
-                        include "./components/datepicker.php" ?>
-                 </div>
+                     <label for="date" class="first-section__body__label">Date</label>
+                     <div class="date__picker__container">
+                         <?php $placeholder = 'Select date';
+                            $datepicker = 'datepickerspecificedit';
+                            $datepickerInput = 'datepicker__inputspecificedit';
+                            $datepickerContainer = 'toggle-calendarspecificedit';
+                            $calendarBody = 'calendar__body__cellsspecificedit';
+                            $calendarDisplay = 'calendarDisplayspecificedit';
+                            $nextButton = 'nextButtonFromspecificedit';
+                            $prevButton = 'prevButtonFromspecificedit';
+                            $inputName = "date_from";
+                            include "./components/datepicker.php" ?>
+                     </div>
                  </div>
                  <span class="seperator" style="margin-top: 20px;">to</span>
                  <div>
-                 <label for="time-select-edit" class="first-section__body__label">Time</label>
-                 <select id="time-select-edit" class="first-section__body__select" name="time_from">
-                 <option selected disabled>Select time</option>
-                 </select>
+                     <label for="time-select-edit" class="first-section__body__label">Time</label>
+                     <select id="time-select-edit" class="first-section__body__select" name="time_from">
+                         <option selected disabled>Select time</option>
+                     </select>
                  </div>
              </div>
          </div>
          <div class="first-section__footer">
-             <button id="formSubmitButton" class="calendar__nav__container__Button--wide calendar__nav__container__Button">Edit Event</button>
+             <button id="editEventFormButton" class="calendar__nav__container__Button--wide calendar__nav__container__Button" type="submit">Edit Event</button>
          </div>
      </form>
  </div>
