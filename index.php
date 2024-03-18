@@ -46,5 +46,6 @@
     <div id="modalBackDrop" class="modalBackDrop hidden"></div>
     <?php include "./partials/eventmodal.php" ?>
     <?php include "./partials/categorymodal.php" ?>
+    <?php include "./partials/choicemodal.php" ?>
 </body>
 </html>

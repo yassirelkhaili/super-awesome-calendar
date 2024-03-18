@@ -178,7 +178,6 @@ const eventForm = document.getElementById("AddEventModalForm");
 eventForm &&
   eventForm.addEventListener("submit", (event) => {
     event.preventDefault();
-    console.log(document.querySelector('input[name="date_from"]').value);
     const formData = new FormData(event.target);
     const formDataObj = {};
     for (const [key, value] of formData.entries()) {
