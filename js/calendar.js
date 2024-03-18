@@ -301,7 +301,7 @@ const closeEventModal = document.getElementById(
   "first-section__close__btn__choice"
 );
 const deleteEventButton = document.getElementById("deleteEventButton");
-
+const editDeleteButton = document.getElementById("editEventButton");
 const toggleBackdrop = () => {
   const backdrop = document.getElementById("modalBackDrop");
   backdrop.classList.toggle("hidden");
@@ -328,7 +328,9 @@ closeEventModal.addEventListener('click', () => {
 //close modals on outside click
 const backdrop = document.getElementById("modalBackDrop");
 
-backdrop.addEventListener("click", toggleManageEventModal);
+backdrop.addEventListener("click", () => {
+    !manageEventModal.classList.contains("hidden") && toggleManageEventModal();
+});
 
 const handleEventDelete = (eventId) => {
     fetch(`http://localhost/backend/api/events.php?id=${eventId}`, {
@@ -347,6 +349,18 @@ const handleEventDelete = (eventId) => {
     });
 };
 
+const toggleEditForm = () => {
+    toggleManageEventModal();
+    const editForm = document.querySelector(".first-section-edit");
+    editForm.classList.toggle('hidden');
+}
+
+const handleEventEdit = (eventId) => {
+    // toggleEditForm();
+    const events = localStorage.getItem("events") || [];
+   console.log(events)
+};
+
   //create event div
   const handleEventClick = (event) => {
     const target = event.target;
@@ -355,6 +369,9 @@ const handleEventDelete = (eventId) => {
     deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
     deleteEventButton.addEventListener("click", currentDeleteEventHandler);
     toggleManageEventModal();
+    const currentEditEventHandler = () => handleEventEdit(eventId);
+    editDeleteButton.removeEventListener("click", currentEditEventHandler);
+    editDeleteButton.addEventListener("click", currentEditEventHandler);
   };
 
   const createEventDiv = (event) => {

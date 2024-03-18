@@ -44,7 +44,42 @@ datepicker(
   "nextButtonFromspecific",
   "prevButtonFromspecific"
 );
-
+datepicker(
+  "datepickeredit",
+  "datepicker__inputedit",
+  "toggle-calendaredit",
+  "calendar__body__cellsedit",
+  "calendarDisplayedit",
+  "nextButtonFromedit",
+  "prevButtonFromedit"
+);
+datepicker(
+  "datepickertoedit",
+  "datepickerto__inputedit",
+  "toggle-calendartoedit",
+  "calendar__body__cellstoedit",
+  "calendarDisplaytoedit",
+  "nextButtonToedit",
+  "prevButtonToedit"
+);
+datepicker(
+  "datepickerwholeedit",
+  "datepicker__inputwholeedit",
+  "toggle-calendarwholeedit",
+  "calendar__body__cellswholeedit",
+  "calendarDisplaywholeedit",
+  "nextButtonFromwholeedit",
+  "prevButtonFromwholeedit"
+);
+datepicker(
+  "datepickerspecificedit",
+  "datepicker__inputspecificedit",
+  "toggle-calendarspecificedit",
+  "calendar__body__cellsspecificedit",
+  "calendarDisplayspecificedit",
+  "nextButtonFromspecificedit",
+  "prevButtonFromspecificedit"
+);
 
 //toggle add event modal
 const addEventModal = document.querySelector(".first-section");
