@@ -8,7 +8,10 @@ $data_json = file_get_contents("php://input");
 $method = $_SERVER["REQUEST_METHOD"];
 switch ($method) {
     case "GET":
-        $sql = "SELECT id, name, date_from, date_to, event_type FROM awesomecalendar.events";
+        $sql = "SELECT e.id, e.name, e.date_from, e.date_to, e.event_type, c.name AS category_name, c.id AS category_id
+            FROM awesomecalendar.events e
+            LEFT JOIN awesomecalendar.event_category ec ON e.id = ec.event_id
+            LEFT JOIN awesomecalendar.categories c ON ec.category_id = c.id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $events = $stmt->fetchAll(pdo::FETCH_OBJ);

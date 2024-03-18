@@ -8,15 +8,15 @@
              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
          </svg>
      </div>
-     <form id="AddEventModalForm" class="first-section__form">
+     <form id="EditEventModalForm" class="first-section__form">
          <div class="first-section__body">
              <div class="first-section__body__input__group">
                  <label for="name" class="first-section__body__label">Name</label>
                  <input type="text" class="datepicker__text__input" placeholder="Enter name" name="name">
              </div>
              <div class="first-section__body__input__group">
-                 <label for="event-types" class="first-section__body__label">Type</label>
-                 <select id="event-types" class="first-section__body__select" name="event_type">
+                 <label for="event-types-edit" class="first-section__body__label">Type</label>
+                 <select id="event-types-edit" class="first-section__body__select" name="event_type">
                      <option selected disabled>Select type</option>
                      <option value="whole">Whole day</option>
                      <option value="specific">Specific time</option>
@@ -24,12 +24,12 @@
                  </select>
              </div>
              <div class="first-section__body__input__group">
-                 <label for="categories" class="first-section__body__label">Category</label>
-                 <select id="categories" class="first-section__body__select" name="category_id">
+                 <label for="categories-edit" class="first-section__body__label">Category</label>
+                 <select id="categories-edit" class="first-section__body__select" name="category_id">
                      <option selected disabled>Select category</option>
                  </select>
              </div>
-             <div class="first-section__body__input__group date-input" id="multiple">
+             <div class="first-section__body__input__group date-input-edit" id="multiple">
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
                      <?php $placeholder = 'Select start date';
@@ -55,7 +55,7 @@
                         include "./components/datepicker.php" ?>
                  </div>
              </div>
-             <div class="first-section__body__input__group date-input" id="whole">
+             <div class="first-section__body__input__group date-input-edit" id="whole">
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
                      <?php $placeholder = 'Select date';
@@ -70,7 +70,7 @@
                         include "./components/datepicker.php" ?>
                  </div>
              </div>
-             <div class="first-section__body__input__group--row date-input" id="specific">
+             <div class="first-section__body__input__group--row date-input-edit" id="specific">
                  <div>
                  <label for="date" class="first-section__body__label">Date</label>
                  <div class="date__picker__container">
@@ -96,7 +96,7 @@
              </div>
          </div>
          <div class="first-section__footer">
-             <button id="formSubmitButton" class="calendar__nav__container__Button--wide calendar__nav__container__Button">Submit Event</button>
+             <button id="formSubmitButton" class="calendar__nav__container__Button--wide calendar__nav__container__Button">Edit Event</button>
          </div>
      </form>
  </div>
