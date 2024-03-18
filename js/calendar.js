@@ -357,22 +357,29 @@ const toggleEditForm = () => {
 
 const handleEventEdit = (eventId) => {
     // toggleEditForm();
-    const events = localStorage.getItem("events") || [];
-   console.log(events)
+    const events = JSON.parse(localStorage.getItem("events") || "[]");
+    const event = events.find(event => event.id == eventId);
+    console.log(event);
 };
-
+let currentDeleteEventHandler = null;
+let currentEditEventHandler = null;
   //create event div
   const handleEventClick = (event) => {
     const target = event.target;
     const eventId = target.getAttribute("data-id");
-    const currentDeleteEventHandler = () => handleEventDelete(eventId);
-    deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
+    if (currentDeleteEventHandler) {
+        deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
+    }
+    if (currentEditEventHandler) {
+        editEventButton.removeEventListener("click", currentEditEventHandler);
+    }
+    currentDeleteEventHandler = () => handleEventDelete(eventId);
     deleteEventButton.addEventListener("click", currentDeleteEventHandler);
+    currentEditEventHandler = () => handleEventEdit(eventId);
+    editEventButton.addEventListener("click", currentEditEventHandler);
     toggleManageEventModal();
-    const currentEditEventHandler = () => handleEventEdit(eventId);
-    editDeleteButton.removeEventListener("click", currentEditEventHandler);
-    editDeleteButton.addEventListener("click", currentEditEventHandler);
-  };
+};
+
 
   const createEventDiv = (event) => {
     const eventDiv = document.createElement("div");
