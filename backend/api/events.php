@@ -57,7 +57,7 @@ switch ($method) {
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             if (isset($_GET['id'])) {
                 $eventId = $_GET['id'];
-                $conn->beginTransaction();
+                $conn->beginTransaction(); //just in case if foreign id error
                 try {
                     $sqlEventCategory = "DELETE FROM awesomecalendar.event_category WHERE event_id = :eventId";
                     $stmtEventCategory = $conn->prepare($sqlEventCategory);
@@ -68,7 +68,7 @@ switch ($method) {
                     $conn->commit();
                     echo json_encode(["success" => true, "message" => "Event deleted successfully"]);
                 } catch (Exception $e) {
-                    $conn->rollBack();
+                    $conn->rollBack(); //dont delete if something goes wrong
                     echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
                 }
             } else {

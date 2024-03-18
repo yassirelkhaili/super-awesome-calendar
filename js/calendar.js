@@ -325,6 +325,11 @@ closeEventModal.addEventListener('click', () => {
     toggleManageEventModal();
 });
 
+//close modals on outside click
+const backdrop = document.getElementById("modalBackDrop");
+
+backdrop.addEventListener("click", toggleManageEventModal);
+
 const handleEventDelete = (eventId) => {
     fetch(`http://localhost/backend/api/events.php?id=${eventId}`, {
         method: 'DELETE',
@@ -335,20 +340,19 @@ const handleEventDelete = (eventId) => {
     })
     .then(data => {
         console.log("Delete successful:", data);
-        fetchEvents();
+        if (data.success) window.location.reload(); //again too lazy for live calendar update feature
     })
     .catch(error => {
         console.error("Error deleting event:", error);
     });
 };
 
-
   //create event div
   const handleEventClick = (event) => {
     const target = event.target;
     const eventId = target.getAttribute("data-id");
-    deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
     const currentDeleteEventHandler = () => handleEventDelete(eventId);
+    deleteEventButton.removeEventListener("click", currentDeleteEventHandler);
     deleteEventButton.addEventListener("click", currentDeleteEventHandler);
     toggleManageEventModal();
   };
