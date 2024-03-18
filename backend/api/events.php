@@ -76,25 +76,39 @@ switch ($method) {
                 $sqlUpdateEvent = "UPDATE awesomecalendar.events 
                 SET name = :name, date_from = :date_from, date_to = :date_to, event_type = :event_type
                 WHERE id = :id";
-            $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
-            $success = $stmtUpdateEvent->execute([
-                ':id' => $data->id,
-                ':name' => $data->name,
-                ':date_from' => $data->date_from,
-                ':date_to' => $data->date_to,
-                ':event_type' => $data->event_type,
-            ]);
+                $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
+                $success = $stmtUpdateEvent->execute([
+                    ':id' => $data->id,
+                    ':name' => $data->name,
+                    ':date_from' => $data->date_from,
+                    ':date_to' => $data->date_to,
+                    ':event_type' => $data->event_type,
+                ]);
+            } else if ($data->event_type === "specific") {
+                $datetime = $data->date_from . " " . $data->time_from . ":00";
+                $sqlUpdateEvent = "UPDATE awesomecalendar.events 
+                SET name = :name, date_from = :date_from, date_to = :date_to, event_type = :event_type
+                WHERE id = :id";
+                $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
+                $success = $stmtUpdateEvent->execute([
+                    ':id' => $data->id,
+                    ':name' => $data->name,
+                    ':date_from' => $datetime,
+                    ':date_to' => null,
+                    ':event_type' => $data->event_type,
+                ]);
             } else {
                 $sqlUpdateEvent = "UPDATE awesomecalendar.events 
-                SET name = :name, date_from = :date_from, event_type = :event_type
+                SET name = :name, date_from = :date_from, date_to = :date_to, event_type = :event_type
                 WHERE id = :id";
-            $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
-            $success = $stmtUpdateEvent->execute([
-                ':id' => $data->id,
-                ':name' => $data->name,
-                ':date_from' => $data->date_from,
-                ':event_type' => $data->event_type,
-            ]);
+                $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
+                $success = $stmtUpdateEvent->execute([
+                    ':id' => $data->id,
+                    ':name' => $data->name,
+                    ':date_from' => $data->date_from,
+                    ':date_to' => null,
+                    ':event_type' => $data->event_type,
+                ]);
             }
             $conn->commit();
             echo json_encode(["success" => true, "message" => "The event and its categories were successfully updated."]);
@@ -107,7 +121,7 @@ switch ($method) {
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
             if (isset($_GET['id'])) {
                 $eventId = $_GET['id'];
-                $conn->beginTransaction(); //just in case if foreign id error
+                $conn->beginTransaction(); //just in case of foreign id error
                 try {
                     $sqlEventCategory = "DELETE FROM awesomecalendar.event_category WHERE event_id = :eventId";
                     $stmtEventCategory = $conn->prepare($sqlEventCategory);

@@ -432,6 +432,8 @@ document.addEventListener("DOMContentLoaded", () => {
     eventTypeSelect.value = event.event_type;
     document.querySelector("#categories-edit").value = event.category_id || "";
     const dateInputs = document.querySelectorAll(".date-input-edit");
+    //generate day times 30 min intervals
+    generateTimeOptions();
     dateInputs.forEach((input) => {
       input.style.display = "none";
       changeInputStatus(input, true);
@@ -443,8 +445,6 @@ document.addEventListener("DOMContentLoaded", () => {
       selectedDateInput.style.display = "flex";
       changeInputStatus(selectedDateInput, false);
       if (event.event_type === "specific") {
-        //generate day times 30 min intervals
-        generateTimeOptions();
         const [date, time] = event.date_from.split(" ");
         document.getElementById("datepicker__inputspecificedit").value = date;
         document.querySelector("#time-select-edit").value = time.substring(
