@@ -1,10 +1,10 @@
  <!-- Modal start -->
- <div class="first-section-edit hidden">
+ <div class="first-section first-section-edit hidden">
      <div class="first-section__nav">
          <h3>
-             Create Event
+             Edit Event
          </h3>
-         <svg class="first-section__close__btn" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+         <svg id="first-section__close__btn__edit" class="first-section__close__btn" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>
          </svg>
      </div>

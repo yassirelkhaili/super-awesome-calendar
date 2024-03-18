@@ -301,7 +301,9 @@ const closeEventModal = document.getElementById(
   "first-section__close__btn__choice"
 );
 const deleteEventButton = document.getElementById("deleteEventButton");
-const editDeleteButton = document.getElementById("editEventButton");
+const editForm = document.querySelector(".first-section-edit");
+const editFormCloseButton = document.getElementById("first-section__close__btn__edit");
+
 const toggleBackdrop = () => {
   const backdrop = document.getElementById("modalBackDrop");
   backdrop.classList.toggle("hidden");
@@ -330,6 +332,7 @@ const backdrop = document.getElementById("modalBackDrop");
 
 backdrop.addEventListener("click", () => {
     !manageEventModal.classList.contains("hidden") && toggleManageEventModal();
+    !editForm.classList.contains("hidden") && toggleEditForm();
 });
 
 const handleEventDelete = (eventId) => {
@@ -350,13 +353,18 @@ const handleEventDelete = (eventId) => {
 };
 
 const toggleEditForm = () => {
-    toggleManageEventModal();
-    const editForm = document.querySelector(".first-section-edit");
-    editForm.classList.toggle('hidden');
+    toggleScrollbar();
+    toggleBackdrop();
+    editForm.classList.toggle("hidden");
+    editForm.classList.toggle("fadeIn");
+    editForm.classList.toggle("flex");
 }
 
+editFormCloseButton.addEventListener("click", toggleEditForm);
+
 const handleEventEdit = (eventId) => {
-    // toggleEditForm();
+    toggleManageEventModal();
+    toggleEditForm();
     const events = JSON.parse(localStorage.getItem("events") || "[]");
     const event = events.find(event => event.id == eventId);
     console.log(event);
