@@ -360,6 +360,7 @@ const toggleEditForm = () => {
     editForm.classList.toggle("flex");
 }
 
+editFormCloseButton.addEventListener("click", toggleEditForm);
 //handle date input show/hide depending on event type
 const selectdropdown = document.getElementById('event-types-edit');
 const dateInputs = document.querySelectorAll('.date-input-edit');
@@ -407,6 +408,20 @@ const populateCategoryDropdown = () => {
 
   populateCategoryDropdown();
 
+  //generate day times 30 min intervals
+document.addEventListener("DOMContentLoaded", function () {
+    var select = document.getElementById("time-select-edit");
+    for (var hour = 0; hour < 24; hour++) {
+      for (var minute = 0; minute < 60; minute += 30) {
+        var hourFormatted = hour.toString().padStart(2, "0");
+        var minuteFormatted = minute.toString().padStart(2, "0");
+        var timeValue = hourFormatted + ":" + minuteFormatted;
+        var option = new Option(timeValue, timeValue);
+        select.appendChild(option);
+      }
+    }
+  });
+
 selectdropdown.addEventListener('change', handleSelectChange);
 const populateEditEventModal = (event) => {
     document.querySelector('#EditEventModalForm input[name="name"]').value = event.name;
@@ -424,15 +439,14 @@ const populateEditEventModal = (event) => {
         changeInputStatus(selectedDateInput, false);
     if (event.event_type === "specific") {
         const [date, time] = event.date_from.split(' ');
-        const dateInput = document.querySelector('.date-input-edit#specific .datepicker__inputedit').value = date;
-        console.log(dateInput);
-        document.querySelector('#time-select').value = time.substring(0, 5);
+        document.getElementById('datepicker__inputspecificedit').value = date;
+        document.querySelector('#time-select-edit').value = time.substring(0, 5);
     } else if (event.event_type === "whole") {
-        document.querySelector('.date-input-edit#whole .datepicker__inputwholeedit').value = event.date_from.split(' ')[0];
+        document.getElementById('datepicker__inputwholeedit').value = event.date_from.split(' ')[0];
     } else if (event.event_type === "multiple") {
-        document.querySelector('.date-input-edit#multiple .datepicker__inputedit').value = event.date_from.split(' ')[0];
+        document.getElementById('datepicker__inputedit').value = event.date_from.split(' ')[0];
         if (event.date_to) {
-            document.querySelector('.date-input-edit#multiple .datepickerto__inputedit').value = event.date_to.split(' ')[0];
+            document.getElementById('datepickerto__inputedit').value = event.date_to.split(' ')[0];
         }
     }
 }};
