@@ -8,7 +8,10 @@ $data_json = file_get_contents("php://input");
 $method = $_SERVER["REQUEST_METHOD"];
 switch ($method) {
     case "GET":
-        $sql = "SELECT id, name, date_from, date_to, event_type FROM awesomecalendar.events";
+        $sql = "SELECT e.id, e.name, e.date_from, e.date_to, e.event_type, c.name AS category_name, c.id AS category_id
+            FROM awesomecalendar.events e
+            LEFT JOIN awesomecalendar.event_category ec ON e.id = ec.event_id
+            LEFT JOIN awesomecalendar.categories c ON ec.category_id = c.id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
         $events = $stmt->fetchAll(pdo::FETCH_OBJ);
@@ -52,6 +55,53 @@ switch ($method) {
             echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
         }
 
+        break;
+    case "PUT":
+        $data_json = file_get_contents("php://input");
+        $data = json_decode($data_json);
+        $eventId = isset($_GET['id']) ? $_GET['id'] : null;
+        if (!$eventId) {
+            echo json_encode(["success" => false, "message" => "Event ID not provided."]);
+            break;
+        }
+        try {
+            $conn->beginTransaction();
+            $sqlDeleteCategories = "DELETE FROM awesomecalendar.event_category WHERE event_id = :event_id";
+            $stmtDeleteCategories = $conn->prepare($sqlDeleteCategories);
+            $stmtDeleteCategories->execute([':event_id' => $data->id]);
+            $sqlInsertCategory = "INSERT INTO awesomecalendar.event_category (event_id, category_id) VALUES (:event_id, :category_id)";
+            $stmtInsertCategory = $conn->prepare($sqlInsertCategory);
+            $stmtInsertCategory->execute([':event_id' => $data->id, ':category_id' => $data->category_id]);
+            if ($data->event_type === "multiple") {
+                $sqlUpdateEvent = "UPDATE awesomecalendar.events 
+                SET name = :name, date_from = :date_from, date_to = :date_to, event_type = :event_type
+                WHERE id = :id";
+            $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
+            $success = $stmtUpdateEvent->execute([
+                ':id' => $data->id,
+                ':name' => $data->name,
+                ':date_from' => $data->date_from,
+                ':date_to' => $data->date_to,
+                ':event_type' => $data->event_type,
+            ]);
+            } else {
+                $sqlUpdateEvent = "UPDATE awesomecalendar.events 
+                SET name = :name, date_from = :date_from, event_type = :event_type
+                WHERE id = :id";
+            $stmtUpdateEvent = $conn->prepare($sqlUpdateEvent);
+            $success = $stmtUpdateEvent->execute([
+                ':id' => $data->id,
+                ':name' => $data->name,
+                ':date_from' => $data->date_from,
+                ':event_type' => $data->event_type,
+            ]);
+            }
+            $conn->commit();
+            echo json_encode(["success" => true, "message" => "The event and its categories were successfully updated."]);
+        } catch (PDOException $e) {
+            $conn->rollback();
+            echo json_encode(["success" => false, "message" => "Error updating event and categories: " . $e->getMessage()]);
+        }
         break;
     case "DELETE":
         if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {

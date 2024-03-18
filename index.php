@@ -47,5 +47,6 @@
     <?php include "./partials/eventmodal.php" ?>
     <?php include "./partials/categorymodal.php" ?>
     <?php include "./partials/choicemodal.php" ?>
+    <?php include "./partials/editeventmodal.php" ?>
 </body>
 </html>
