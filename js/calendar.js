@@ -408,15 +408,24 @@ const populateCategoryDropdown = () => {
   populateCategoryDropdown();
 
 selectdropdown.addEventListener('change', handleSelectChange);
-
-editFormCloseButton.addEventListener("click", toggleEditForm);
 const populateEditEventModal = (event) => {
     document.querySelector('#EditEventModalForm input[name="name"]').value = event.name;
-    document.querySelector('#event-types-edit').value = event.event_type;
+    const eventTypeSelect = document.querySelector('#event-types-edit');
+    eventTypeSelect.value = event.event_type;
     document.querySelector('#categories-edit').value = event.category_id || '';
+    const dateInputs = document.querySelectorAll('.date-input-edit');
+    dateInputs.forEach((input) => {
+        input.style.display = "none";
+        changeInputStatus(input, true);
+    });
+    const selectedDateInput = document.querySelector(`.date-input-edit#${event.event_type}`);
+    if (selectedDateInput) {
+        selectedDateInput.style.display = "flex";
+        changeInputStatus(selectedDateInput, false);
     if (event.event_type === "specific") {
         const [date, time] = event.date_from.split(' ');
-        document.querySelector('.date-input-edit#specific .datepicker__inputedit').value = date;
+        const dateInput = document.querySelector('.date-input-edit#specific .datepicker__inputedit').value = date;
+        console.log(dateInput);
         document.querySelector('#time-select').value = time.substring(0, 5);
     } else if (event.event_type === "whole") {
         document.querySelector('.date-input-edit#whole .datepicker__inputwholeedit').value = event.date_from.split(' ')[0];
@@ -426,13 +435,12 @@ const populateEditEventModal = (event) => {
             document.querySelector('.date-input-edit#multiple .datepickerto__inputedit').value = event.date_to.split(' ')[0];
         }
     }
-};
+}};
 
 const handleEventEdit = (eventId) => {
     toggleManageEventModal();
     toggleEditForm();
     const events = JSON.parse(localStorage.getItem("events") || "[]");
-    console.log(events);
     const event = events.find(event => event.id == eventId);
     if (event) {
         populateEditEventModal(event);
