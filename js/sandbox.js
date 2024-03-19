@@ -155,6 +155,7 @@ categoryForm &&
         console.log("Success:", data);
         toggleAddCategoryModal();
         alert(data.message);
+        if (data.success) window.location.reload();
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -171,7 +172,7 @@ const isLoading = () => {
   const loader = document.querySelector(".loader");
   const submitButton = loader.closest("button");
   loader.classList.toggle("hidden");
-  submitButton.disabled = true;
+  submitButton.disabled ? submitButton.disabled = false : submitButton.disabled = true;
 };
 
 const populateCategoryDropdown = () => {
