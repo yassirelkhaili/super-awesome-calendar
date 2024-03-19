@@ -12,8 +12,8 @@
   --modal_sections_border_color: #747c8a;
   --body_color: #f5f6f8;
   --buttons_ring_color: #93c5fd;
-  --delete_button_color: #E02424;
-  --edit_button_color: #E3A008;
+  --delete_button_color: #e02424;
+  --edit_button_color: #e3a008;
 }
 
 * {
@@ -122,6 +122,13 @@ body {
   stroke: var(--primary-color);
   aspect-ratio: 1;
   height: 0.7rem;
+}
+
+.first-section__close__btn--categories {
+  cursor: pointer;
+  stroke: var(--primary-color);
+  aspect-ratio: 1;
+  height: 0.5rem;
 }
 
 .calendar__body {
@@ -493,7 +500,7 @@ body {
   font-size: 13px;
   font-weight: 400;
   padding: 3px;
-  padding-left:5px;
+  padding-left: 5px;
   background-color: #58bae4;
   color: var(--cell_focus_color);
   border-radius: 0.3rem;
@@ -598,4 +605,34 @@ body {
   align-items: center;
 }
 
+.categories-input {
+  display: flex;
+  width: 100%;
+  background-color: var(--cell_focus_color);
+  border-radius: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+}
 
+.categories-input-edit {
+  display: flex;
+  width: 100%;
+  background-color: var(--cell_focus_color);
+  border-radius: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.category-container {
+  border: 1px solid var(--grey_color);
+  border-radius: 0.5rem;
+  padding: 4px 8px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  font-size: 15px;
+  gap: 0.2rem;
+  margin: 5px 2.5px;
+}

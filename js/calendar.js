@@ -398,6 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const option = document.createElement("option");
       option.value = category.id;
       option.textContent = category.name;
+      option.setAttribute("data-color", category.color);
       formSelect.appendChild(option);
     };
     fetch("http://localhost/backend/api/categories.php")
@@ -425,12 +426,84 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
   selectdropdown.addEventListener("change", handleSelectChange);
+
+  //handle category addition
+  let categoriesArray = [];
+  const categoryDropdown = document.getElementById("categories-edit");
+  const categoriesContainer = document.querySelector(".categories-input-edit");
+
+  const addCategorytoCategoryArray = (selectedOptions) => {
+    Array.from(selectedOptions).forEach((option) => {
+      const categoryId = option.value;
+      if (!categoriesArray.includes(categoryId)) {
+        categoriesArray.push(categoryId);
+        categoriesContainer.appendChild(
+          createCategoryContainer(option, "option")
+        );
+      }
+    });
+  };
+
+  const removeCategoryFromCategoryArray = (event) => {
+    const categoryContainer = event.target.closest("div");
+    const categoryId = categoryContainer.getAttribute("data-id");
+    categoriesArray = categoriesArray.filter((id) => id !== categoryId);
+    categoriesContainer.removeChild(categoryContainer);
+    //reset dropdown selected value
+    categoryDropdown.firstElementChild.selected = true;
+  };
+
+  const createCategoryContainer = (element, elementType) => {
+    const container = document.createElement("div");
+    container.classList.add("category-container");
+    if (elementType === "category") {
+      const textNode = document.createTextNode(element.name);
+      container.setAttribute("data-id", element.id);
+      container.style.borderColor = element.color;
+      container.appendChild(textNode);
+    } else {
+      const textNode = document.createTextNode(element.textContent);
+      container.setAttribute("data-id", element.value);
+      container.style.borderColor = element.getAttribute("data-color");
+      container.appendChild(textNode);
+    }
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "first-section__close__btn--categories");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("viewBox", "0 0 14 14");
+    svg.innerHTML =
+      '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>';
+    svg.addEventListener("click", removeCategoryFromCategoryArray);
+    container.appendChild(svg);
+    return container;
+  };
+
+  const handleCategoryAddition = (event) => {
+    const selectedOptions = event.target.selectedOptions;
+    addCategorytoCategoryArray(selectedOptions);
+    categoryDropdown.firstElementChild.selected = true;
+  };
+
+  categoryDropdown &&
+    categoryDropdown.addEventListener("change", handleCategoryAddition);
+
   const populateEditEventModal = (event) => {
     document.querySelector('#EditEventModalForm input[name="name"]').value =
       event.name;
     const eventTypeSelect = document.querySelector("#event-types-edit");
     eventTypeSelect.value = event.event_type;
-    document.querySelector("#categories-edit").value = event.category_id || "";
+    //add categories to categoriesArray after reset
+    categoriesArray.length = 0;
+    event.categories.forEach((category) =>
+      categoriesArray.push(category.id.toString())
+    );
+    //generate categories containers
+    event.categories.forEach((category) =>
+      categoriesContainer.appendChild(
+        createCategoryContainer(category, "category")
+      )
+    );
     const dateInputs = document.querySelectorAll(".date-input-edit");
     //generate day times 30 min intervals
     generateTimeOptions();
@@ -479,6 +552,7 @@ document.addEventListener("DOMContentLoaded", () => {
     editEventForm.addEventListener("submit", (e) => {
       e.preventDefault();
       const formData = new FormData(e.target);
+      formData.append("categories", JSON.stringify(categoriesArray));
       const formDataObj = { id: eventId };
       for (const [key, value] of formData.entries()) {
         formDataObj[key] = value;
@@ -499,7 +573,7 @@ document.addEventListener("DOMContentLoaded", () => {
           console.log("Success:", data);
           toggleEditForm();
           alert(data.message);
-          if(data.success) window.location.reload();
+          if (data.success) window.location.reload();
         })
         .catch((error) => {
           console.error("Error:", error);

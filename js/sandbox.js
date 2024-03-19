@@ -6,7 +6,9 @@
 import datepicker from "./datepicker.js";
 import "./calendar.js";
 
-alert("Click on an event to delete and/or modify it. Auf ein Event klicken um es zu löschen und/oder zu bearbeiten.")
+alert(
+  "Click on an event to delete and/or modify it. Auf ein Event klicken um es zu löschen und/oder zu bearbeiten."
+);
 //too many required params. ideally this should only require the inputId.
 //note: best solution is to dynamically generate/remove datePicker when input is clicked/unclicked, this will take some time but would make for an awesome datepicker open source npm package, maybe I'll do that some other time.
 datepicker(
@@ -176,6 +178,7 @@ const populateCategoryDropdown = () => {
   const generateCategoryOption = (category) => {
     const formSelect = document.getElementById("categories");
     const option = document.createElement("option");
+    option.setAttribute("data-color", category.color);
     option.value = category.id;
     option.textContent = category.name;
     formSelect.appendChild(option);
@@ -209,12 +212,64 @@ const closeModals = () => {
 
 backdrop.addEventListener("click", closeModals);
 
+//handle category addition
+let categoriesArray = [];
+const categoryDropdown = document.getElementById("categories");
+const categoriesContainer = document.querySelector(".categories-input");
+
+const addCategorytoCategoryArray = (selectedOptions) => {
+  Array.from(selectedOptions).forEach((option) => {
+    const categoryId = option.value;
+    if (!categoriesArray.includes(categoryId)) {
+      categoriesArray.push(categoryId);
+      categoriesContainer.appendChild(createCategoryContainer(option));
+    }
+  });
+};
+
+const removeCategoryFromCategoryArray = (event) => {
+  const categoryContainer = event.target.closest("div");
+  const categoryId = categoryContainer.getAttribute("data-id");
+  categoriesArray = categoriesArray.filter((id) => id !== categoryId);
+  categoriesContainer.removeChild(categoryContainer);
+  categoryDropdown.firstElementChild.selected = true;
+};
+
+const createCategoryContainer = (option) => {
+  const container = document.createElement("div");
+  container.classList.add("category-container");
+  const textNode = document.createTextNode(option.textContent);
+  container.appendChild(textNode);
+  container.setAttribute("data-id", option.value);
+  container.style.borderColor = option.getAttribute("data-color");
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("class", "first-section__close__btn--categories");
+  svg.setAttribute("aria-hidden", "true");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("viewBox", "0 0 14 14");
+  svg.innerHTML =
+    '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>';
+  svg.addEventListener("click", removeCategoryFromCategoryArray);
+  container.appendChild(svg);
+  return container;
+};
+
+const handleCategoryAddition = (event) => {
+  const selectedOptions = event.target.selectedOptions;
+  addCategorytoCategoryArray(selectedOptions);
+  categoryDropdown.firstElementChild.selected = true;
+};
+
+categoryDropdown &&
+  categoryDropdown.addEventListener("change", handleCategoryAddition);
+
 //handle event addition
 const eventForm = document.getElementById("AddEventModalForm");
 eventForm &&
   eventForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    formData.append("categories", JSON.stringify(categoriesArray));
     const formDataObj = {};
     for (const [key, value] of formData.entries()) {
       formDataObj[key] = value;
@@ -225,8 +280,8 @@ eventForm &&
       method: "POST",
       body: JSON.stringify(formDataObj),
       headers: {
-        'Content-Type': 'application/json',
-      }
+        "Content-Type": "application/json",
+      },
     })
       .then((response) => response.json())
       .then((data) => {
@@ -261,13 +316,13 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //handle date input show/hide depending on event type
-const selectdropdown = document.getElementById('event-types');
-const dateInputs = document.querySelectorAll('.date-input');
+const selectdropdown = document.getElementById("event-types");
+const dateInputs = document.querySelectorAll(".date-input");
 
 //helper function to disable or enable all input-like elements inside an input group
 const changeInputStatus = (inputGroup, disabled) => {
-  const inputElements = inputGroup.querySelectorAll('input, select');
-  inputElements.forEach(inputElement => inputElement.disabled = disabled);
+  const inputElements = inputGroup.querySelectorAll("input, select");
+  inputElements.forEach((inputElement) => (inputElement.disabled = disabled));
 };
 
 //initially hide and disable date inputs
@@ -289,4 +344,4 @@ const handleSelectChange = (event) => {
   });
 };
 
-selectdropdown.addEventListener('change', handleSelectChange);
+selectdropdown.addEventListener("change", handleSelectChange);
