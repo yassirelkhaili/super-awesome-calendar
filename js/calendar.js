@@ -398,6 +398,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const option = document.createElement("option");
       option.value = category.id;
       option.textContent = category.name;
+      option.setAttribute("data-color", category.color);
       formSelect.appendChild(option);
     };
     fetch("http://localhost/backend/api/categories.php")
@@ -458,10 +459,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (elementType === "category") {
       const textNode = document.createTextNode(element.name);
       container.setAttribute("data-id", element.id);
+      container.style.borderColor = element.color;
       container.appendChild(textNode);
     } else {
       const textNode = document.createTextNode(element.textContent);
       container.setAttribute("data-id", element.value);
+      container.style.borderColor = element.getAttribute("data-color");
       container.appendChild(textNode);
     }
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");

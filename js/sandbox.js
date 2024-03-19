@@ -178,6 +178,7 @@ const populateCategoryDropdown = () => {
   const generateCategoryOption = (category) => {
     const formSelect = document.getElementById("categories");
     const option = document.createElement("option");
+    option.setAttribute("data-color", category.color);
     option.value = category.id;
     option.textContent = category.name;
     formSelect.appendChild(option);
@@ -240,6 +241,7 @@ const createCategoryContainer = (option) => {
   const textNode = document.createTextNode(option.textContent);
   container.appendChild(textNode);
   container.setAttribute("data-id", option.value);
+  container.style.borderColor = option.getAttribute("data-color");
   const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
   svg.setAttribute("class", "first-section__close__btn--categories");
   svg.setAttribute("aria-hidden", "true");
