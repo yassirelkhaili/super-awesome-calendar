@@ -498,7 +498,8 @@ document.addEventListener("DOMContentLoaded", () => {
     event.categories.forEach((category) =>
       categoriesArray.push(category.id.toString())
     );
-    //generate categories containers
+    //generate categories containers after reset
+    while(categoriesContainer.firstChild) categoriesContainer.removeChild(categoriesContainer.firstChild);
     event.categories.forEach((category) =>
       categoriesContainer.appendChild(
         createCategoryContainer(category, "category")
@@ -543,7 +544,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loader = document.querySelector(".loader");
     const submitButton = loader.closest("button");
     loader.classList.toggle("hidden");
-    submitButton.disabled = true;
+    submitButton.disabled ? submitButton.disabled = false : submitButton.disabled = true;
   };
 
   const editEventForm = document.getElementById("EditEventModalForm");
