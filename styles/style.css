@@ -608,13 +608,10 @@ body {
 .categories-input {
   display: flex;
   width: 100%;
-  min-height: 45px;
-  padding: 5px;
   background-color: var(--cell_focus_color);
   border-radius: 0.5rem;
   justify-content: flex-start;
   align-items: center;
-  gap: 0.2rem;
 }
 
 .category-container {
@@ -628,4 +625,5 @@ body {
   font-weight: 400;
   font-size: 15px;
   gap: 0.2rem;
+  margin: 5px 2.5px;
 }

@@ -8,13 +8,35 @@ $data_json = file_get_contents("php://input");
 $method = $_SERVER["REQUEST_METHOD"];
 switch ($method) {
     case "GET":
-        $sql = "SELECT e.id, e.name, e.date_from, e.date_to, e.event_type, c.name AS category_name, c.id AS category_id
-            FROM awesomecalendar.events e
-            LEFT JOIN awesomecalendar.event_category ec ON e.id = ec.event_id
-            LEFT JOIN awesomecalendar.categories c ON ec.category_id = c.id";
+        $sql = "SELECT e.id, e.name, e.date_from, e.date_to, e.event_type, c.name AS category_name, c.id AS category_id, c.color AS category_color
+        FROM awesomecalendar.events e
+        LEFT JOIN awesomecalendar.event_category ec ON e.id = ec.event_id
+        LEFT JOIN awesomecalendar.categories c ON ec.category_id = c.id";
         $stmt = $conn->prepare($sql);
         $stmt->execute();
-        $events = $stmt->fetchAll(pdo::FETCH_OBJ);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $events = [];
+        foreach ($results as $row) {
+            $eventId = $row['id'];
+            if (!isset($events[$eventId])) {
+                $events[$eventId] = [
+                    'id' => $eventId,
+                    'name' => $row['name'],
+                    'date_from' => $row['date_from'],
+                    'date_to' => $row['date_to'],
+                    'event_type' => $row['event_type'],
+                    'categories' => [],
+                ];
+            }
+            if (!is_null($row['category_id'])) {
+                $events[$eventId]['categories'][] = [
+                    'id' => $row['category_id'],
+                    'name' => $row['category_name'],
+                    'color' => $row['category_color'],
+                ];
+            }
+        }
+        $events = array_values($events);
         echo json_encode($events);
         break;
     case "POST":
@@ -43,10 +65,15 @@ switch ($method) {
                     break;
             }
             $eventId = $conn->lastInsertId();
-            $sqlpivot = "INSERT INTO awesomecalendar.event_category(event_id, category_id) VALUES(:event_id, :category_id)";
-            $stmtpivot = $conn->prepare($sqlpivot);
-            $pivotStmt = $stmtpivot->execute([":event_id" => $eventId, ":category_id" => $data->category_id]);
-            if ($pivotStmt && $mainStmt) {
+            $categories = json_decode($data->categories);
+            if (isset($categories) && is_array($categories)) {
+                $sqlpivot = "INSERT INTO awesomecalendar.event_category(event_id, category_id) VALUES(:event_id, :category_id)";
+                foreach ($categories as $category_id) {
+                    $stmtpivot = $conn->prepare($sqlpivot);
+                    $pivotStmt = $stmtpivot->execute([":event_id" => $eventId, ":category_id" => $category_id]);
+                }
+            }
+            if ($mainStmt) {
                 echo json_encode(["success" => true, "message" => "The event was successfully added."]);
             } else {
                 echo json_encode(["success" => false, "message" => "Failed to add the event."]);
@@ -54,7 +81,6 @@ switch ($method) {
         } catch (PDOException $e) {
             echo json_encode(["success" => false, "message" => "Error: " . $e->getMessage()]);
         }
-
         break;
     case "PUT":
         $data_json = file_get_contents("php://input");

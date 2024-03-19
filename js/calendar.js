@@ -618,6 +618,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         localStorage.setItem("events", JSON.stringify(data));
         placeEventsInsideCalendar();
       })

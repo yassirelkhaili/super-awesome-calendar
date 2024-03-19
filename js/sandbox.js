@@ -212,15 +212,15 @@ const closeModals = () => {
 backdrop.addEventListener("click", closeModals);
 
 //handle category addition
-let categoryArray = [];
+let categoriesArray = [];
 const categoryDropdown = document.getElementById("categories");
 const categoriesContainer = document.querySelector(".categories-input");
 
 const addCategorytoCategoryArray = (selectedOptions) => {
   Array.from(selectedOptions).forEach((option) => {
     const categoryId = option.value;
-    if (!categoryArray.includes(categoryId)) {
-      categoryArray.push(categoryId);
+    if (!categoriesArray.includes(categoryId)) {
+      categoriesArray.push(categoryId);
       categoriesContainer.appendChild(createCategoryContainer(option));
     }
   });
@@ -229,7 +229,7 @@ const addCategorytoCategoryArray = (selectedOptions) => {
 const removeCategoryFromCategoryArray = (event) => {
   const categoryContainer = event.target.closest("div");
   const categoryId = categoryContainer.getAttribute("data-id");
-  categoryArray = categoryArray.filter((id) => id !== categoryId);
+  categoriesArray = categoriesArray.filter((id) => id !== categoryId);
   categoriesContainer.removeChild(categoryContainer);
 };
 
@@ -265,6 +265,7 @@ eventForm &&
   eventForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
+    formData.append("categories", JSON.stringify(categoriesArray));
     const formDataObj = {};
     for (const [key, value] of formData.entries()) {
       formDataObj[key] = value;
