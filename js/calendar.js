@@ -427,52 +427,63 @@ document.addEventListener("DOMContentLoaded", () => {
   selectdropdown.addEventListener("change", handleSelectChange);
 
   //handle category addition
-let categoriesArray = [];
-const categoryDropdown = document.getElementById("categories-edit");
-const categoriesContainer = document.querySelector(".categories-input-edit");
+  let categoriesArray = [];
+  const categoryDropdown = document.getElementById("categories-edit");
+  const categoriesContainer = document.querySelector(".categories-input-edit");
 
-const addCategorytoCategoryArray = (selectedOptions) => {
-  Array.from(selectedOptions).forEach((option) => {
-    const categoryId = option.value;
-    if (!categoriesArray.includes(categoryId)) {
-      categoriesArray.push(categoryId);
-      categoriesContainer.appendChild(createCategoryContainer(option));
+  const addCategorytoCategoryArray = (selectedOptions) => {
+    Array.from(selectedOptions).forEach((option) => {
+      const categoryId = option.value;
+      if (!categoriesArray.includes(categoryId)) {
+        categoriesArray.push(categoryId);
+        categoriesContainer.appendChild(
+          createCategoryContainer(option, "option")
+        );
+      }
+    });
+  };
+
+  const removeCategoryFromCategoryArray = (event) => {
+    const categoryContainer = event.target.closest("div");
+    const categoryId = categoryContainer.getAttribute("data-id");
+    categoriesArray = categoriesArray.filter((id) => id !== categoryId);
+    categoriesContainer.removeChild(categoryContainer);
+    //reset dropdown selected value
+    categoryDropdown.firstElementChild.selected = true;
+  };
+
+  const createCategoryContainer = (element, elementType) => {
+    const container = document.createElement("div");
+    container.classList.add("category-container");
+    if (elementType === "category") {
+      const textNode = document.createTextNode(element.name);
+      container.setAttribute("data-id", element.id);
+      container.appendChild(textNode);
+    } else {
+      const textNode = document.createTextNode(element.textContent);
+      container.setAttribute("data-id", element.value);
+      container.appendChild(textNode);
     }
-  });
-};
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("class", "first-section__close__btn--categories");
+    svg.setAttribute("aria-hidden", "true");
+    svg.setAttribute("fill", "none");
+    svg.setAttribute("viewBox", "0 0 14 14");
+    svg.innerHTML =
+      '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>';
+    svg.addEventListener("click", removeCategoryFromCategoryArray);
+    container.appendChild(svg);
+    return container;
+  };
 
-const removeCategoryFromCategoryArray = (event) => {
-  const categoryContainer = event.target.closest("div");
-  const categoryId = categoryContainer.getAttribute("data-id");
-  categoriesArray = categoriesArray.filter((id) => id !== categoryId);
-  categoriesContainer.removeChild(categoryContainer);
-};
+  const handleCategoryAddition = (event) => {
+    const selectedOptions = event.target.selectedOptions;
+    addCategorytoCategoryArray(selectedOptions);
+    categoryDropdown.firstElementChild.selected = true;
+  };
 
-const createCategoryContainer = (category) => {
-  const container = document.createElement("div");
-  container.classList.add("category-container");
-  const textNode = document.createTextNode(category.name);
-  container.appendChild(textNode);
-  container.setAttribute("data-id", category.id);
-  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("class", "first-section__close__btn--categories");
-  svg.setAttribute("aria-hidden", "true");
-  svg.setAttribute("fill", "none");
-  svg.setAttribute("viewBox", "0 0 14 14");
-  svg.innerHTML =
-    '<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"></path>';
-  svg.addEventListener("click", removeCategoryFromCategoryArray);
-  container.appendChild(svg);
-  return container;
-};
-
-const handleCategoryAddition = (event) => {
-  const selectedOptions = event.target.selectedOptions;
-  addCategorytoCategoryArray(selectedOptions);
-};
-
-categoryDropdown &&
-  categoryDropdown.addEventListener("change", handleCategoryAddition);
+  categoryDropdown &&
+    categoryDropdown.addEventListener("change", handleCategoryAddition);
 
   const populateEditEventModal = (event) => {
     document.querySelector('#EditEventModalForm input[name="name"]').value =
@@ -481,9 +492,15 @@ categoryDropdown &&
     eventTypeSelect.value = event.event_type;
     //add categories to categoriesArray after reset
     categoriesArray.length = 0;
-    event.categories.forEach(category => categoriesArray.push(category.id.toString()));
+    event.categories.forEach((category) =>
+      categoriesArray.push(category.id.toString())
+    );
     //generate categories containers
-    event.categories.forEach(category => categoriesContainer.appendChild(createCategoryContainer(category)));
+    event.categories.forEach((category) =>
+      categoriesContainer.appendChild(
+        createCategoryContainer(category, "category")
+      )
+    );
     const dateInputs = document.querySelectorAll(".date-input-edit");
     //generate day times 30 min intervals
     generateTimeOptions();
@@ -553,7 +570,7 @@ categoryDropdown &&
           console.log("Success:", data);
           toggleEditForm();
           alert(data.message);
-          if(data.success) window.location.reload();
+          if (data.success) window.location.reload();
         })
         .catch((error) => {
           console.error("Error:", error);
@@ -672,7 +689,6 @@ categoryDropdown &&
         return response.json();
       })
       .then((data) => {
-        console.log(data);
         localStorage.setItem("events", JSON.stringify(data));
         placeEventsInsideCalendar();
       })

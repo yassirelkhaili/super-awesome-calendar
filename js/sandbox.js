@@ -231,6 +231,7 @@ const removeCategoryFromCategoryArray = (event) => {
   const categoryId = categoryContainer.getAttribute("data-id");
   categoriesArray = categoriesArray.filter((id) => id !== categoryId);
   categoriesContainer.removeChild(categoryContainer);
+  categoryDropdown.firstElementChild.selected = true;
 };
 
 const createCategoryContainer = (option) => {
@@ -254,6 +255,7 @@ const createCategoryContainer = (option) => {
 const handleCategoryAddition = (event) => {
   const selectedOptions = event.target.selectedOptions;
   addCategorytoCategoryArray(selectedOptions);
+  categoryDropdown.firstElementChild.selected = true;
 };
 
 categoryDropdown &&

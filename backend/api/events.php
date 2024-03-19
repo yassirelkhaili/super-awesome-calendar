@@ -95,9 +95,14 @@ switch ($method) {
             $sqlDeleteCategories = "DELETE FROM awesomecalendar.event_category WHERE event_id = :event_id";
             $stmtDeleteCategories = $conn->prepare($sqlDeleteCategories);
             $stmtDeleteCategories->execute([':event_id' => $data->id]);
-            $sqlInsertCategory = "INSERT INTO awesomecalendar.event_category (event_id, category_id) VALUES (:event_id, :category_id)";
-            $stmtInsertCategory = $conn->prepare($sqlInsertCategory);
-            $stmtInsertCategory->execute([':event_id' => $data->id, ':category_id' => $data->category_id]);
+            $categories = json_decode($data->categories);
+            if (isset($categories) && is_array($categories)) {
+                $sqlpivot = "INSERT INTO awesomecalendar.event_category(event_id, category_id) VALUES(:event_id, :category_id)";
+                foreach ($categories as $category_id) {
+                    $stmtpivot = $conn->prepare($sqlpivot);
+                    $pivotStmt = $stmtpivot->execute([":event_id" => $data->id, ":category_id" => $category_id]);
+                }
+            }
             if ($data->event_type === "multiple") {
                 $sqlUpdateEvent = "UPDATE awesomecalendar.events 
                 SET name = :name, date_from = :date_from, date_to = :date_to, event_type = :event_type
