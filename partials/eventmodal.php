@@ -28,6 +28,7 @@
                  <select id="categories" class="first-section__body__select" name="category_id">
                      <option selected disabled>Select category</option>
                  </select>
+                 <div class="categories-input"></div>
              </div>
              <div class="first-section__body__input__group date-input" id="multiple">
                  <label for="date" class="first-section__body__label">Date</label>
@@ -72,26 +73,26 @@
              </div>
              <div class="first-section__body__input__group--row date-input" id="specific">
                  <div>
-                 <label for="date" class="first-section__body__label">Date</label>
-                 <div class="date__picker__container">
-                     <?php $placeholder = 'Select date';
-                        $datepicker = 'datepickerspecific';
-                        $datepickerInput = 'datepicker__inputspecific';
-                        $datepickerContainer = 'toggle-calendarspecific';
-                        $calendarBody = 'calendar__body__cellsspecific';
-                        $calendarDisplay = 'calendarDisplayspecific';
-                        $nextButton = 'nextButtonFromspecific';
-                        $prevButton = 'prevButtonFromspecific';
-                        $inputName = "date_from";
-                        include "./components/datepicker.php" ?>
-                 </div>
+                     <label for="date" class="first-section__body__label">Date</label>
+                     <div class="date__picker__container">
+                         <?php $placeholder = 'Select date';
+                            $datepicker = 'datepickerspecific';
+                            $datepickerInput = 'datepicker__inputspecific';
+                            $datepickerContainer = 'toggle-calendarspecific';
+                            $calendarBody = 'calendar__body__cellsspecific';
+                            $calendarDisplay = 'calendarDisplayspecific';
+                            $nextButton = 'nextButtonFromspecific';
+                            $prevButton = 'prevButtonFromspecific';
+                            $inputName = "date_from";
+                            include "./components/datepicker.php" ?>
+                     </div>
                  </div>
                  <span class="seperator" style="margin-top: 20px;">to</span>
                  <div>
-                 <label for="time-select" class="first-section__body__label">Time</label>
-                 <select id="time-select" class="first-section__body__select" name="time_from">
-                 <option selected disabled>Select time</option>
-                 </select>
+                     <label for="time-select" class="first-section__body__label">Time</label>
+                     <select id="time-select" class="first-section__body__select" name="time_from">
+                         <option selected disabled>Select time</option>
+                     </select>
                  </div>
              </div>
          </div>
