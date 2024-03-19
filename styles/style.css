@@ -614,6 +614,15 @@ body {
   align-items: center;
 }
 
+.categories-input-edit {
+  display: flex;
+  width: 100%;
+  background-color: var(--cell_focus_color);
+  border-radius: 0.5rem;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .category-container {
   border: 1px solid var(--grey_color);
   border-radius: 0.5rem;

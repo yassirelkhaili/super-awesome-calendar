@@ -28,6 +28,7 @@
                  <select id="categories-edit" class="first-section__body__select" name="category_id">
                      <option selected disabled>Select category</option>
                  </select>
+                 <div class="categories-input-edit"></div>
              </div>
              <div class="first-section__body__input__group date-input-edit" id="multiple">
                  <label for="date" class="first-section__body__label">Date</label>
